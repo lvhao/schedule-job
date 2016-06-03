@@ -1,0 +1,59 @@
+group 'com.github.lvhao'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.test.APP'
+    }
+}
+
+configurations {
+    compile.exclude group:'com.fasterxml.jackson.core'
+}
+
+dependencies {
+
+    // spring web
+    compile('org.springframework.boot:spring-boot-starter-web:1.3.3.RELEASE')
+    compile('org.springframework.boot:spring-boot-starter-aop:1.3.3.RELEASE')
+
+    // fastjson
+    compile('com.alibaba:fastjson:1.2.8')
+
+    // redis
+    compile('org.springframework.boot:spring-boot-starter-redis:1.3.3.RELEASE')
+
+    // guava
+    compile('com.google.guava:guava:19.0')
+
+    // jdbc
+    runtime('mysql:mysql-connector-java:5.1.38')
+    compile('com.zaxxer:HikariCP:2.4.5')
+    compile('org.springframework:spring-jdbc:4.2.5.RELEASE')
+
+    // mybatis
+    compile('org.mybatis:mybatis:3.3.1')
+    compile('org.mybatis:mybatis-spring:1.2.5')
+
+    // thrift
+    compile('org.apache.thrift:libthrift:0.9.3')
+
+    // quarz
+    compile('org.springframework:spring-context-support:4.2.5.RELEASE')
+    compile('org.quartz-scheduler:quartz:2.2.3')
+}
+

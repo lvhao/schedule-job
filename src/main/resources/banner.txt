@@ -1,0 +1,4 @@
+---------------------------------------------
+APP_VERSION:${application.formatted-version}
+SPRING_BOOT_VERSION:${spring-boot.formatted-version}
+---------------------------------------------

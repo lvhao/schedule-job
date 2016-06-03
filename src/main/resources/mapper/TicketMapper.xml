@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.schedulejob.mapper.TicketMapper">
+
+    <select id="queryCount" parameterType="int" resultType="int">
+        SELECT
+          quantity_of_stocks
+        FROM learn.t_ticket
+        WHERE
+          id = #{id}
+    </select>
+
+    <select id="queryList" resultType="ticketPO">
+        SELECT
+          id,
+          `name`,
+          quantity_of_stocks quantityOfStocks
+        FROM learn.t_ticket
+    </select>
+
+    <update id="updateStock" parameterType="int">
+        UPDATE
+          learn.`t_ticket`
+        SET
+          quantity_of_stocks = quantity_of_stocks - 1
+        WHERE
+          id = #{id}
+    </update>
+
+</mapper>
