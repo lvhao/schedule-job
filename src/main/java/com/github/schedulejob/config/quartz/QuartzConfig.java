@@ -63,7 +63,7 @@ public class QuartzConfig {
         return properties;
     }
 
-    @Bean
+    /*@Bean
     public JobDetailFactoryBean processJob() {
         JobDetailFactoryBean jobDetailFactoryBean = new JobDetailFactoryBean ();
         jobDetailFactoryBean.setJobClass(QuartzTestJob.class);
@@ -78,7 +78,7 @@ public class QuartzConfig {
         cronTriggerFactoryBean.setCronExpression("0/20 * * * * ?");
         cronTriggerFactoryBean.setGroup("MM");
         return cronTriggerFactoryBean;
-    }
+    }*/
 
     @Bean
     public SchedulerFactoryBean init(){
@@ -98,8 +98,8 @@ public class QuartzConfig {
         schedulerFactoryBean.setWaitForJobsToCompleteOnShutdown(true);
 
         schedulerFactoryBean.setJobFactory(autowiringQuartzJobFactory);
-        Trigger[] triggers = { processTrigger().getObject() };
-        schedulerFactoryBean.setTriggers(triggers);
+//        Trigger[] triggers = { processTrigger().getObject() };
+//        schedulerFactoryBean.setTriggers(triggers);
         return schedulerFactoryBean;
     }
 
