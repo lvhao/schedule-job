@@ -1,6 +1,14 @@
 package com.github.schedulejob.schedule;
 
+import com.github.schedulejob.domain.TicketDomain;
+import com.github.schedulejob.service.TicketService;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 功能简单描述
@@ -9,9 +17,14 @@ import org.springframework.stereotype.Component;
  * @since: 2016-6-2 21:14
  */
 @Component
-public class QuartzTestJob {
-    private static final int cnt = 0;
-    public void test(){
-        System.out.println("TEST !!!!!!");
+public class QuartzTestJob implements Job {
+
+    @Autowired
+    private TicketService ticketService;
+
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        List<TicketDomain> ticketDomainList = ticketService.queryList();
+        System.out.println("ticketDomainList = " + ticketDomainList);
     }
 }
