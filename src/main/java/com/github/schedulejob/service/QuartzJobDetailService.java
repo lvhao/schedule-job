@@ -37,6 +37,37 @@ public class QuartzJobDetailService extends BaseService {
     public List<JobDetailDomain> queryJobList(){
         List<JobDetailDomain> jobDetailDomainList = Lists.newArrayList();
 
+        // 处理job
+        Function<JobDetail,JobDomain> copyJobPropFun = jd -> {
+            // job
+            JobKey jk = jd.getKey();
+            JobDomain jobDomain = new JobDomain();
+            jobDomain.setName(jk.getName());
+            jobDomain.setGroupName(jk.getGroup());
+            jobDomain.setTargetClass(jd.getJobClass().getCanonicalName());
+            jobDomain.setDescription(jd.getDescription());
+            return jobDomain;
+        };
+
+        // 处理triggers
+        Function<List<Trigger>,Set<TriggerDomain>> copyTriggersFun = trList -> {
+
+            // triggers
+            Set<TriggerDomain> tdSet = trList.stream().map(tr ->{
+                TriggerDomain td = new TriggerDomain();
+                if (tr instanceof CronTrigger) {
+                    CronTrigger ctr = (CronTrigger) tr;
+                    td.setCronExpression(ctr.getCronExpression());
+                }
+                TriggerKey trk = tr.getKey();
+                td.setName(trk.getName());
+                td.setGroupName(trk.getGroup());
+                td.setDescription(tr.getDescription());
+                return td;
+            }).collect(Collectors.toSet());
+            return tdSet;
+        };
+
         // 数据处理
         Function<Set<JobKey>,List<JobDetailDomain>> copyPropFun = jbst -> {
             List<JobDetailDomain> jddList = Lists.newArrayList();
@@ -50,31 +81,12 @@ public class QuartzJobDetailService extends BaseService {
                     e.printStackTrace();
                 }
 
+                // jobDetail
                 JobDetailDomain jdd = new JobDetailDomain();
-
-                JobDomain jobDomain = new JobDomain();
-                jobDomain.setName(jk.getName());
-                jobDomain.setGroupName(jk.getGroup());
-                jobDomain.setTargetClass(jd.getJobClass().getCanonicalName());
-                jobDomain.setDescription(jd.getDescription());
-                jdd.setJobDomain(jobDomain);
-
-                List<TriggerDomain> tdList = trList.stream().map(tr ->{
-                    TriggerDomain td = new TriggerDomain();
-                    if (tr instanceof CronTrigger) {
-                        CronTrigger ctr = (CronTrigger) tr;
-                        td.setCronExpression(ctr.getCronExpression());
-                    }
-                    TriggerKey trk = tr.getKey();
-                    td.setName(trk.getName());
-                    td.setGroupName(trk.getGroup());
-                    td.setDescription(tr.getDescription());
-                    return td;
-                }).collect(Collectors.toList());
-                jdd.setTriggerDomainList(tdList);
+                jdd.setJobDomain(copyJobPropFun.apply(jd));
+                jdd.setTriggerDomainSet(copyTriggersFun.apply(trList));
                 return jdd;
             }).collect(Collectors.toList());
-
             return jddList;
         };
 
@@ -87,8 +99,20 @@ public class QuartzJobDetailService extends BaseService {
         return jobDetailDomainList;
     }
 
-    // 添加任务
-    public void addJob(){
+    /**
+     * 添加任务
+     * @param jobDetailDomain
+     */
+    public void addJob(JobDetailDomain jobDetailDomain){
+        JobDetail jobDetail = jobDetailDomain.getJobDomain().buildQuartzJobDetail();
+        Set<CronTrigger> triggerSet = jobDetailDomain.getTriggerDomainSet().stream().map(td ->
+            td.buildQuartzTrigger(jobDetail)
+        ).collect(Collectors.toSet());
+        try {
+            scheduler.scheduleJob(jobDetail,triggerSet,true);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
     // 删除任务

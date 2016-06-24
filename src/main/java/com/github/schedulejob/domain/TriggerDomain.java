@@ -1,5 +1,9 @@
 package com.github.schedulejob.domain;
 
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
+
 /**
  * 功能简单描述
  *
@@ -13,6 +17,14 @@ public class TriggerDomain {
     private String groupName;
     private String cronExpression;
     private String description;
+
+    public CronTrigger buildQuartzTrigger(JobDetail jobDetail){
+        CronTriggerFactoryBean cronTriggerFactoryBean = new CronTriggerFactoryBean();
+        cronTriggerFactoryBean.setJobDetail(jobDetail);
+        cronTriggerFactoryBean.setCronExpression("0/20 * * * * ?");
+        cronTriggerFactoryBean.setGroup("MM");
+        return cronTriggerFactoryBean.getObject();
+    }
 
     public String getName() {
         return name;

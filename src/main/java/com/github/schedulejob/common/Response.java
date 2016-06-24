@@ -1,21 +1,22 @@
 package com.github.schedulejob.common;
 
 /**
- * 功能简单描述
+ * 返回码
  *
  * @author: lvhao
  * @since: 2016-4-25 14:06
  */
-public class Response<T> {
-    private T data;
+public class Response {
+
+    private Object data;
     private String code;
     private String msg;
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 

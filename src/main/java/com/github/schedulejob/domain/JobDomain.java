@@ -1,5 +1,9 @@
 package com.github.schedulejob.domain;
 
+import org.quartz.JobDetail;
+import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.util.ClassUtils;
+
 /**
  * 功能简单描述
  *
@@ -13,6 +17,20 @@ public class JobDomain {
     private String groupName;
     private String targetClass;
     private String description;
+
+    public JobDetail buildQuartzJobDetail(){
+        JobDetailFactoryBean jobDetailFactoryBean = new JobDetailFactoryBean ();
+        Class<?> clazz = null;
+        try {
+            clazz = ClassUtils.forName(this.targetClass,this.getClass().getClassLoader());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        jobDetailFactoryBean.setJobClass(clazz);
+        jobDetailFactoryBean.setGroup(this.groupName);
+        jobDetailFactoryBean.setDescription(this.description);
+        return jobDetailFactoryBean.getObject();
+    }
 
     public String getName() {
         return name;

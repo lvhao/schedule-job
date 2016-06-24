@@ -1,5 +1,7 @@
 package com.github.schedulejob.controller;
 
+import com.github.schedulejob.common.Response;
+import com.github.schedulejob.common.ResponseBuilder;
 import com.github.schedulejob.domain.JobDetailDomain;
 import com.github.schedulejob.service.QuartzJobDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,21 @@ public class QuartzJobDetailController {
     private QuartzJobDetailService quartzJobDetailService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<JobDetailDomain> list(){
-        return quartzJobDetailService.queryJobList();
+    public Response list(){
+        List<JobDetailDomain> jobDetailDomainList = quartzJobDetailService.queryJobList();
+        return ResponseBuilder.newResponse()
+                .withCode("200")
+                .withMsg("OK")
+                .withData(jobDetailDomainList)
+                .build();
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public Response list(JobDetailDomain jobDetailDomain){
+        quartzJobDetailService.addJob(jobDetailDomain);
+        return ResponseBuilder.newResponse()
+                .withCode("200")
+                .withMsg("OK")
+                .build();
+    }
 }

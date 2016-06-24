@@ -1,6 +1,6 @@
 package com.github.schedulejob.domain;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 任务抽象业务类
@@ -14,7 +14,7 @@ public class JobDetailDomain {
     private JobDomain jobDomain;
 
     // trigger info
-    private List<TriggerDomain> triggerDomainList;
+    private Set<TriggerDomain> triggerDomainSet;
 
     public JobDomain getJobDomain() {
         return jobDomain;
@@ -24,19 +24,19 @@ public class JobDetailDomain {
         this.jobDomain = jobDomain;
     }
 
-    public List<TriggerDomain> getTriggerDomainList() {
-        return triggerDomainList;
+    public Set<TriggerDomain> getTriggerDomainSet() {
+        return triggerDomainSet;
     }
 
-    public void setTriggerDomainList(List<TriggerDomain> triggerDomainList) {
-        this.triggerDomainList = triggerDomainList;
+    public void setTriggerDomainSet(Set<TriggerDomain> triggerDomainSet) {
+        this.triggerDomainSet = triggerDomainSet;
     }
 
     @Override
     public String toString() {
         return "JobDetailPO{" +
                 "jobDomain=" + jobDomain +
-                ", triggerDomainList=" + triggerDomainList +
+                ", triggerDomainSet=" + triggerDomainSet +
                 '}';
     }
 }
