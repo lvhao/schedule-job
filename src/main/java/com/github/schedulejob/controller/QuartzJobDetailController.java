@@ -1,13 +1,13 @@
 package com.github.schedulejob.controller;
 
 import com.github.schedulejob.common.Response;
-import com.github.schedulejob.common.ResponseBuilder;
-import com.github.schedulejob.domain.JobDetailDomain;
+import com.github.schedulejob.common.RetCodeConst;
+import com.github.schedulejob.domain.JobWithTriggersDomain;
+import com.github.schedulejob.util.ResponseBuilder;
 import com.github.schedulejob.service.QuartzJobDetailService;
+import org.quartz.JobKey;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,22 +24,51 @@ public class QuartzJobDetailController {
     @Autowired
     private QuartzJobDetailService quartzJobDetailService;
 
+    /**
+     * 任务列表
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
-    public Response list(){
-        List<JobDetailDomain> jobDetailDomainList = quartzJobDetailService.queryJobList();
+    public Response<List<JobWithTriggersDomain>> list(){
+        List<JobWithTriggersDomain> jobWithTriggersDomainList = quartzJobDetailService.queryJobList();
         return ResponseBuilder.newResponse()
-                .withCode("200")
-                .withMsg("OK")
-                .withData(jobDetailDomainList)
+                .withRetCode(RetCodeConst.OK)
+                .withData(jobWithTriggersDomainList)
                 .build();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Response list(JobDetailDomain jobDetailDomain){
-        quartzJobDetailService.addJob(jobDetailDomain);
+    @RequestMapping(value = "/{jobKey}", method = RequestMethod.GET)
+    public Response<List<JobWithTriggersDomain>> queryByJobKey(){
+        List<JobWithTriggersDomain> jobWithTriggersDomainList = quartzJobDetailService.q();
         return ResponseBuilder.newResponse()
-                .withCode("200")
-                .withMsg("OK")
+                .withRetCode(RetCodeConst.OK)
+                .withData(jobWithTriggersDomainList)
+                .build();
+    }
+
+    /**
+     * 添加任务
+     * @param jobWithTriggersDomain
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    public Response add(@RequestBody JobWithTriggersDomain jobWithTriggersDomain){
+        quartzJobDetailService.add(jobWithTriggersDomain);
+        return ResponseBuilder.newResponse()
+                .withRetCode(RetCodeConst.OK)
+                .build();
+    }
+
+    /**
+     * 批量删除Job
+     * @param jobKeyList
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.DELETE)
+    public Response delete(@RequestBody List<JobKey> jobKeyList){
+        quartzJobDetailService.remove(jobKeyList);
+        return ResponseBuilder.newResponse()
+                .withRetCode(RetCodeConst.OK)
                 .build();
     }
 }

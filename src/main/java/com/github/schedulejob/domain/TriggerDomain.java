@@ -1,8 +1,9 @@
 package com.github.schedulejob.domain;
 
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
+import org.quartz.*;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
+
+import java.text.ParseException;
 
 /**
  * 功能简单描述
@@ -18,12 +19,19 @@ public class TriggerDomain {
     private String cronExpression;
     private String description;
 
-    public CronTrigger buildQuartzTrigger(JobDetail jobDetail){
-        CronTriggerFactoryBean cronTriggerFactoryBean = new CronTriggerFactoryBean();
-        cronTriggerFactoryBean.setJobDetail(jobDetail);
-        cronTriggerFactoryBean.setCronExpression("0/20 * * * * ?");
-        cronTriggerFactoryBean.setGroup("MM");
-        return cronTriggerFactoryBean.getObject();
+    public CronTrigger convert2QuartzTrigger(JobDetail jobDetail){
+        CronExpression ce = null;
+        try {
+            ce= new CronExpression("0/20 * * * * ?");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return TriggerBuilder.newTrigger()
+                .forJob(jobDetail)
+                .withSchedule(CronScheduleBuilder.cronSchedule(ce))
+                .withIdentity(this.name,this.groupName)
+                .withDescription(this.description)
+                .build();
     }
 
     public String getName() {
@@ -60,11 +68,12 @@ public class TriggerDomain {
 
     @Override
     public String toString() {
-        return "TriggerDomain{" +
-                "cronExpression='" + cronExpression + '\'' +
-                ", description='" + description + '\'' +
-                ", groupName='" + groupName + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+        final StringBuffer sb = new StringBuffer("TriggerDomain{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", groupName='").append(groupName).append('\'');
+        sb.append(", cronExpression='").append(cronExpression).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

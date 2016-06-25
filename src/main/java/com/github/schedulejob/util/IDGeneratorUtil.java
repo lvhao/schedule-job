@@ -1,4 +1,4 @@
-package com.github.schedulejob.common;
+package com.github.schedulejob.util;
 
 /**
  * 分布式ID生成器
@@ -6,7 +6,7 @@ package com.github.schedulejob.common;
  * @author: lvhao
  * @since: 2016-6-23 9:37
  */
-public class IDGenerator {
+public class IDGeneratorUtil {
 
     private final long twepoch = 1288834974657L;
     private final long workerIdBits = 5L;
@@ -23,8 +23,9 @@ public class IDGenerator {
     private long datacenterId;
     private long sequence = 0L;
     private long lastTimestamp = -1L;
+    private static final IDGeneratorUtil DEFAULT_GENERATOR = new IDGeneratorUtil(0,0);
 
-    public IDGenerator(long workerId, long datacenterId) {
+    public IDGeneratorUtil(long workerId, long datacenterId) {
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }
@@ -66,8 +67,14 @@ public class IDGenerator {
         return System.currentTimeMillis();
     }
 
+    public static String getTraceId(String serviceName){
+        StringBuffer sb = new StringBuffer(serviceName);
+        sb.append(DEFAULT_GENERATOR.nextId());
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
-        IDGenerator idWorker = new IDGenerator(0, 0);
+        IDGeneratorUtil idWorker = new IDGeneratorUtil(0, 0);
         for (int i = 0; i < 1000; i++) {
             long id = idWorker.nextId();
             System.out.println(id);

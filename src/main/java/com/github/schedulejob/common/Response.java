@@ -6,42 +6,43 @@ package com.github.schedulejob.common;
  * @author: lvhao
  * @since: 2016-4-25 14:06
  */
-public class Response {
+public class Response<T> {
 
-    private Object data;
-    private String code;
-    private String msg;
+    private T data;
+    private RetCode retCode;
+    private Page page;
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 
-    public String getCode() {
-        return code;
+    public RetCode getRetCode() {
+        return retCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setRetCode(RetCode retCode) {
+        this.retCode = retCode;
     }
 
-    public String getMsg() {
-        return msg;
+    public Page getPage() {
+        return page;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setPage(Page page) {
+        this.page = page;
     }
 
     @Override
     public String toString() {
-        return "Response{" +
-                "code='" + code + '\'' +
-                ", data=" + data +
-                ", msg='" + msg + '\'' +
-                '}';
+        final StringBuffer sb = new StringBuffer("Response{");
+        sb.append("data=").append(data);
+        sb.append(", retCode=").append(retCode);
+        sb.append(", page=").append(page);
+        sb.append('}');
+        return sb.toString();
     }
 }

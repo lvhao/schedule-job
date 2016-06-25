@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * mapper scanner
+ *
  * @author: lvhao
  * @since: 2016-4-12 11:17
  */

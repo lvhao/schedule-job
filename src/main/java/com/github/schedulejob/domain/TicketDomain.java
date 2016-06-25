@@ -37,10 +37,11 @@ public class TicketDomain {
 
     @Override
     public String toString() {
-        return "TicketDomain{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", quantityOfStocks=" + quantityOfStocks +
-                '}';
+        final StringBuffer sb = new StringBuffer("TicketDomain{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", quantityOfStocks=").append(quantityOfStocks);
+        sb.append('}');
+        return sb.toString();
     }
 }

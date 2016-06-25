@@ -8,6 +8,7 @@ package com.github.schedulejob.common;
  */
 public class APPConst {
     public static final String SALT = "@#$%^TFVHXZxs1234";
+
     public static final class DBType {
         public static final String DEFAULT = "default";
         public static final String WRITE = "write";

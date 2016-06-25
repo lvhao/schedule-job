@@ -1,7 +1,6 @@
 package com.github.schedulejob.config.datasource;
 
 import com.github.schedulejob.common.APPConst;
-import com.github.schedulejob.common.DataSourceContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

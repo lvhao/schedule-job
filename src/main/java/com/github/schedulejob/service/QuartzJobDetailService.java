@@ -1,16 +1,10 @@
 package com.github.schedulejob.service;
 
-import com.github.schedulejob.domain.JobDetailDomain;
+import com.github.schedulejob.domain.JobWithTriggersDomain;
 import com.github.schedulejob.domain.JobDomain;
 import com.github.schedulejob.domain.TriggerDomain;
 import com.google.common.collect.Lists;
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerKey;
+import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,8 +28,8 @@ public class QuartzJobDetailService extends BaseService {
     private Scheduler scheduler;
 
     // 任务列表
-    public List<JobDetailDomain> queryJobList(){
-        List<JobDetailDomain> jobDetailDomainList = Lists.newArrayList();
+    public List<JobWithTriggersDomain> queryJobList(){
+        List<JobWithTriggersDomain> jobWithTriggersDomainList = Lists.newArrayList();
 
         // 处理job
         Function<JobDetail,JobDomain> copyJobPropFun = jd -> {
@@ -69,8 +63,8 @@ public class QuartzJobDetailService extends BaseService {
         };
 
         // 数据处理
-        Function<Set<JobKey>,List<JobDetailDomain>> copyPropFun = jbst -> {
-            List<JobDetailDomain> jddList = Lists.newArrayList();
+        Function<Set<JobKey>,List<JobWithTriggersDomain>> copyPropFun = jbst -> {
+            List<JobWithTriggersDomain> jddList = Lists.newArrayList();
             jddList = jbst.stream().map(jk ->{
                 JobDetail jd = null;
                 List<Trigger> trList = Lists.newArrayList();
@@ -82,7 +76,7 @@ public class QuartzJobDetailService extends BaseService {
                 }
 
                 // jobDetail
-                JobDetailDomain jdd = new JobDetailDomain();
+                JobWithTriggersDomain jdd = new JobWithTriggersDomain();
                 jdd.setJobDomain(copyJobPropFun.apply(jd));
                 jdd.setTriggerDomainSet(copyTriggersFun.apply(trList));
                 return jdd;
@@ -92,38 +86,98 @@ public class QuartzJobDetailService extends BaseService {
 
         try {
             Set<JobKey> jobSet = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-            jobDetailDomainList = copyPropFun.apply(jobSet);
+            jobWithTriggersDomainList = copyPropFun.apply(jobSet);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
-        return jobDetailDomainList;
+        return jobWithTriggersDomainList;
+    }
+
+    public JobWithTriggersDomain queryByKey(JobKey jobKey){
+        JobWithTriggersDomain jwtd = new JobWithTriggersDomain();
+        JobDetail jd = null;
+        try {
+            jd = scheduler.getJobDetail(jobKey);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        JobDomain jobDomain = JobDomain.buildJobDomain(jd);
+        return jwtd;
     }
 
     /**
      * 添加任务
-     * @param jobDetailDomain
+     * @param jobWithTriggersDomain
      */
-    public void addJob(JobDetailDomain jobDetailDomain){
-        JobDetail jobDetail = jobDetailDomain.getJobDomain().buildQuartzJobDetail();
-        Set<CronTrigger> triggerSet = jobDetailDomain.getTriggerDomainSet().stream().map(td ->
-            td.buildQuartzTrigger(jobDetail)
+    public void add(JobWithTriggersDomain jobWithTriggersDomain){
+        JobDetail jobDetail = jobWithTriggersDomain.getJobDomain().convert2QuartzJobDetail();
+        Set<CronTrigger> triggerSet = jobWithTriggersDomain.getTriggerDomainSet().stream().map(td ->
+            td.convert2QuartzTrigger(jobDetail)
         ).collect(Collectors.toSet());
         try {
+
+            // 如果已经存在 则替换
             scheduler.scheduleJob(jobDetail,triggerSet,true);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
     }
 
-    // 删除任务
-    public void removeJob(){}
+    /**
+     * 删除任务
+     *
+     * @param jobKeyList
+     */
+    public void remove(List<JobKey> jobKeyList){
+        try {
+            scheduler.deleteJobs(jobKeyList);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
 
     // 停用任务
-    public void disableJob(){}
+    public void disable(GroupMatcher<JobKey> matcher){
+        try {
+            scheduler.pauseJobs(matcher);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 停用所有任务
+    public void disableAll(){
+        try {
+            scheduler.pauseAll();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
 
     // 启用任务
-    public void enableJob(){}
+    public void enable(GroupMatcher<JobKey> matcher){
+        try {
+            scheduler.resumeJobs(matcher);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
 
-    // 触发任务
-    public void triggerJobNow(){}
+    // 启用所有任务
+    public void enableAll(){
+        try {
+            scheduler.resumeAll();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 立即触发任务
+    public void triggerNow(JobKey jobKey, JobDataMap jobDataMap){
+        try {
+            scheduler.triggerJob(jobKey,jobDataMap);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
 }

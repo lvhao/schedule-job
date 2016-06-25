@@ -3,7 +3,7 @@ package com.github.schedulejob.interceptor;
 
 import com.github.schedulejob.anno.TargetDataSource;
 import com.github.schedulejob.common.APPConst;
-import com.github.schedulejob.common.DataSourceContextHolder;
+import com.github.schedulejob.config.datasource.DataSourceContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

@@ -8,7 +8,7 @@ import java.util.Set;
  * @author: lvhao
  * @since: 2016-6-23 20:43
  */
-public class JobDetailDomain {
+public class JobWithTriggersDomain {
 
     // job info
     private JobDomain jobDomain;
@@ -34,9 +34,10 @@ public class JobDetailDomain {
 
     @Override
     public String toString() {
-        return "JobDetailPO{" +
-                "jobDomain=" + jobDomain +
-                ", triggerDomainSet=" + triggerDomainSet +
-                '}';
+        final StringBuffer sb = new StringBuffer("JobWithTriggersDomain{");
+        sb.append("jobDomain=").append(jobDomain);
+        sb.append(", triggerDomainSet=").append(triggerDomainSet);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -23,6 +23,7 @@ jar {
 
 configurations {
     compile.exclude group:'com.fasterxml.jackson.core'
+    compile.exclude group:'log4j.log4j'
 }
 
 dependencies {

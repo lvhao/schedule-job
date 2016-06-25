@@ -1,5 +1,6 @@
-package com.github.schedulejob.common;
+package com.github.schedulejob.config.datasource;
 
+import com.github.schedulejob.common.APPConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
