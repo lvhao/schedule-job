@@ -37,12 +37,21 @@ public class QuartzJobDetailController {
                 .build();
     }
 
-    @RequestMapping(value = "/{jobKey}", method = RequestMethod.GET)
-    public Response<List<JobWithTriggersDomain>> queryByJobKey(){
-        List<JobWithTriggersDomain> jobWithTriggersDomainList = quartzJobDetailService.q();
+    /**
+     * 查询指定jobKey jobDetail
+     * @param name
+     * @param groupName
+     * @return
+     */
+    @RequestMapping(value = "/{groupName}/{name}", method = RequestMethod.GET)
+    public Response<JobWithTriggersDomain> queryByJobKey(
+            @PathVariable String name,
+            @PathVariable String groupName){
+        JobKey jobKey = new JobKey(name,groupName);
+        JobWithTriggersDomain jobWithTriggersDomain = quartzJobDetailService.queryByKey(jobKey);
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
-                .withData(jobWithTriggersDomainList)
+                .withData(jobWithTriggersDomain)
                 .build();
     }
 

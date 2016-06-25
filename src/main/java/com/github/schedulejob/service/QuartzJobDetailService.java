@@ -31,54 +31,18 @@ public class QuartzJobDetailService extends BaseService {
     public List<JobWithTriggersDomain> queryJobList(){
         List<JobWithTriggersDomain> jobWithTriggersDomainList = Lists.newArrayList();
 
-        // 处理job
-        Function<JobDetail,JobDomain> copyJobPropFun = jd -> {
-            // job
-            JobKey jk = jd.getKey();
-            JobDomain jobDomain = new JobDomain();
-            jobDomain.setName(jk.getName());
-            jobDomain.setGroupName(jk.getGroup());
-            jobDomain.setTargetClass(jd.getJobClass().getCanonicalName());
-            jobDomain.setDescription(jd.getDescription());
-            return jobDomain;
-        };
-
-        // 处理triggers
-        Function<List<Trigger>,Set<TriggerDomain>> copyTriggersFun = trList -> {
-
-            // triggers
-            Set<TriggerDomain> tdSet = trList.stream().map(tr ->{
-                TriggerDomain td = new TriggerDomain();
-                if (tr instanceof CronTrigger) {
-                    CronTrigger ctr = (CronTrigger) tr;
-                    td.setCronExpression(ctr.getCronExpression());
-                }
-                TriggerKey trk = tr.getKey();
-                td.setName(trk.getName());
-                td.setGroupName(trk.getGroup());
-                td.setDescription(tr.getDescription());
-                return td;
-            }).collect(Collectors.toSet());
-            return tdSet;
-        };
-
         // 数据处理
         Function<Set<JobKey>,List<JobWithTriggersDomain>> copyPropFun = jbst -> {
             List<JobWithTriggersDomain> jddList = Lists.newArrayList();
             jddList = jbst.stream().map(jk ->{
                 JobDetail jd = null;
-                List<Trigger> trList = Lists.newArrayList();
-                try {
-                    jd = scheduler.getJobDetail(jk);
-                    trList = (List<Trigger>)scheduler.getTriggersOfJob(jk);
-                } catch (SchedulerException e) {
-                    e.printStackTrace();
-                }
+                List<Trigger> trList = this.getTriggerByKey(jk);
+                jd = this.getJobDetailByKey(jk);
 
                 // jobDetail
                 JobWithTriggersDomain jdd = new JobWithTriggersDomain();
-                jdd.setJobDomain(copyJobPropFun.apply(jd));
-                jdd.setTriggerDomainSet(copyTriggersFun.apply(trList));
+                jdd.setJobDomain(JobWithTriggersDomain.copyJobPropFun.apply(jd));
+                jdd.setTriggerDomainSet(JobWithTriggersDomain.copyTriggersFun.apply(trList));
                 return jdd;
             }).collect(Collectors.toList());
             return jddList;
@@ -95,13 +59,10 @@ public class QuartzJobDetailService extends BaseService {
 
     public JobWithTriggersDomain queryByKey(JobKey jobKey){
         JobWithTriggersDomain jwtd = new JobWithTriggersDomain();
-        JobDetail jd = null;
-        try {
-            jd = scheduler.getJobDetail(jobKey);
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
-        JobDomain jobDomain = JobDomain.buildJobDomain(jd);
+        JobDetail jobDetail = this.getJobDetailByKey(jobKey);
+        List<Trigger> triggerList = this.getTriggerByKey(jobKey);
+        jwtd.setJobDomain(JobWithTriggersDomain.copyJobPropFun.apply(jobDetail));
+        jwtd.setTriggerDomainSet(JobWithTriggersDomain.copyTriggersFun.apply(triggerList));
         return jwtd;
     }
 
@@ -179,5 +140,35 @@ public class QuartzJobDetailService extends BaseService {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 根据key 获取jobDetail
+     * @param jobKey
+     * @return
+     */
+    public JobDetail getJobDetailByKey(JobKey jobKey){
+        JobDetail jd = null;
+        try {
+            jd = scheduler.getJobDetail(jobKey);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        return jd;
+    }
+
+    /**
+     * 根据key 获取job trigger
+     * @param jobKey
+     * @return
+     */
+    public List<Trigger> getTriggerByKey(JobKey jobKey){
+        List<Trigger> triggerList = Lists.newArrayList();
+        try {
+            triggerList = (List<Trigger>)scheduler.getTriggersOfJob(jobKey);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        return triggerList;
     }
 }

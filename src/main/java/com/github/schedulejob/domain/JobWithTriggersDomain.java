@@ -1,6 +1,11 @@
 package com.github.schedulejob.domain;
 
+import org.quartz.*;
+
+import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 任务抽象业务类
@@ -15,6 +20,37 @@ public class JobWithTriggersDomain {
 
     // trigger info
     private Set<TriggerDomain> triggerDomainSet;
+
+    // 处理job
+    public static Function<JobDetail,JobDomain> copyJobPropFun = jd -> {
+        // job
+        JobKey jk = jd.getKey();
+        JobDomain jobDomain = new JobDomain();
+        jobDomain.setName(jk.getName());
+        jobDomain.setGroupName(jk.getGroup());
+        jobDomain.setTargetClass(jd.getJobClass().getCanonicalName());
+        jobDomain.setDescription(jd.getDescription());
+        return jobDomain;
+    };
+
+    // 处理triggers
+    public static Function<List<Trigger>,Set<TriggerDomain>> copyTriggersFun = trList -> {
+
+        // triggers
+        Set<TriggerDomain> tdSet = trList.stream().map(tr ->{
+            TriggerDomain td = new TriggerDomain();
+            if (tr instanceof CronTrigger) {
+                CronTrigger ctr = (CronTrigger) tr;
+                td.setCronExpression(ctr.getCronExpression());
+            }
+            TriggerKey trk = tr.getKey();
+            td.setName(trk.getName());
+            td.setGroupName(trk.getGroup());
+            td.setDescription(tr.getDescription());
+            return td;
+        }).collect(Collectors.toSet());
+        return tdSet;
+    };
 
     public JobDomain getJobDomain() {
         return jobDomain;

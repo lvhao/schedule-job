@@ -22,16 +22,6 @@ public class JobDomain {
     private String targetClass;
     private String description;
 
-    public static JobDomain buildJobDomain(JobDetail jobDetail){
-        JobDomain domain = new JobDomain();
-        JobKey jk = jobDetail.getKey();
-        domain.setName(jk.getName());
-        domain.setGroupName(jk.getGroup());
-        domain.setTargetClass(jobDetail.getJobClass().getCanonicalName());
-        domain.setDescription(jobDetail.getDescription());
-        return domain;
-    }
-
     public JobDetail convert2QuartzJobDetail(){
         Class<? extends Job> clazz = null;
         try {
