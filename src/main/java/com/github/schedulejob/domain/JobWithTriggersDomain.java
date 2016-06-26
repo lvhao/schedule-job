@@ -4,7 +4,7 @@ import org.quartz.*;
 
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +22,7 @@ public class JobWithTriggersDomain {
     private Set<TriggerDomain> triggerDomainSet;
 
     // 处理job
-    public static Function<JobDetail,JobDomain> copyJobPropFun = jd -> {
+    public Consumer<JobDetail> fillWithQuartzJobDetail = jd -> {
         // job
         JobKey jk = jd.getKey();
         JobDomain jobDomain = new JobDomain();
@@ -30,11 +30,11 @@ public class JobWithTriggersDomain {
         jobDomain.setGroupName(jk.getGroup());
         jobDomain.setTargetClass(jd.getJobClass().getCanonicalName());
         jobDomain.setDescription(jd.getDescription());
-        return jobDomain;
+        this.setJobDomain(jobDomain);
     };
 
     // 处理triggers
-    public static Function<List<Trigger>,Set<TriggerDomain>> copyTriggersFun = trList -> {
+    public Consumer<List<Trigger>> fillWithQuartzTriggers = trList -> {
 
         // triggers
         Set<TriggerDomain> tdSet = trList.stream().map(tr ->{
@@ -49,7 +49,7 @@ public class JobWithTriggersDomain {
             td.setDescription(tr.getDescription());
             return td;
         }).collect(Collectors.toSet());
-        return tdSet;
+        this.setTriggerDomainSet(tdSet);
     };
 
     public JobDomain getJobDomain() {

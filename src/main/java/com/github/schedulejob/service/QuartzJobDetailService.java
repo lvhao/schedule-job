@@ -1,8 +1,6 @@
 package com.github.schedulejob.service;
 
 import com.github.schedulejob.domain.JobWithTriggersDomain;
-import com.github.schedulejob.domain.JobDomain;
-import com.github.schedulejob.domain.TriggerDomain;
 import com.google.common.collect.Lists;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -40,10 +38,10 @@ public class QuartzJobDetailService extends BaseService {
                 jd = this.getJobDetailByKey(jk);
 
                 // jobDetail
-                JobWithTriggersDomain jdd = new JobWithTriggersDomain();
-                jdd.setJobDomain(JobWithTriggersDomain.copyJobPropFun.apply(jd));
-                jdd.setTriggerDomainSet(JobWithTriggersDomain.copyTriggersFun.apply(trList));
-                return jdd;
+                JobWithTriggersDomain jobWithTriggersDomain = new JobWithTriggersDomain();
+                jobWithTriggersDomain.fillWithQuartzJobDetail.accept(jd);
+                jobWithTriggersDomain.fillWithQuartzTriggers.accept(trList);
+                return jobWithTriggersDomain;
             }).collect(Collectors.toList());
             return jddList;
         };
@@ -57,13 +55,18 @@ public class QuartzJobDetailService extends BaseService {
         return jobWithTriggersDomainList;
     }
 
+    /**
+     * 查询指定jobkey jobDetail
+     * @param jobKey
+     * @return
+     */
     public JobWithTriggersDomain queryByKey(JobKey jobKey){
-        JobWithTriggersDomain jwtd = new JobWithTriggersDomain();
+        JobWithTriggersDomain jobWithTriggersDomain = new JobWithTriggersDomain();
         JobDetail jobDetail = this.getJobDetailByKey(jobKey);
         List<Trigger> triggerList = this.getTriggerByKey(jobKey);
-        jwtd.setJobDomain(JobWithTriggersDomain.copyJobPropFun.apply(jobDetail));
-        jwtd.setTriggerDomainSet(JobWithTriggersDomain.copyTriggersFun.apply(triggerList));
-        return jwtd;
+        jobWithTriggersDomain.fillWithQuartzJobDetail.accept(jobDetail);
+        jobWithTriggersDomain.fillWithQuartzTriggers.accept(triggerList);
+        return jobWithTriggersDomain;
     }
 
     /**
