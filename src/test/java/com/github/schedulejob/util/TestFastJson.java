@@ -5,6 +5,7 @@ import com.github.schedulejob.domain.JobDomain;
 import com.github.schedulejob.domain.JobWithTriggersDomain;
 import com.github.schedulejob.domain.TriggerDomain;
 import com.google.common.collect.Sets;
+import org.quartz.JobKey;
 
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
  */
 public class TestFastJson {
     public static void main(String[] args) {
-        JobWithTriggersDomain jtd = new JobWithTriggersDomain();
+        /*JobWithTriggersDomain jtd = new JobWithTriggersDomain();
         JobDomain jd = new JobDomain();
         jd.setGroupName("MM_JOB");
         jd.setName("mm_test_job");
@@ -30,6 +31,9 @@ public class TestFastJson {
         triggerDomainSet.add(td);
         jtd.setTriggerDomainSet(triggerDomainSet);
         String rt =JSON.toJSONString(jtd);
-        System.out.println("rt = " + rt);
+        System.out.println("rt = " + rt);*/
+        JobKey jk = new JobKey("name","group");
+        JSON.toJSONString(jk);
+        System.out.println("jk = " + jk);
     }
 }

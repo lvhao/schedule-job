@@ -1,6 +1,6 @@
 package com.github.schedulejob.config.datasource;
 
-import com.github.schedulejob.common.APPConst;
+import com.github.schedulejob.common.AppConst;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -25,14 +25,14 @@ public class TargetDataSourceConfig {
     public Map<Object,Object> getDataSourceMap() {
         Map<Object,Object> dataMap = new HashMap<>();
 
-        dataMap.put(APPConst.DBType.DEFAULT, this.defaultDataSource());
-        dataMap.put(APPConst.DBType.READ, this.readDataSource());
-        dataMap.put(APPConst.DBType.WRITE, this.writeDataSource());
+        dataMap.put(AppConst.DBType.DEFAULT, this.defaultDataSource());
+        dataMap.put(AppConst.DBType.READ, this.readDataSource());
+        dataMap.put(AppConst.DBType.WRITE, this.writeDataSource());
 
         DataSourceContextHolder.appendDbKey2Set(
-                APPConst.DBType.DEFAULT,
-                APPConst.DBType.READ,
-                APPConst.DBType.WRITE
+                AppConst.DBType.DEFAULT,
+                AppConst.DBType.READ,
+                AppConst.DBType.WRITE
         );
         return dataMap;
     }

@@ -1,6 +1,6 @@
 package com.github.schedulejob.config.datasource;
 
-import com.github.schedulejob.common.APPConst;
+import com.github.schedulejob.common.AppConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,8 +29,8 @@ public class DataSourceContextHolder {
     }
     public static void initDbContext(String dbKey){
         if(!isValid(dbKey)) {
-            dbKey = APPConst.DBType.DEFAULT;
-            log.warn("dbKey[{}]不合法,初始化默认数据源=>{}",dbKey, APPConst.DBType.DEFAULT);
+            dbKey = AppConst.DBType.DEFAULT;
+            log.warn("dbKey[{}]不合法,初始化默认数据源=>{}",dbKey, AppConst.DBType.DEFAULT);
         }
         dbContext.set(dbKey);
         log.info("use db [{}]",dbKey);

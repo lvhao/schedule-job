@@ -2,7 +2,7 @@ package com.github.schedulejob.service;
 
 
 import com.github.schedulejob.anno.TargetDataSource;
-import com.github.schedulejob.common.APPConst;
+import com.github.schedulejob.common.AppConst;
 import com.github.schedulejob.domain.TicketDomain;
 import com.github.schedulejob.mapper.TicketMapper;
 import com.github.schedulejob.po.TicketPO;
@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
  * @since: 2016-4-12 12:12
  */
 @Service
-@TargetDataSource(APPConst.DBType.DEFAULT)
+@TargetDataSource(AppConst.DBType.DEFAULT)
 public class TicketService extends BaseService{
 
     @Autowired
     private TicketMapper ticketMapper;
 
-    @TargetDataSource(APPConst.DBType.READ)
+    @TargetDataSource(AppConst.DBType.READ)
     public int queryCount(int id){
         return ticketMapper.queryCount(id);
     }
@@ -40,12 +40,12 @@ public class TicketService extends BaseService{
         }).collect(Collectors.toList());
     }
 
-    @TargetDataSource(APPConst.DBType.WRITE)
+    @TargetDataSource(AppConst.DBType.WRITE)
     public void updateStock(int id){
         ticketMapper.updateStock(id);
     }
 
-    @TargetDataSource(APPConst.DBType.WRITE)
+    @TargetDataSource(AppConst.DBType.WRITE)
     public String buyNow(int id){
         int cnt = this.queryCount(id);
         if(cnt > 0){

@@ -1,8 +1,8 @@
-package com.github.schedulejob.interceptor;
+package com.github.schedulejob.aspect;
 
 
 import com.github.schedulejob.anno.TargetDataSource;
-import com.github.schedulejob.common.APPConst;
+import com.github.schedulejob.common.AppConst;
 import com.github.schedulejob.config.datasource.DataSourceContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -43,7 +43,7 @@ public class TargetDataSourceAspect {
         }
         dbKey = targetDataSource.value();
         if (!StringUtils.hasText(dbKey)) {
-            dbKey = APPConst.DBType.DEFAULT;
+            dbKey = AppConst.DBType.DEFAULT;
         }
         DataSourceContextHolder.initDbContext(dbKey);
         Object result = proceedingJoinPoint.proceed();
