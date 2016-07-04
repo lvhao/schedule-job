@@ -9,3 +9,4 @@ out
 gen
 /schedule-job.iml
 /.gradle/
+/build/

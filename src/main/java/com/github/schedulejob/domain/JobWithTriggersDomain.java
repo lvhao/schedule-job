@@ -22,7 +22,7 @@ public class JobWithTriggersDomain {
     private Set<TriggerDomain> triggerDomainSet;
 
     // 处理job
-    public Consumer<JobDetail> fillWithQuartzJobDetail = jd -> {
+    public transient Consumer<JobDetail> fillWithQuartzJobDetail = jd -> {
         // job
         JobKey jk = jd.getKey();
         JobDomain jobDomain = new JobDomain();
@@ -34,7 +34,7 @@ public class JobWithTriggersDomain {
     };
 
     // 处理triggers
-    public Consumer<List<Trigger>> fillWithQuartzTriggers = trList -> {
+    public transient Consumer<List<Trigger>> fillWithQuartzTriggers = trList -> {
 
         // triggers
         Set<TriggerDomain> tdSet = trList.stream().map(tr ->{
