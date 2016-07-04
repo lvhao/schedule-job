@@ -1,7 +1,8 @@
 package com.github.schedulejob.config.interceptor;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
 import com.github.schedulejob.interceptor.RequestHandleTimeInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -24,10 +25,12 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        FastJsonHttpMessageConverter fastJsonHttpMessageConverter =new FastJsonHttpMessageConverter();
-        fastJsonHttpMessageConverter.setCharset(Charset.forName("UTF-8"));
-        fastJsonHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
-        fastJsonHttpMessageConverter.setFeatures(
+        FastJsonHttpMessageConverter4 fastJsonHttpMessageConverter4 =new FastJsonHttpMessageConverter4();
+        fastJsonHttpMessageConverter4.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
+
+        // 默认utf-8
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        fastJsonConfig.setSerializerFeatures(
                 SerializerFeature.SkipTransientField,
                 SerializerFeature.WriteNullBooleanAsFalse,
                 SerializerFeature.WriteNullListAsEmpty,
@@ -35,7 +38,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
                 SerializerFeature.WriteNullStringAsEmpty,
                 SerializerFeature.WriteMapNullValue
         );
-        converters.add(fastJsonHttpMessageConverter);
+        fastJsonHttpMessageConverter4.setFastJsonConfig(fastJsonConfig);
+        converters.add(fastJsonHttpMessageConverter4);
     }
 
     @Override

@@ -33,7 +33,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-aop:1.3.3.RELEASE')
 
     // fastjson
-    compile('com.alibaba:fastjson:1.2.8')
+    compile('com.alibaba:fastjson:1.2.13')
 
     // redis
     compile('org.springframework.boot:spring-boot-starter-redis:1.3.3.RELEASE')
