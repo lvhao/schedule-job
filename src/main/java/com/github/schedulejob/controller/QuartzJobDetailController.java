@@ -2,17 +2,20 @@ package com.github.schedulejob.controller;
 
 import com.github.schedulejob.common.Response;
 import com.github.schedulejob.common.RetCodeConst;
-import com.github.schedulejob.domain.JobKeyDomain;
-import com.github.schedulejob.domain.JobWithTriggersDomain;
-import com.github.schedulejob.util.ResponseBuilder;
+import com.github.schedulejob.domain.JobWithTriggersDO;
 import com.github.schedulejob.service.QuartzJobDetailService;
+import com.github.schedulejob.util.ResponseBuilder;
+import com.google.common.collect.Lists;
 import org.quartz.JobKey;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * quartz api
@@ -32,11 +35,11 @@ public class QuartzJobDetailController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public Response<List<JobWithTriggersDomain>> list(){
-        List<JobWithTriggersDomain> jobWithTriggersDomainList = quartzJobDetailService.queryJobList();
+    public Response<List<JobWithTriggersDO>> list(){
+        List<JobWithTriggersDO> jobWithTriggersDOList = quartzJobDetailService.queryJobList();
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
-                .withData(jobWithTriggersDomainList)
+                .withData(jobWithTriggersDOList)
                 .build();
     }
 
@@ -47,25 +50,25 @@ public class QuartzJobDetailController {
      * @return
      */
     @RequestMapping(value = "/{groupName}/{name}", method = RequestMethod.GET)
-    public Response<JobWithTriggersDomain> queryByJobKey(
+    public Response<JobWithTriggersDO> queryByJobKey(
             @PathVariable String name,
             @PathVariable String groupName){
         JobKey jobKey = new JobKey(name,groupName);
-        JobWithTriggersDomain jobWithTriggersDomain = quartzJobDetailService.queryByKey(jobKey);
+        JobWithTriggersDO jobWithTriggersDO = quartzJobDetailService.queryByKey(jobKey);
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
-                .withData(jobWithTriggersDomain)
+                .withData(jobWithTriggersDO)
                 .build();
     }
 
     /**
      * 添加任务
-     * @param jobWithTriggersDomain
+     * @param jobWithTriggersDO
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public Response add(@RequestBody JobWithTriggersDomain jobWithTriggersDomain){
-        quartzJobDetailService.add(jobWithTriggersDomain);
+    public Response add(@RequestBody JobWithTriggersDO jobWithTriggersDO){
+        quartzJobDetailService.add(jobWithTriggersDO);
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
                 .build();
@@ -73,16 +76,19 @@ public class QuartzJobDetailController {
 
     /**
      * 批量删除Job
-     * @param jobKeyDomains
+     * @param jobKeyGroups
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE)
-    public Response delete(@RequestBody List<JobKeyDomain> jobKeyDomains){
-        List<JobKey> jobkeys = jobKeyDomains.stream().map(jkDomain -> {
-            JobKey jobKey = new JobKey(jkDomain.getName(),jkDomain.getGroup());
-            return jobKey;
-        }).collect(Collectors.toList());
-        quartzJobDetailService.remove(jobkeys);
+    public Response delete(@RequestBody Map<String,List<String>> jobKeyGroups){
+        List<JobKey> jobKeys = Lists.newArrayList();
+        jobKeyGroups.forEach((k,v) -> {
+            v.forEach(name -> {
+                JobKey jobKey = new JobKey(name,k);
+                jobKeys.add(jobKey);
+            });
+        });
+        quartzJobDetailService.remove(jobKeys);
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
                 .build();

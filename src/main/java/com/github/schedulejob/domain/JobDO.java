@@ -3,22 +3,21 @@ package com.github.schedulejob.domain;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
-import org.quartz.JobKey;
 import org.slf4j.Logger;
 import org.springframework.util.ClassUtils;
 
 /**
- * 功能简单描述
+ * 作业DO
  *
  * @author: lvhao
  * @since: 2016-6-23 20:59
  */
-public class JobDomain {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(JobDomain.class);
+public class JobDO {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(JobDO.class);
 
     // job info
     private String name;
-    private String groupName;
+    private String group;
     private String targetClass;
     private String description;
 
@@ -31,7 +30,7 @@ public class JobDomain {
         }
         return JobBuilder.newJob()
                 .ofType(clazz)
-                .withIdentity(this.name,this.getGroupName())
+                .withIdentity(this.name,this.getGroup())
                 .withDescription(this.description)
                 .build();
     }
@@ -44,12 +43,12 @@ public class JobDomain {
         this.name = name;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public String getGroup() {
+        return group;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public String getTargetClass() {
@@ -70,9 +69,9 @@ public class JobDomain {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("JobDomain{");
+        final StringBuffer sb = new StringBuffer("JobDO{");
         sb.append("name='").append(name).append('\'');
-        sb.append(", groupName='").append(groupName).append('\'');
+        sb.append(", group='").append(group).append('\'');
         sb.append(", targetClass='").append(targetClass).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append('}');

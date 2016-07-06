@@ -9,25 +9,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 注册mvc interceptor
+ * 耗时统计 interceptor
  *
  * @author: lvhao
  * @since: 2016-4-18 13:26
  */
 public class RequestHandleTimeInterceptor extends HandlerInterceptorAdapter {
     private static final Logger log = LoggerFactory.getLogger(RequestHandleTimeInterceptor.class);
-    private static final ThreadLocal<Long> localConsumingTime = new ThreadLocal<>();
+    private static final ThreadLocal<Long> consumingTime = new ThreadLocal<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        localConsumingTime.set(System.nanoTime());
+        consumingTime.set(System.nanoTime());
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        long st = localConsumingTime.get();
-        localConsumingTime.remove();
+        long st = consumingTime.get();
+        consumingTime.remove();
         log.info("REQUEST_HANDLE_TIME={}ms",(System.nanoTime() - st)/(1000*1000));
     }
 }
