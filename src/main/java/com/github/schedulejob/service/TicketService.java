@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
  * @since: 2016-4-12 12:12
  */
 @Service
-@TargetDataSource(AppConst.DBType.DEFAULT)
 public class TicketService extends BaseService{
 
     @Autowired

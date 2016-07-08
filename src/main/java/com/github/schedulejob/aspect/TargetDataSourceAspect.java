@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 @Aspect
 public class TargetDataSourceAspect {
 
-    @Around("execution(* com.bestpractice.service.*.*(..))")
+    @Around("execution(* com.github.schedulejob.service.*.*(..))")
     public Object methodInvoke(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         TargetDataSource targetDataSource = null;
         String dbKey = null;
@@ -34,7 +34,7 @@ public class TargetDataSourceAspect {
 
         // 类上是否标注了注解
         if(clazz.isAnnotationPresent(TargetDataSource.class)){
-            targetDataSource = clazz.getDeclaredAnnotationsByType(TargetDataSource.class)[0];
+            targetDataSource = clazz.getAnnotationsByType(TargetDataSource.class)[0];
         }
 
         // 标注了注解 TargetDataSource

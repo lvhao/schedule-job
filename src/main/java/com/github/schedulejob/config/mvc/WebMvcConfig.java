@@ -1,4 +1,4 @@
-package com.github.schedulejob.config.interceptor;
+package com.github.schedulejob.config.mvc;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
@@ -10,7 +10,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
  * @since: 2016-4-18 13:29
  */
 @Configuration
-public class InterceptorConfig extends WebMvcConfigurerAdapter {
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
