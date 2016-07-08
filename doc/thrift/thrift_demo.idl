@@ -1,0 +1,16 @@
+namespace java com.lvhao.schedulejob.thrift.protocol
+
+struct TReq{
+    1:required i32 seq;
+    2:required string name;
+}
+
+struct TResp{
+    1:required i32 code;
+    2:required string msg;
+    3:optional string data;
+}
+
+service HelloService{
+    TResp sayHi(1:TReq tReq);
+}
