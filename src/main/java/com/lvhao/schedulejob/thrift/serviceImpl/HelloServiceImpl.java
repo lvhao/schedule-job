@@ -26,7 +26,7 @@ public class HelloServiceImpl implements HelloService.Iface{
         tResp.setCode(0);
         tResp.setMsg("成功");
         tResp.setData(MessageFormat.format(
-                "第{0}次,发送者{1}",
+                "{1}呼叫,序号->{0}",
                 String.valueOf(tReq.getSeq()),
                 tReq.getName())
         );

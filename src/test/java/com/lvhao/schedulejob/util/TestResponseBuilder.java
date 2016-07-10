@@ -1,7 +1,7 @@
 package com.lvhao.schedulejob.util;
 
-import com.github.schedulejob.common.Response;
-import com.github.schedulejob.common.RetCodeConst;
+import com.lvhao.schedulejob.common.Response;
+import com.lvhao.schedulejob.common.RetCodeConst;
 
 import java.util.Arrays;
 import java.util.List;
