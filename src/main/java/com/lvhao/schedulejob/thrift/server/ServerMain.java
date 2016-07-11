@@ -3,18 +3,17 @@ package com.lvhao.schedulejob.thrift.server;
 import com.lvhao.schedulejob.thrift.protocol.HelloService;
 import com.lvhao.schedulejob.thrift.serviceimpl.HelloServiceImpl;
 import org.apache.thrift.TMultiplexedProcessor;
-import org.apache.thrift.TProcessor;
-import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TCompactProtocol;
-import org.apache.thrift.server.TServer;
-import org.apache.thrift.server.TThreadPoolServer;
-import org.apache.thrift.transport.TServerSocket;
+import org.apache.thrift.server.TThreadedSelectorServer;
+import org.apache.thrift.transport.TFramedTransport;
+import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TTransportException;
 
 import java.text.MessageFormat;
 
 /**
- * Thrift启动类
+ * Thrift服务端
  *
  * @author: lvhao
  * @since: 2016-7-8 18:09
@@ -24,19 +23,23 @@ public class ServerMain {
     public static void main(String[] args) {
         try {
             // 设置服务端口为 7777
-            TServerSocket serverTransport = new TServerSocket(PORT);
-
-            // 设置协议工厂为 TCompactProtocol.Factory
-            TCompactProtocol.Factory proFactory = new TCompactProtocol.Factory();
+            TNonblockingServerSocket nonBlockingServerSocket = new TNonblockingServerSocket(PORT);
 
             // 关联处理器与 HelloService 服务的实现
             TMultiplexedProcessor tMultiplexedProcessor = new TMultiplexedProcessor();
             tMultiplexedProcessor.registerProcessor("HelloService",new HelloService.Processor(new HelloServiceImpl()));
 
-            TThreadPoolServer.Args tArgs =new TThreadPoolServer.Args(serverTransport);
-            tArgs.protocolFactory(proFactory);
-            tArgs.processor(tMultiplexedProcessor);
-            TThreadPoolServer server = new TThreadPoolServer(tArgs);
+            TThreadedSelectorServer.Args threadedSelectorServerArgs = new TThreadedSelectorServer.Args(nonBlockingServerSocket);
+            TProcessorFactory processorFactory = new TProcessorFactory(tMultiplexedProcessor);
+            threadedSelectorServerArgs.processorFactory(processorFactory);
+
+            // 协议
+            threadedSelectorServerArgs.protocolFactory(new TCompactProtocol.Factory());
+
+            // transport
+            threadedSelectorServerArgs.transportFactory(new TFramedTransport.Factory());
+
+            TThreadedSelectorServer server = new TThreadedSelectorServer(threadedSelectorServerArgs);
             System.out.println(MessageFormat.format("server start listen on {0}...",String.valueOf(PORT)));
             server.serve();
         } catch (TTransportException e) {

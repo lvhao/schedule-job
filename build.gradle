@@ -1,4 +1,4 @@
-group 'com.github.lvhao'
+group 'com.lvhao'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
