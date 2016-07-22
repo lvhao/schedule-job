@@ -11,6 +11,6 @@ import com.lvhao.schedulejob.common.AppConst;
  */
 
 // 子类默认 default db
-@TargetDataSource(AppConst.DBType.DEFAULT)
+@TargetDataSource(AppConst.DbKey.DEFAULT)
 public class BaseService {
 }

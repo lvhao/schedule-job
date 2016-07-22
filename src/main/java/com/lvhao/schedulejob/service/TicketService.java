@@ -25,7 +25,7 @@ public class TicketService extends BaseService{
     @Autowired
     private TicketMapper ticketMapper;
 
-    @TargetDataSource(AppConst.DBType.READ)
+    @TargetDataSource(AppConst.DbKey.READ)
     public int queryCount(int id){
         return ticketMapper.queryCount(id);
     }
@@ -39,12 +39,12 @@ public class TicketService extends BaseService{
         }).collect(Collectors.toList());
     }
 
-    @TargetDataSource(AppConst.DBType.WRITE)
+    @TargetDataSource(AppConst.DbKey.WRITE)
     public void updateStock(int id){
         ticketMapper.updateStock(id);
     }
 
-    @TargetDataSource(AppConst.DBType.WRITE)
+    @TargetDataSource(AppConst.DbKey.WRITE)
     public String buyNow(int id){
         int cnt = this.queryCount(id);
         if(cnt > 0){

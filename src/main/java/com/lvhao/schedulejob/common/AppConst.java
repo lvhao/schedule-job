@@ -7,10 +7,15 @@ package com.lvhao.schedulejob.common;
  * @since: 2016-4-15 16:43
  */
 public class AppConst {
-    public static final class DBType {
+    public static final class DbKey {
         public static final String DEFAULT = "default";
         public static final String WRITE = "write";
         public static final String READ = "read";
+    }
+
+    public static final class HttpMethod {
+        public static final String GET = "get";
+        public static final String POST = "post";
     }
 
     public static final class JobType {

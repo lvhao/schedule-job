@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -22,15 +23,11 @@ import javax.sql.DataSource;
  * @since: 2016-4-12 10:57
  */
 @Configuration
-@EnableTransactionManagement
-public class SpringMyBatisConfig implements TransactionManagementConfigurer {
+public class SpringMyBatisConfig implements TransactionManagementConfigurer{
 
     // 此处注入的为标注了@Primary的类
     @Autowired
     DataSource dataSource;
-
-    @Autowired
-    private MybatisResourceConfig mybatisResourceConfig;
 
     @Bean
     public SqlSessionFactory sqlSessionFactoryBean() {

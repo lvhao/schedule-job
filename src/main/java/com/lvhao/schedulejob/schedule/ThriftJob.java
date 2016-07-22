@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since: 2016-7-22 10:20
  */
 @Component
-public class ThriftJobDO implements Job{
+public class ThriftJob implements Job{
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 

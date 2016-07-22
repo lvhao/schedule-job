@@ -29,8 +29,8 @@ public class DataSourceContextHolder {
     }
     public static void initDbContext(String dbKey){
         if(!isValid(dbKey)) {
-            dbKey = AppConst.DBType.DEFAULT;
-            log.warn("dbKey[{}]不合法,初始化默认数据源=>{}",dbKey, AppConst.DBType.DEFAULT);
+            dbKey = AppConst.DbKey.DEFAULT;
+            log.warn("dbKey[{}]不合法,初始化默认数据源=>{}",dbKey, AppConst.DbKey.DEFAULT);
         }
         dbContext.set(dbKey);
         log.info("use db [{}]",dbKey);

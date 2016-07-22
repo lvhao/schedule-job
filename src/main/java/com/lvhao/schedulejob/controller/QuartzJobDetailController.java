@@ -8,11 +8,7 @@ import com.lvhao.schedulejob.util.ResponseBuilder;
 import com.google.common.collect.Lists;
 import org.quartz.JobKey;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +30,7 @@ public class QuartzJobDetailController {
      * 任务列表
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public Response<List<JobWithTriggersDO>> list(){
         List<JobWithTriggersDO> jobWithTriggersDOList = quartzJobDetailService.queryJobList();
         return ResponseBuilder.newResponse()
@@ -49,7 +45,7 @@ public class QuartzJobDetailController {
      * @param groupName
      * @return
      */
-    @RequestMapping(value = "/{groupName}/{name}", method = RequestMethod.GET)
+    @GetMapping("/{groupName}/{name}")
     public Response<JobWithTriggersDO> queryByJobKey(
             @PathVariable String name,
             @PathVariable String groupName){
@@ -66,7 +62,7 @@ public class QuartzJobDetailController {
      * @param jobWithTriggersDO
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public Response add(@RequestBody JobWithTriggersDO jobWithTriggersDO){
         quartzJobDetailService.add(jobWithTriggersDO);
         return ResponseBuilder.newResponse()
@@ -79,7 +75,7 @@ public class QuartzJobDetailController {
      * @param jobKeyGroups
      * @return
      */
-    @RequestMapping(method = RequestMethod.DELETE)
+    @DeleteMapping
     public Response delete(@RequestBody Map<String,List<String>> jobKeyGroups){
         List<JobKey> jobKeys = Lists.newArrayList();
         jobKeyGroups.forEach((k,v) ->

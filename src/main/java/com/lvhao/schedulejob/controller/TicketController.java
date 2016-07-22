@@ -3,10 +3,7 @@ package com.lvhao.schedulejob.controller;
 import com.lvhao.schedulejob.domain.TicketDomain;
 import com.lvhao.schedulejob.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,17 +20,17 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    @RequestMapping(value = "/{id}/count",method = RequestMethod.GET)
+    @GetMapping("/{id}/count")
     public Integer queryCount(@PathVariable int id){
         return ticketService.queryCount(id);
     }
 
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    @GetMapping("/list")
     public List<TicketDomain> queryList(){
         return ticketService.queryList();
     }
 
-    @RequestMapping(value = "/buy_now/{id}",method = RequestMethod.POST)
+    @PostMapping("/buy_now/{id}")
     public String buyNow(@PathVariable int id){
         return ticketService.buyNow(id);
     }

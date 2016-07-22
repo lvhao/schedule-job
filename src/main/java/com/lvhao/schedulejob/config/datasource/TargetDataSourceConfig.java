@@ -25,14 +25,14 @@ public class TargetDataSourceConfig {
     public Map<Object,Object> getDataSourceMap() {
         Map<Object,Object> dataMap = new HashMap<>();
 
-        dataMap.put(AppConst.DBType.DEFAULT, this.defaultDataSource());
-        dataMap.put(AppConst.DBType.READ, this.readDataSource());
-        dataMap.put(AppConst.DBType.WRITE, this.writeDataSource());
+        dataMap.put(AppConst.DbKey.DEFAULT, this.defaultDataSource());
+        dataMap.put(AppConst.DbKey.READ, this.readDataSource());
+        dataMap.put(AppConst.DbKey.WRITE, this.writeDataSource());
 
         DataSourceContextHolder.appendDbKey2Set(
-                AppConst.DBType.DEFAULT,
-                AppConst.DBType.READ,
-                AppConst.DBType.WRITE
+                AppConst.DbKey.DEFAULT,
+                AppConst.DbKey.READ,
+                AppConst.DbKey.WRITE
         );
         return dataMap;
     }

@@ -31,7 +31,7 @@ public class DynamicDatasource extends AbstractRoutingDataSource {
     private void initDataSourceMap() {
         Map<Object,Object> dataSourceMap = targetDataSourceConfig.getDataSourceMap();
         setTargetDataSources(dataSourceMap);
-        setDefaultTargetDataSource(dataSourceMap.get(AppConst.DBType.DEFAULT));
+        setDefaultTargetDataSource(dataSourceMap.get(AppConst.DbKey.DEFAULT));
     }
 
     @Override

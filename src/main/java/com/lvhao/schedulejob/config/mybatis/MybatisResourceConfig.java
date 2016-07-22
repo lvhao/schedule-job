@@ -1,6 +1,8 @@
 package com.lvhao.schedulejob.config.mybatis;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * mybatis 资源文件加载路径
@@ -8,8 +10,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author: lvhao
  * @since: 2016-7-22 14:08
  */
-@ConfigurationProperties(locations = "mybatis.properties",prefix="mybatis.location")
+@Configuration
+@ConfigurationProperties(
+        locations = "mybatis.properties",
+        ignoreUnknownFields = false,
+        prefix="mybatis.location"
+)
+@EnableConfigurationProperties(MybatisResourceConfig.class)
 public class MybatisResourceConfig {
+
     private String config;
     private String xmlMapper;
     private String mapper;
@@ -36,5 +45,16 @@ public class MybatisResourceConfig {
 
     public void setMapper(String mapper) {
         this.mapper = mapper;
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("MybatisResourceConfig{");
+        sb.append("config='").append(config).append('\'');
+        sb.append(", xmlMapper='").append(xmlMapper).append('\'');
+        sb.append(", mapper='").append(mapper).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

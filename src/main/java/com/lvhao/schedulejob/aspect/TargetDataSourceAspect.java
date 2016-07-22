@@ -43,7 +43,7 @@ public class TargetDataSourceAspect {
         }
         dbKey = targetDataSource.value();
         if (!StringUtils.hasText(dbKey)) {
-            dbKey = AppConst.DBType.DEFAULT;
+            dbKey = AppConst.DbKey.DEFAULT;
         }
         DataSourceContextHolder.initDbContext(dbKey);
         Object result = proceedingJoinPoint.proceed();

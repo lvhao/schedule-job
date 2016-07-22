@@ -1,5 +1,6 @@
 package com.lvhao.schedulejob.schedule;
 
+import com.lvhao.schedulejob.common.AppConst;
 import com.lvhao.schedulejob.util.ElapsedTimeUtils;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -25,14 +26,11 @@ import java.util.Objects;
  * @since: 2016-7-22 10:20
  */
 @Component
-public class HttpJobDO implements Job {
-    private static final Logger log = LoggerFactory.getLogger(HttpJobDO.class);
+public class HttpJob implements Job {
+    private static final Logger log = LoggerFactory.getLogger(HttpJob.class);
 
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-
-    public static final String POST_METHOD = "POST";
-    public static final String GET_METHOD = "GET";
 
     @Autowired
     private OkHttpClient okHttpClient;
@@ -46,7 +44,7 @@ public class HttpJobDO implements Job {
     public static Request buildRequest(String method,String url,String jsonParams){
         Request.Builder builder = new Request.Builder();
         Request request = null;
-        if (Objects.equals(method.toUpperCase(),GET_METHOD)) {
+        if (Objects.equals(method.toUpperCase(), AppConst.HttpMethod.GET)) {
             request = builder.url(url)
                     .get()
                     .build();
