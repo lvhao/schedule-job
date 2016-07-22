@@ -1,4 +1,4 @@
-package com.lvhao.schedulejob.domain;
+package com.lvhao.schedulejob.domain.job;
 
 import org.quartz.*;
 

@@ -9,8 +9,8 @@ import org.apache.thrift.server.TThreadedSelectorServer;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TTransportException;
-
-import java.text.MessageFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Thrift服务端
@@ -19,6 +19,8 @@ import java.text.MessageFormat;
  * @since: 2016-7-8 18:09
  */
 public class ServerMain {
+    private static final Logger log = LoggerFactory.getLogger(ServerMain.class);
+
     private static final int PORT = 7777;
     public static void main(String[] args) {
         try {
@@ -40,7 +42,7 @@ public class ServerMain {
             threadedSelectorServerArgs.transportFactory(new TFramedTransport.Factory());
 
             TThreadedSelectorServer server = new TThreadedSelectorServer(threadedSelectorServerArgs);
-            System.out.println(MessageFormat.format("server start listen on {0}...",String.valueOf(PORT)));
+            log.info("server start listen on {0}...",PORT);
             server.serve();
         } catch (TTransportException e) {
             e.printStackTrace();

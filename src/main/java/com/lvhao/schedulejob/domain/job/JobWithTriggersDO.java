@@ -1,8 +1,15 @@
-package com.lvhao.schedulejob.domain;
+package com.lvhao.schedulejob.domain.job;
 
-import org.quartz.*;
+import com.lvhao.schedulejob.common.AppConst;
+import org.quartz.CronTrigger;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Trigger;
+import org.quartz.TriggerKey;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -23,13 +30,35 @@ public class JobWithTriggersDO {
 
     // 处理job
     public transient Consumer<JobDetail> fillWithQuartzJobDetail = jd -> {
+        // ext
+        JobDataMap jdm= jd.getJobDataMap();
+        String type = String.valueOf(jdm.get("type"));
+        if (Objects.equals(type, AppConst.JobType.HTTP_JOB)) {
+            jobDO = new HttpJobDO();
+            String url = String.valueOf(jdm.get("url"));
+            String method = String.valueOf(jdm.get("method"));
+            String jsonParams = String.valueOf(jdm.get("jsonParams"));
+            ((HttpJobDO)jobDO).setType(type);
+            ((HttpJobDO)jobDO).setUrl(url);
+            ((HttpJobDO)jobDO).setMethod(method);
+            ((HttpJobDO)jobDO).setJsonParams(jsonParams);
+
+        } else {
+            jobDO = new ThriftJobDO();
+            String method = String.valueOf(jdm.get("method"));
+            String thriftIface = String.valueOf(jdm.get("thriftIface"));
+            ((ThriftJobDO)jobDO).setType(type);
+            ((ThriftJobDO)jobDO).setThriftIface(thriftIface);
+            ((ThriftJobDO)jobDO).setMethod(method);
+        }
+
         // job
         JobKey jk = jd.getKey();
-        JobDO jobDO = new JobDO();
         jobDO.setName(jk.getName());
         jobDO.setGroup(jk.getGroup());
         jobDO.setTargetClass(jd.getJobClass().getCanonicalName());
         jobDO.setDescription(jd.getDescription());
+
         this.setJobDO(jobDO);
     };
 
@@ -68,12 +97,4 @@ public class JobWithTriggersDO {
         this.triggerDOSet = triggerDOSet;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("JobWithTriggersDO{");
-        sb.append("jobDO=").append(jobDO);
-        sb.append(", triggerDOSet=").append(triggerDOSet);
-        sb.append('}');
-        return sb.toString();
-    }
 }

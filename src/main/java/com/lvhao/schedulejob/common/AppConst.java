@@ -12,4 +12,9 @@ public class AppConst {
         public static final String WRITE = "write";
         public static final String READ = "read";
     }
+
+    public static final class JobType {
+        public static final String HTTP_JOB = "http_job";
+        public static final String THRIFT_JOB = "thrift_job";
+    }
 }

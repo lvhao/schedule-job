@@ -1,4 +1,4 @@
-package com.lvhao.schedulejob.domain;
+package com.lvhao.schedulejob.domain.job;
 
 import org.quartz.Job;
 import org.quartz.JobBuilder;
@@ -70,10 +70,10 @@ public class JobDO {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("JobDO{");
-        sb.append("name='").append(name).append('\'');
+        sb.append("description='").append(description).append('\'');
         sb.append(", group='").append(group).append('\'');
+        sb.append(", name='").append(name).append('\'');
         sb.append(", targetClass='").append(targetClass).append('\'');
-        sb.append(", description='").append(description).append('\'');
         sb.append('}');
         return sb.toString();
     }

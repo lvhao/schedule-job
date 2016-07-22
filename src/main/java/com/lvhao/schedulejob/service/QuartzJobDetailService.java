@@ -1,6 +1,6 @@
 package com.lvhao.schedulejob.service;
 
-import com.lvhao.schedulejob.domain.JobWithTriggersDO;
+import com.lvhao.schedulejob.domain.job.JobWithTriggersDO;
 import com.google.common.collect.Lists;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;

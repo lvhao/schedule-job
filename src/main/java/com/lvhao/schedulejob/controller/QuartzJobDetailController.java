@@ -2,7 +2,7 @@ package com.lvhao.schedulejob.controller;
 
 import com.lvhao.schedulejob.common.Response;
 import com.lvhao.schedulejob.common.RetCodeConst;
-import com.lvhao.schedulejob.domain.JobWithTriggersDO;
+import com.lvhao.schedulejob.domain.job.JobWithTriggersDO;
 import com.lvhao.schedulejob.service.QuartzJobDetailService;
 import com.lvhao.schedulejob.util.ResponseBuilder;
 import com.google.common.collect.Lists;

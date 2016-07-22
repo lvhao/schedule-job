@@ -22,7 +22,7 @@ public class ClientMain {
         TFramedTransport tFramedTransport = new TFramedTransport(new TSocket("localhost",PORT));
         TCompactProtocol protocol = new TCompactProtocol(tFramedTransport);
         TMultiplexedProtocol tMultiplexedProtocol = new TMultiplexedProtocol(protocol,"HelloService");
-        HelloService.Client client = new HelloService.Client(tMultiplexedProtocol);
+        HelloService.Iface helloService = new HelloService.Client(tMultiplexedProtocol);
 
         TResp tResp = new TResp();
         TReq tReq = new TReq();
@@ -30,7 +30,7 @@ public class ClientMain {
         tReq.setName("jack");
         try {
             tFramedTransport.open();
-            tResp = client.sayHi(tReq);
+            tResp = helloService.sayHi(tReq);
         } catch (TException e) {
             e.printStackTrace();
         } finally {

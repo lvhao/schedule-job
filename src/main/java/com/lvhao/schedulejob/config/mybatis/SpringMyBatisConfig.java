@@ -23,11 +23,14 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableTransactionManagement
-public class MyBatisConfig implements TransactionManagementConfigurer {
+public class SpringMyBatisConfig implements TransactionManagementConfigurer {
 
     // 此处注入的为标注了@Primary的类
     @Autowired
     DataSource dataSource;
+
+    @Autowired
+    private MybatisResourceConfig mybatisResourceConfig;
 
     @Bean
     public SqlSessionFactory sqlSessionFactoryBean() {

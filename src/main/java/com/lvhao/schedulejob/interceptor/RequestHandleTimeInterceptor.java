@@ -16,18 +16,18 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RequestHandleTimeInterceptor extends HandlerInterceptorAdapter {
     private static final Logger log = LoggerFactory.getLogger(RequestHandleTimeInterceptor.class);
-    private static final ThreadLocal<Long> consumingTime = new ThreadLocal<>();
+    private static final ThreadLocal<Long> elapsedTime = new ThreadLocal<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        consumingTime.set(System.nanoTime());
+        elapsedTime.set(System.nanoTime());
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        long st = consumingTime.get();
-        consumingTime.remove();
+        long st = elapsedTime.get();
+        elapsedTime.remove();
         log.info("REQUEST_HANDLE_TIME={}ms",(System.nanoTime() - st)/(1000*1000));
     }
 }
