@@ -3,8 +3,13 @@ package com.lvhao.schedulejob.domain.job;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
+import org.quartz.core.jmx.JobDataMapSupport;
 import org.slf4j.Logger;
 import org.springframework.util.ClassUtils;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 作业DO
@@ -12,8 +17,17 @@ import org.springframework.util.ClassUtils;
  * @author: lvhao
  * @since: 2016-6-23 20:59
  */
-public class JobDO {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(JobDO.class);
+public class JobDo {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(JobDo.class);
+    private static final Set<String> supportExtFields = new HashSet<String>(){
+        {
+            add("type");    // AppConst.JobType
+            add("method");  // AppConst.HttpMethod or thrift method
+            add("url"); // http invoke url
+            add("iface");   // thrift iface
+            add("jsonParams");  // method params
+        }
+    };
 
     // job info
     private String name;
@@ -21,18 +35,32 @@ public class JobDO {
     private String targetClass;
     private String description;
 
+    // ext info
+    // supportExtFields
+    private Map<String,Object> extInfo;
+
     public JobDetail convert2QuartzJobDetail(){
         Class<? extends Job> clazz = null;
         try {
-            clazz = (Class<Job>)ClassUtils.forName(this.targetClass,this.getClass().getClassLoader());
-        } catch (ClassNotFoundException e) {
+            clazz = (Class<Job>)ClassUtils.resolveClassName(this.targetClass,this.getClass().getClassLoader());
+        } catch (IllegalArgumentException e) {
             log.error("加载类错误",e);
         }
+
         return JobBuilder.newJob()
                 .ofType(clazz)
                 .withIdentity(this.name,this.getGroup())
                 .withDescription(this.description)
+                .setJobData(JobDataMapSupport.newJobDataMap(this.extInfo))
                 .build();
+    }
+
+    public Map<String, Object> getExtInfo() {
+        return extInfo;
+    }
+
+    public void setExtInfo(Map<String, Object> extInfo) {
+        this.extInfo = extInfo;
     }
 
     public String getName() {
@@ -69,11 +97,12 @@ public class JobDO {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("JobDO{");
-        sb.append("description='").append(description).append('\'');
+        final StringBuffer sb = new StringBuffer("JobDo{");
+        sb.append("name='").append(name).append('\'');
         sb.append(", group='").append(group).append('\'');
-        sb.append(", name='").append(name).append('\'');
         sb.append(", targetClass='").append(targetClass).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", extInfo=").append(extInfo);
         sb.append('}');
         return sb.toString();
     }

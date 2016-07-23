@@ -1,6 +1,7 @@
 package com.lvhao.schedulejob.service;
 
-import com.lvhao.schedulejob.domain.job.JobWithTriggersDO;
+import com.google.common.base.Throwables;
+import com.lvhao.schedulejob.domain.job.JobWithTriggersDo;
 import com.google.common.collect.Lists;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -26,33 +27,33 @@ public class QuartzJobDetailService extends BaseService {
     private Scheduler scheduler;
 
     // 任务列表
-    public List<JobWithTriggersDO> queryJobList(){
-        List<JobWithTriggersDO> jobWithTriggersDOList = Lists.newArrayList();
+    public List<JobWithTriggersDo> queryJobList(){
+        List<JobWithTriggersDo> jobWithTriggersDoList = Lists.newArrayList();
 
         // 数据处理
-        Function<Set<JobKey>,List<JobWithTriggersDO>> copyPropFun = jbst -> {
-            List<JobWithTriggersDO> jddList = Lists.newArrayList();
+        Function<Set<JobKey>,List<JobWithTriggersDo>> copyPropFun = jbst -> {
+            List<JobWithTriggersDo> jddList = Lists.newArrayList();
             jddList = jbst.stream().map(jk ->{
                 JobDetail jd = null;
                 List<Trigger> trList = this.getTriggerByKey(jk);
                 jd = this.getJobDetailByKey(jk);
 
                 // jobDetail
-                JobWithTriggersDO jobWithTriggersDO = new JobWithTriggersDO();
-                jobWithTriggersDO.fillWithQuartzJobDetail.accept(jd);
-                jobWithTriggersDO.fillWithQuartzTriggers.accept(trList);
-                return jobWithTriggersDO;
+                JobWithTriggersDo jobWithTriggersDo = new JobWithTriggersDo();
+                jobWithTriggersDo.fillWithQuartzJobDetail.accept(jd);
+                jobWithTriggersDo.fillWithQuartzTriggers.accept(trList);
+                return jobWithTriggersDo;
             }).collect(Collectors.toList());
             return jddList;
         };
 
         try {
             Set<JobKey> jobSet = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-            jobWithTriggersDOList = copyPropFun.apply(jobSet);
+            jobWithTriggersDoList = copyPropFun.apply(jobSet);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
-        return jobWithTriggersDOList;
+        return jobWithTriggersDoList;
     }
 
     /**
@@ -60,31 +61,33 @@ public class QuartzJobDetailService extends BaseService {
      * @param jobKey
      * @return
      */
-    public JobWithTriggersDO queryByKey(JobKey jobKey){
-        JobWithTriggersDO jobWithTriggersDO = new JobWithTriggersDO();
+    public JobWithTriggersDo queryByKey(JobKey jobKey){
+        JobWithTriggersDo jobWithTriggersDo = new JobWithTriggersDo();
         JobDetail jobDetail = this.getJobDetailByKey(jobKey);
         List<Trigger> triggerList = this.getTriggerByKey(jobKey);
-        jobWithTriggersDO.fillWithQuartzJobDetail.accept(jobDetail);
-        jobWithTriggersDO.fillWithQuartzTriggers.accept(triggerList);
-        return jobWithTriggersDO;
+        jobWithTriggersDo.fillWithQuartzJobDetail.accept(jobDetail);
+        jobWithTriggersDo.fillWithQuartzTriggers.accept(triggerList);
+        return jobWithTriggersDo;
     }
 
     /**
      * 添加任务
-     * @param jobWithTriggersDO
+     * @param jobWithTriggersDo
      */
-    public void add(JobWithTriggersDO jobWithTriggersDO){
-        JobDetail jobDetail = jobWithTriggersDO.getJobDO().convert2QuartzJobDetail();
-        Set<CronTrigger> triggerSet = jobWithTriggersDO.getTriggerDOSet().stream().map(td ->
+    public boolean add(JobWithTriggersDo jobWithTriggersDo) {
+        JobDetail jobDetail = jobWithTriggersDo.getJobDo().convert2QuartzJobDetail();
+        Set<CronTrigger> triggerSet = jobWithTriggersDo.getTriggerDos().stream().map(td ->
             td.convert2QuartzTrigger(jobDetail)
         ).collect(Collectors.toSet());
-        try {
 
-            // 如果已经存在 则替换
+        // 如果已经存在 则替换
+        try {
             scheduler.scheduleJob(jobDetail,triggerSet,true);
+            return true;
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     /**
@@ -92,57 +95,69 @@ public class QuartzJobDetailService extends BaseService {
      *
      * @param jobKeyList
      */
-    public void remove(List<JobKey> jobKeyList){
+    public boolean remove(List<JobKey> jobKeyList){
         try {
             scheduler.deleteJobs(jobKeyList);
+            return true;
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     // 停用任务
-    public void disable(GroupMatcher<JobKey> matcher){
+    public boolean disable(GroupMatcher<JobKey> matcher){
         try {
             scheduler.pauseJobs(matcher);
+            return true;
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     // 停用所有任务
-    public void disableAll(){
+    public boolean disableAll(){
         try {
             scheduler.pauseAll();
+            return true;
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     // 启用任务
-    public void enable(GroupMatcher<JobKey> matcher){
+    public boolean enable(GroupMatcher<JobKey> matcher){
         try {
             scheduler.resumeJobs(matcher);
+            return true;
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     // 启用所有任务
-    public void enableAll(){
+    public boolean enableAll(){
         try {
             scheduler.resumeAll();
+            return true;
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     // 立即触发任务
-    public void triggerNow(JobKey jobKey, JobDataMap jobDataMap){
+    public boolean triggerNow(JobKey jobKey, JobDataMap jobDataMap){
         try {
             scheduler.triggerJob(jobKey,jobDataMap);
+            return true;
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     /**

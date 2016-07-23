@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -39,19 +40,19 @@ public class TargetDataSourceConfig {
 
     // 从默认配置文件出读取db配置
     @Bean
-    @ConfigurationProperties(locations="datasource.properties",prefix="default.datasource")
+    @ConfigurationProperties(locations= "config/datasource.properties",prefix="default.datasource")
     public DataSource defaultDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties(locations="datasource.properties",prefix="db_read.datasource")
+    @ConfigurationProperties(locations= "config/datasource.properties",prefix="db_read.datasource")
     public DataSource readDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties(locations="datasource.properties",prefix="db_write.datasource")
+    @ConfigurationProperties(locations= "config/datasource.properties",prefix="db_write.datasource")
     public DataSource writeDataSource() {
         return DataSourceBuilder.create().build();
     }

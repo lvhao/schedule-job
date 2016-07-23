@@ -10,7 +10,7 @@ import java.text.ParseException;
  * @author: lvhao
  * @since: 2016-6-23 20:59
  */
-public class TriggerDO {
+public class TriggerDo {
 
     // trigger info
     private String name;
@@ -67,7 +67,7 @@ public class TriggerDO {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("TriggerDO{");
+        final StringBuffer sb = new StringBuffer("TriggerDo{");
         sb.append("name='").append(name).append('\'');
         sb.append(", group='").append(group).append('\'');
         sb.append(", cronExpression='").append(cronExpression).append('\'');

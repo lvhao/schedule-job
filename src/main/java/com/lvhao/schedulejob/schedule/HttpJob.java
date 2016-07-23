@@ -48,8 +48,8 @@ public class HttpJob implements Job {
             request = builder.url(url)
                     .get()
                     .build();
-        }else{
-            RequestBody body = RequestBody.create(JSON,Objects.nonNull(jsonParams) ? jsonParams : "");
+        } else {
+            RequestBody body = RequestBody.create(JSON,jsonParams);
             request = builder.url(url)
                     .post(body)
                     .build();
@@ -60,9 +60,9 @@ public class HttpJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
-        String url = String.valueOf(jobDataMap.get("url"));
-        String method = String.valueOf(jobDataMap.get("method"));
-        String jsonStr = String.valueOf(jobDataMap.get("jsonParams"));
+        String url = String.valueOf(jobDataMap.getOrDefault("url",""));
+        String method = String.valueOf(jobDataMap.getOrDefault("method",""));
+        String jsonStr = String.valueOf(jobDataMap.getOrDefault("jsonParams",""));
         Request request = buildRequest(method,url,jsonStr);
         Response response = null;
         ElapsedTimeUtils.time(url);
@@ -77,6 +77,7 @@ public class HttpJob implements Job {
                 jsonStr,
                 String.valueOf(response.body())
             });
+            response.close();
             ElapsedTimeUtils.timeEnd(url);
         }
     }

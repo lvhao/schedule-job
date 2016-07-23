@@ -1,6 +1,6 @@
 package com.lvhao.schedulejob.schedule;
 
-import com.lvhao.schedulejob.domain.TicketDomain;
+import com.lvhao.schedulejob.domain.TicketDo;
 import com.lvhao.schedulejob.service.TicketService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -24,7 +24,7 @@ public class QuartzTestJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        List<TicketDomain> ticketDomainList = ticketService.queryList();
-        System.out.println("ticketDomainList = " + ticketDomainList);
+        List<TicketDo> ticketDoList = ticketService.queryList();
+        System.out.println("ticketDoList = " + ticketDoList);
     }
 }

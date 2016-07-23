@@ -8,6 +8,7 @@ package com.lvhao.schedulejob.common;
 public class RetCodeConst {
 
     // 通用码
+    public static final RetCode UN_KNOWN = RetCode.of("-1","未知");
     public static final RetCode OK = RetCode.of("0000","成功");
     public static final RetCode ERROR = RetCode.of("1001","错误");
     public static final RetCode RESOURCE_NON_EXISTE = RetCode.of("1002","资源不存在");

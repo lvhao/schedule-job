@@ -29,7 +29,7 @@ public class SpringMyBatisConfig implements TransactionManagementConfigurer{
     @Autowired
     DataSource dataSource;
 
-    @Bean
+    @Bean(name = {MyBatisMapperScannerConfig.SQL_SESSION_FACTORY_BEAN_NAME})
     public SqlSessionFactory sqlSessionFactoryBean() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);

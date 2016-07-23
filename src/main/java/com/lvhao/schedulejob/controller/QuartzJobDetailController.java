@@ -2,7 +2,7 @@ package com.lvhao.schedulejob.controller;
 
 import com.lvhao.schedulejob.common.Response;
 import com.lvhao.schedulejob.common.RetCodeConst;
-import com.lvhao.schedulejob.domain.job.JobWithTriggersDO;
+import com.lvhao.schedulejob.domain.job.JobWithTriggersDo;
 import com.lvhao.schedulejob.service.QuartzJobDetailService;
 import com.lvhao.schedulejob.util.ResponseBuilder;
 import com.google.common.collect.Lists;
@@ -31,11 +31,11 @@ public class QuartzJobDetailController {
      * @return
      */
     @GetMapping
-    public Response<List<JobWithTriggersDO>> list(){
-        List<JobWithTriggersDO> jobWithTriggersDOList = quartzJobDetailService.queryJobList();
+    public Response<List<JobWithTriggersDo>> list(){
+        List<JobWithTriggersDo> jobWithTriggersDoList = quartzJobDetailService.queryJobList();
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
-                .withData(jobWithTriggersDOList)
+                .withData(jobWithTriggersDoList)
                 .build();
     }
 
@@ -46,27 +46,27 @@ public class QuartzJobDetailController {
      * @return
      */
     @GetMapping("/{groupName}/{name}")
-    public Response<JobWithTriggersDO> queryByJobKey(
+    public Response<JobWithTriggersDo> queryByJobKey(
             @PathVariable String name,
             @PathVariable String groupName){
         JobKey jobKey = new JobKey(name,groupName);
-        JobWithTriggersDO jobWithTriggersDO = quartzJobDetailService.queryByKey(jobKey);
+        JobWithTriggersDo jobWithTriggersDo = quartzJobDetailService.queryByKey(jobKey);
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
-                .withData(jobWithTriggersDO)
+                .withData(jobWithTriggersDo)
                 .build();
     }
 
     /**
      * 添加任务
-     * @param jobWithTriggersDO
+     * @param jobWithTriggersDo
      * @return
      */
     @PostMapping
-    public Response add(@RequestBody JobWithTriggersDO jobWithTriggersDO){
-        quartzJobDetailService.add(jobWithTriggersDO);
+    public Response add(@RequestBody JobWithTriggersDo jobWithTriggersDo){
+        boolean result = quartzJobDetailService.add(jobWithTriggersDo);
         return ResponseBuilder.newResponse()
-                .withRetCode(RetCodeConst.OK)
+                .determineRetCodeByRetValue(result)
                 .build();
     }
 
@@ -84,9 +84,9 @@ public class QuartzJobDetailController {
                 jobKeys.add(jobKey);
             })
         );
-        quartzJobDetailService.remove(jobKeys);
+        boolean result = quartzJobDetailService.remove(jobKeys);
         return ResponseBuilder.newResponse()
-                .withRetCode(RetCodeConst.OK)
+                .determineRetCodeByRetValue(result)
                 .build();
     }
 }

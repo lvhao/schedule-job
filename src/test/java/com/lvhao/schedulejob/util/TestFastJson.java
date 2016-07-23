@@ -8,22 +8,22 @@ import org.quartz.JobKey;
  */
 public class TestFastJson {
     public static void main(String[] args) {
-        /*JobWithTriggersDO jtd = new JobWithTriggersDO();
-        JobDO jd = new JobDO();
+        /*JobWithTriggersDo jtd = new JobWithTriggersDo();
+        JobDo jd = new JobDo();
         jd.setGroup("MM_JOB");
         jd.setName("mm_test_job");
         jd.setTargetClass(com.github.schedulejob.schedule.QuartzTestJob.class.getCanonicalName());
         jd.setDescription("MM test job");
-        jtd.setJobDO(jd);
+        jtd.setJobDo(jd);
 
-        Set<TriggerDO> triggerDomainSet = Sets.newHashSet();
-        TriggerDO td = new TriggerDO();
+        Set<TriggerDo> triggerDomainSet = Sets.newHashSet();
+        TriggerDo td = new TriggerDo();
         td.setGroup("MM_TRIGGER");
         td.setName("mm_test_job_trigger");
         td.setCronExpression("0/10 * * * * *");
         td.setDescription("MM test job trigger");
         triggerDomainSet.add(td);
-        jtd.setTriggerDOSet(triggerDomainSet);
+        jtd.setTriggerDos(triggerDomainSet);
         String rt =JSON.toJSONString(jtd);
         System.out.println("rt = " + rt);*/
         JobKey jk = new JobKey("name","group");

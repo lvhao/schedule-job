@@ -3,7 +3,7 @@ package com.lvhao.schedulejob.service;
 
 import com.lvhao.schedulejob.anno.TargetDataSource;
 import com.lvhao.schedulejob.common.AppConst;
-import com.lvhao.schedulejob.domain.TicketDomain;
+import com.lvhao.schedulejob.domain.TicketDo;
 import com.lvhao.schedulejob.mapper.TicketMapper;
 import com.lvhao.schedulejob.po.TicketPO;
 import org.springframework.beans.BeanUtils;
@@ -30,12 +30,12 @@ public class TicketService extends BaseService{
         return ticketMapper.queryCount(id);
     }
 
-    public List<TicketDomain> queryList(){
+    public List<TicketDo> queryList(){
         List<TicketPO> ticketPOList = ticketMapper.queryList();
         return ticketPOList.stream().map(po -> {
-            TicketDomain ticketDomain = new TicketDomain();
-            BeanUtils.copyProperties(po,ticketDomain);
-            return ticketDomain;
+            TicketDo ticketDo = new TicketDo();
+            BeanUtils.copyProperties(po, ticketDo);
+            return ticketDo;
         }).collect(Collectors.toList());
     }
 

@@ -19,10 +19,16 @@ public final class ResponseBuilder<T> {
     public static ResponseBuilder newResponse(){
         ResponseBuilder instance = new ResponseBuilder();
         instance.resp = new Response();
-        instance.resp.setRetCode(RetCodeConst.OK);
+        instance.resp.setRetCode(RetCodeConst.UN_KNOWN);
         instance.resp.setData(new Object());
         instance.resp.setPage(PageBuilder.DEFAULT_PAGE_INFO);
         return instance;
+    }
+
+    public ResponseBuilder<T> determineRetCodeByRetValue(boolean isInvokedSuccessfully){
+        return isInvokedSuccessfully
+                ? withRetCode(RetCodeConst.OK)
+                : withRetCode(RetCodeConst.RPC_ERROR);
     }
 
     public ResponseBuilder<T> withRetCode(RetCode retCode){
