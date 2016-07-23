@@ -1,0 +1,141 @@
+#缺省数据库地址 dev
+dbServer:
+  default: localhost:3306
+  read: localhost:3306
+  write: localhost:3306
+
+datasource:
+  default:
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: default
+    continue-on-error: false
+    jdbc-url: jdbc:mysql://${dbServer.default}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: lh1234
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+    maximum-pool-size: 5
+    minimum-idle: 2
+    idle-timeout: 600000
+
+  read:
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: read
+    continue-on-error: false
+    jdbc-url: jdbc:mysql://${dbServer.read}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: lh1234
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+    maximum-pool-size: 5
+    minimum-idle: 2
+    idle-timeout: 600000
+
+  write:
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: write
+    continue-on-error: false
+    jdbc-url: jdbc:mysql://${dbServer.write}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: lh1234
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+    maximum-pool-size: 5
+    minimum-idle: 2
+    idle-timeout: 600000
+
+---
+spring:
+  profiles: test
+dbServer:
+  default: localhost:3307
+  read: localhost:3307
+  write: localhost:3307
+
+datasource:
+  default:
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: default
+    continue-on-error: false
+    jdbc-url: jdbc:mysql://${dbServer.default}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: lh1234
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+    maximum-pool-size: 5
+    minimum-idle: 2
+    idle-timeout: 600000
+
+  read:
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: read
+    continue-on-error: false
+    jdbc-url: jdbc:mysql://${dbServer.read}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: lh1234
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+    maximum-pool-size: 5
+    minimum-idle: 2
+    idle-timeout: 600000
+
+  write:
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: write
+    continue-on-error: false
+    jdbc-url: jdbc:mysql://${dbServer.write}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: lh1234
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+    maximum-pool-size: 5
+    minimum-idle: 2
+    idle-timeout: 600000
+
+---
+spring:
+  profiles: product
+dbServer:
+  default: localhost:3308
+  read: localhost:3308
+  write: localhost:3308
+
+datasource:
+  default:
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: default
+    continue-on-error: false
+    jdbc-url: jdbc:mysql://${dbServer.default}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: lh1234
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+    maximum-pool-size: 5
+    minimum-idle: 2
+    idle-timeout: 600000
+
+  read:
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: read
+    continue-on-error: false
+    jdbc-url: jdbc:mysql://${dbServer.read}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: lh1234
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+    maximum-pool-size: 5
+    minimum-idle: 2
+    idle-timeout: 600000
+
+  write:
+    type: com.zaxxer.hikari.HikariDataSource
+    pool-name: write
+    continue-on-error: false
+    jdbc-url: jdbc:mysql://${dbServer.write}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: lh1234
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+    maximum-pool-size: 5
+    minimum-idle: 2
+    idle-timeout: 600000

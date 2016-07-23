@@ -1,0 +1,4 @@
+server:
+  port: 54321
+  compression:
+    enabled: true

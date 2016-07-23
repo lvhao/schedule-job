@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -64,9 +65,11 @@ public class QuartzJobDetailService extends BaseService {
     public JobWithTriggersDo queryByKey(JobKey jobKey){
         JobWithTriggersDo jobWithTriggersDo = new JobWithTriggersDo();
         JobDetail jobDetail = this.getJobDetailByKey(jobKey);
-        List<Trigger> triggerList = this.getTriggerByKey(jobKey);
-        jobWithTriggersDo.fillWithQuartzJobDetail.accept(jobDetail);
-        jobWithTriggersDo.fillWithQuartzTriggers.accept(triggerList);
+        if (Objects.nonNull(jobDetail)) {
+            List<Trigger> triggerList = this.getTriggerByKey(jobKey);
+            jobWithTriggersDo.fillWithQuartzJobDetail.accept(jobDetail);
+            jobWithTriggersDo.fillWithQuartzTriggers.accept(triggerList);
+        }
         return jobWithTriggersDo;
     }
 

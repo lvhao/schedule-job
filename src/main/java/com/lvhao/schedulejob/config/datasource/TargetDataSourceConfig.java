@@ -1,14 +1,13 @@
 package com.lvhao.schedulejob.config.datasource;
 
+import com.google.common.collect.Maps;
 import com.lvhao.schedulejob.common.AppConst;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,7 +23,7 @@ public class TargetDataSourceConfig {
     // 注册到 DynamicDataSource的targetDataSources属性
     @Bean
     public Map<Object,Object> getDataSourceMap() {
-        Map<Object,Object> dataMap = new HashMap<>();
+        Map<Object,Object> dataMap = Maps.newHashMap();
 
         dataMap.put(AppConst.DbKey.DEFAULT, this.defaultDataSource());
         dataMap.put(AppConst.DbKey.READ, this.readDataSource());
@@ -40,19 +39,19 @@ public class TargetDataSourceConfig {
 
     // 从默认配置文件出读取db配置
     @Bean
-    @ConfigurationProperties(locations= "config/datasource.properties",prefix="default.datasource")
+    @ConfigurationProperties(locations= "config/datasource.yaml",prefix="datasource.default")
     public DataSource defaultDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties(locations= "config/datasource.properties",prefix="db_read.datasource")
+    @ConfigurationProperties(locations= "config/datasource.yaml",prefix="datasource.read")
     public DataSource readDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties(locations= "config/datasource.properties",prefix="db_write.datasource")
+    @ConfigurationProperties(locations= "config/datasource.yaml",prefix="datasource.write")
     public DataSource writeDataSource() {
         return DataSourceBuilder.create().build();
     }
