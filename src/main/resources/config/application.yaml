@@ -1,4 +1,8 @@
+application:
+  name: schedule-job
+  version: v1.0.0
 server:
-  port: 54321
+  port: ${port:54321}
+  contextPath: /
   compression:
     enabled: true

@@ -1,4 +1,6 @@
-#缺省数据库地址 dev
+###################################
+# 缺省数据库地址 dev
+###################################
 dbServer:
   default: localhost:3306
   read: localhost:3306
@@ -45,6 +47,9 @@ datasource:
     idle-timeout: 600000
 
 ---
+###################################
+# 测试数据库地址 test
+###################################
 spring:
   profiles: test
 dbServer:
@@ -93,6 +98,9 @@ datasource:
     idle-timeout: 600000
 
 ---
+###################################
+# 线上数据库地址 product
+###################################
 spring:
   profiles: product
 dbServer:
