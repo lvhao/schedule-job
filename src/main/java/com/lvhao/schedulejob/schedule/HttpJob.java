@@ -7,16 +7,19 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.JobKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
@@ -59,15 +62,21 @@ public class HttpJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
+        JobKey jobKey = context.getJobDetail().getKey();
+        String uniqueKey = MessageFormat.format("{0}[{1}]",jobKey.getGroup(),jobKey.getName());
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
         String url = String.valueOf(jobDataMap.getOrDefault("url",""));
         String method = String.valueOf(jobDataMap.getOrDefault("method",""));
         String jsonStr = String.valueOf(jobDataMap.getOrDefault("jsonParams",""));
         Request request = buildRequest(method,url,jsonStr);
         Response response = null;
-        ElapsedTimeUtils.time(url);
+        ElapsedTimeUtils.time(uniqueKey);
+        ResponseBody responseBody = null;
         try {
             response = okHttpClient.newCall(request).execute();
+            if (Objects.nonNull(response)) {
+                responseBody = response.body();
+            }
         } catch (IOException e) {
             log.error("http调用出错",e);
         } finally {
@@ -75,10 +84,10 @@ public class HttpJob implements Job {
                 method,
                 url,
                 jsonStr,
-                String.valueOf(response.body())
+                Objects.nonNull(responseBody) ? responseBody.toString() : ""
             });
             response.close();
-            ElapsedTimeUtils.timeEnd(url);
+            ElapsedTimeUtils.timeEnd(uniqueKey);
         }
     }
 }

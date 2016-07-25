@@ -1,8 +1,15 @@
 package com.lvhao.schedulejob.domain.job;
 
-import org.quartz.*;
+import com.google.common.base.Strings;
+import org.quartz.CronExpression;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.TriggerBuilder;
 
 import java.text.ParseException;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * 触发器域
@@ -21,7 +28,8 @@ public class TriggerDo {
     public CronTrigger convert2QuartzTrigger(JobDetail jobDetail){
         CronExpression ce = null;
         try {
-            ce= new CronExpression("0/20 * * * * ?");
+            checkArgument(!Strings.isNullOrEmpty(cronExpression),"cronExpression参数非法");
+            ce= new CronExpression(this.cronExpression);
         } catch (ParseException e) {
             e.printStackTrace();
         }

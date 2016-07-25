@@ -84,8 +84,8 @@ public class QuartzJobDetailService extends BaseService {
      */
     public boolean add(JobWithTriggersDo jobWithTriggersDo) {
         JobDetail jobDetail = jobWithTriggersDo.getJobDo().convert2QuartzJobDetail();
-        Set<CronTrigger> triggerSet = jobWithTriggersDo.getTriggerDos().stream().map(td ->
-            td.convert2QuartzTrigger(jobDetail)
+        Set<CronTrigger> triggerSet = jobWithTriggersDo.getTriggerDos().stream().map(jtd ->
+            jtd.convert2QuartzTrigger(jobDetail)
         ).collect(Collectors.toSet());
 
         // 如果已经存在 则替换

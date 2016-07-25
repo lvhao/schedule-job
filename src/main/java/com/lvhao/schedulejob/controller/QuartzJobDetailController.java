@@ -43,14 +43,14 @@ public class QuartzJobDetailController {
     /**
      * 查询指定jobKey jobDetail
      * @param name
-     * @param groupName
+     * @param group
      * @return
      */
-    @GetMapping("/{groupName}/{name}")
+    @GetMapping("/{group}/{name}")
     public Response<JobWithTriggersDo> queryByJobKey(
             @PathVariable String name,
-            @PathVariable String groupName){
-        JobKey jobKey = new JobKey(name,groupName);
+            @PathVariable String group){
+        JobKey jobKey = new JobKey(name,group);
         JobWithTriggersDo jobWithTriggersDo = quartzJobDetailService.queryByKey(jobKey);
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
