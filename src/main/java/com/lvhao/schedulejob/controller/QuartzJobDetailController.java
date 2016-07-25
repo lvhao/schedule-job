@@ -7,6 +7,7 @@ import com.lvhao.schedulejob.service.QuartzJobDetailService;
 import com.lvhao.schedulejob.util.ResponseBuilder;
 import com.google.common.collect.Lists;
 import org.quartz.JobKey;
+import org.quartz.core.jmx.JobDataMapSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,6 +86,20 @@ public class QuartzJobDetailController {
             })
         );
         boolean result = quartzJobDetailService.remove(jobKeys);
+        return ResponseBuilder.newResponse()
+                .determineRetCodeByRetValue(result)
+                .build();
+    }
+
+    @PostMapping("/{group}/{name}")
+    public Response triggerNow(@PathVariable String group,
+                              @PathVariable String name,
+                              @RequestBody Map<String,Object> jobData){
+        JobKey jobKey = new JobKey(name,group);
+        boolean result = quartzJobDetailService.triggerNow(
+            jobKey,
+            JobDataMapSupport.newJobDataMap(jobData)
+        );
         return ResponseBuilder.newResponse()
                 .determineRetCodeByRetValue(result)
                 .build();

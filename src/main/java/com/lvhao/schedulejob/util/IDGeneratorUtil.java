@@ -1,5 +1,7 @@
 package com.lvhao.schedulejob.util;
 
+import java.util.stream.IntStream;
+
 /**
  * 分布式ID生成器
  *
@@ -15,25 +17,25 @@ public class IDGeneratorUtil {
     private final long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
     private final long sequenceBits = 12L;
     private final long workerIdShift = sequenceBits;
-    private final long datacenterIdShift = sequenceBits + workerIdBits;
+    private final long dataCenterIdShift = sequenceBits + workerIdBits;
     private final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
     private final long sequenceMask = -1L ^ (-1L << sequenceBits);
 
     private long workerId;
-    private long datacenterId;
+    private long dataCenterId;
     private long sequence = 0L;
     private long lastTimestamp = -1L;
     private static final IDGeneratorUtil DEFAULT_GENERATOR = new IDGeneratorUtil(0,0);
 
-    public IDGeneratorUtil(long workerId, long datacenterId) {
+    public IDGeneratorUtil(long workerId, long dataCenterId) {
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }
-        if (datacenterId > maxDatacenterId || datacenterId < 0) {
-            throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId));
+        if (dataCenterId > maxDatacenterId || dataCenterId < 0) {
+            throw new IllegalArgumentException(String.format("dataCenter Id can't be greater than %d or less than 0", maxDatacenterId));
         }
         this.workerId = workerId;
-        this.datacenterId = datacenterId;
+        this.dataCenterId = dataCenterId;
     }
 
     public synchronized long nextId() {
@@ -52,7 +54,7 @@ public class IDGeneratorUtil {
 
         lastTimestamp = timestamp;
 
-        return ((timestamp - twepoch) << timestampLeftShift) | (datacenterId << datacenterIdShift) | (workerId << workerIdShift) | sequence;
+        return ((timestamp - twepoch) << timestampLeftShift) | (dataCenterId << dataCenterIdShift) | (workerId << workerIdShift) | sequence;
     }
 
     protected long tilNextMillis(long lastTimestamp) {
@@ -75,9 +77,11 @@ public class IDGeneratorUtil {
 
     public static void main(String[] args) {
         IDGeneratorUtil idWorker = new IDGeneratorUtil(0, 0);
-        for (int i = 0; i < 1000; i++) {
-            long id = idWorker.nextId();
-            System.out.println(id);
-        }
+        IntStream.rangeClosed(1,1000).forEach(
+            index -> {
+                long id = idWorker.nextId();
+                System.out.println(id);
+            }
+        );
     }
 }

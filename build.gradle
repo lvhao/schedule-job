@@ -3,7 +3,10 @@ version = '1.0.0'
 
 buildscript {
     repositories {
-        mavenCentral()
+//        mavenCentral()
+        maven {
+            url 'http://uk.maven.org/maven2/'
+        }
     }
 
     dependencies {
@@ -16,6 +19,9 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 repositories {
+    maven {
+        url 'http://uk.maven.org/maven2/'
+    }
     mavenCentral()
 }
 

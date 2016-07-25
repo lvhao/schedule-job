@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 线程安全的方法耗时计算工具
- * FIXME 线程池模式??
+ *
  * @author: lvhao
  * @since: 2016-7-22 11:30
  */
@@ -23,9 +23,8 @@ public class ElapsedTimeUtils {
 
     private static class TimeHolder {
         private Map<String,Long> keyElapsedTime;
-        public TimeHolder(String key){
+        public TimeHolder(){
             keyElapsedTime = Maps.newHashMap();
-            this.start(key);
         }
 
         public boolean canRemoved(){
@@ -33,7 +32,9 @@ public class ElapsedTimeUtils {
         }
 
         public void start(String key){
-            keyElapsedTime.putIfAbsent(key,System.nanoTime());
+
+            // 统一线程内 相同key 直接覆盖
+            keyElapsedTime.put(key,System.nanoTime());
         }
 
         public long elapse(String key){
@@ -46,11 +47,10 @@ public class ElapsedTimeUtils {
     public static void time(String key){
         TimeHolder timeHolder = threadTimeHolder.get();
         if (Objects.isNull(timeHolder)) {
-            timeHolder = new TimeHolder(key);
+            timeHolder = new TimeHolder();
             threadTimeHolder.set(timeHolder);
-        } else {
-            timeHolder.start(key);
         }
+        timeHolder.start(key);
     }
 
     public static void timeEnd(String key){
