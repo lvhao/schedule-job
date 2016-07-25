@@ -1,8 +1,28 @@
+# 应用属性配置
 application:
   name: schedule-job
   version: v1.0.0
+
+# 服务端配置
 server:
   port: ${port:54321}
   contextPath: /
   compression:
     enabled: true
+
+# spring配置
+spring:
+  http:
+    encoding.charset: UTF-8
+    encoding.enable: true
+    encoding.force: true
+
+# MyBatis
+mybatis:
+  mapperLocations: classpath:/mapper/**/*Mapper.xml
+  configLocation: classpath:mybatis-config.xml
+
+# 日志配置
+logging:
+  path: /data0/log/
+  file: schedule.log

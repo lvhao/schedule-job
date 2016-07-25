@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.Map;
 
@@ -19,9 +20,40 @@ import java.util.Map;
 @Configuration
 public class TargetDataSourceConfig {
 
+    /**
+     * 从默认配置文件出读取db配置
+     * 此处需要写上classpath 否则无法找到资源 导致绑定失败
+     * 具体查看 查看如下方法
+     * {@link org.springframework.core.io.DefaultResourceLoader#getResource}
+     * @return
+     */
+    @Bean
+    @ConfigurationProperties(
+            locations= "classpath:/config/datasource.yaml",
+            prefix="datasource.default")
+    public DataSource defaultDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @ConfigurationProperties(
+            locations= "classpath:/config/datasource.yaml",
+            prefix="datasource.read")
+    public DataSource readDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @ConfigurationProperties(
+            locations= "classpath:/config/datasource.yaml",
+            prefix="datasource.write")
+    public DataSource writeDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
     // 组装db到Map
     // 注册到 DynamicDataSource的targetDataSources属性
-    @Bean
+    @PostConstruct
     public Map<Object,Object> getDataSourceMap() {
         Map<Object,Object> dataMap = Maps.newHashMap();
 
@@ -35,24 +67,5 @@ public class TargetDataSourceConfig {
                 AppConst.DbKey.WRITE
         );
         return dataMap;
-    }
-
-    // 从默认配置文件出读取db配置
-    @Bean
-    @ConfigurationProperties(locations= "config/datasource.yaml",prefix="datasource.default")
-    public DataSource defaultDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
-    @Bean
-    @ConfigurationProperties(locations= "config/datasource.yaml",prefix="datasource.read")
-    public DataSource readDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
-    @Bean
-    @ConfigurationProperties(locations= "config/datasource.yaml",prefix="datasource.write")
-    public DataSource writeDataSource() {
-        return DataSourceBuilder.create().build();
     }
 }
