@@ -33,7 +33,7 @@ public class ElapsedTimeUtils {
 
         public void start(String key){
 
-            // 统一线程内 相同key 直接覆盖
+            // 同一线程内 相同key 直接覆盖
             keyElapsedTime.put(key,System.nanoTime());
         }
 
