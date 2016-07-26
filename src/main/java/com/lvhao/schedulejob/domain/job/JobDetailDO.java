@@ -20,40 +20,40 @@ import java.util.stream.Collectors;
  * @author: lvhao
  * @since: 2016-6-23 20:43
  */
-public class JobWithTriggersDo {
+public class JobDetailDO {
 
     // job info
-    private JobDo jobDo;
+    private JobDO jobDO;
 
     // trigger info
-    private Set<TriggerDo> triggerDos;
+    private Set<TriggerDO> triggerDOs;
 
     // 处理job
     public transient Consumer<JobDetail> fillWithQuartzJobDetail = jd -> {
-        jobDo = new JobDo();
+        jobDO = new JobDO();
 
         // job
         JobKey jk = jd.getKey();
 
         // name group desc
-        BeanUtils.copyProperties(jk,jobDo);
-        jobDo.setTargetClass(jd.getJobClass().getCanonicalName());
+        BeanUtils.copyProperties(jk, jobDO);
+        jobDO.setTargetClass(jd.getJobClass().getCanonicalName());
 
         // ext
         JobDataMap jdm= jd.getJobDataMap();
         if (Objects.nonNull(jdm)) {
-            jobDo.setExtInfo(jdm.getWrappedMap());
+            jobDO.setExtInfo(jdm.getWrappedMap());
         }
 
-        this.setJobDo(jobDo);
+        this.setJobDO(jobDO);
     };
 
     // 处理triggers
     public transient Consumer<List<Trigger>> fillWithQuartzTriggers = trList -> {
 
         // triggers
-        Set<TriggerDo> tdSet = trList.stream().map(tr ->{
-            TriggerDo td = new TriggerDo();
+        Set<TriggerDO> tdSet = trList.stream().map(tr ->{
+            TriggerDO td = new TriggerDO();
             if (tr instanceof CronTrigger) {
                 CronTrigger ctr = (CronTrigger) tr;
                 td.setCronExpression(ctr.getCronExpression());
@@ -64,23 +64,23 @@ public class JobWithTriggersDo {
             td.setDescription(tr.getDescription());
             return td;
         }).collect(Collectors.toSet());
-        this.setTriggerDos(tdSet);
+        this.setTriggerDOs(tdSet);
     };
 
-    public JobDo getJobDo() {
-        return jobDo;
+    public JobDO getJobDO() {
+        return jobDO;
     }
 
-    public void setJobDo(JobDo jobDo) {
-        this.jobDo = jobDo;
+    public void setJobDO(JobDO jobDO) {
+        this.jobDO = jobDO;
     }
 
-    public Set<TriggerDo> getTriggerDos() {
-        return triggerDos;
+    public Set<TriggerDO> getTriggerDOs() {
+        return triggerDOs;
     }
 
-    public void setTriggerDos(Set<TriggerDo> triggerDos) {
-        this.triggerDos = triggerDos;
+    public void setTriggerDOs(Set<TriggerDO> triggerDOs) {
+        this.triggerDOs = triggerDOs;
     }
 
 }

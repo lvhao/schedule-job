@@ -7,11 +7,14 @@ import com.lvhao.schedulejob.config.datasource.DataSourceContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * 拦截所有service包下的类
@@ -24,23 +27,36 @@ import java.lang.reflect.Method;
 @Aspect
 public class TargetDataSourceAspect {
 
-    @Around("execution(* com.lvhao.schedulejob.service.*.*(..))")
-    public Object methodInvoke(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        TargetDataSource targetDataSource = null;
+    /**
+     * 任何public方法
+     */
+    @Pointcut(value = "execution(public * *(..))")
+    public void anyPublicMethod() {}
+
+    /**
+     * 任何标记了注解的类
+     * @param targetDataSource
+     */
+    @Pointcut(value = "@within(targetDataSource)", argNames = "targetDataSource")
+    public void annotationOnClass(TargetDataSource targetDataSource){}
+
+    @Around(
+        value = "anyPublicMethod() && annotationOnClass(targetDataSource)",
+        argNames = "proceedingJoinPoint,targetDataSource"
+    )
+    public Object methodInvoke(
+            ProceedingJoinPoint proceedingJoinPoint,
+            TargetDataSource targetDataSource) throws Throwable {
+        checkNotNull(targetDataSource,"@TargetDataSource为空");
         String dbKey = null;
-        Class<?> clazz = proceedingJoinPoint.getTarget().getClass();
         MethodSignature ms = (MethodSignature) proceedingJoinPoint.getSignature();
         Method method = ms.getMethod();
 
-        // 类上是否标注了注解
-        if(clazz.isAnnotationPresent(TargetDataSource.class)){
-            targetDataSource = clazz.getAnnotationsByType(TargetDataSource.class)[0];
-        }
-
-        // 标注了注解 TargetDataSource
+        // 方法是否标注了注解 TargetDataSource
         if(method.isAnnotationPresent(TargetDataSource.class)){
             targetDataSource = method.getDeclaredAnnotationsByType(TargetDataSource.class)[0];
         }
+
         dbKey = targetDataSource.value();
         if (!StringUtils.hasText(dbKey)) {
             dbKey = AppConst.DbKey.DEFAULT;

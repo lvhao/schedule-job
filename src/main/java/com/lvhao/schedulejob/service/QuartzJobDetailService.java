@@ -1,7 +1,7 @@
 package com.lvhao.schedulejob.service;
 
 import com.google.common.collect.Lists;
-import com.lvhao.schedulejob.domain.job.JobWithTriggersDo;
+import com.lvhao.schedulejob.domain.job.JobDetailDO;
 import org.quartz.CronTrigger;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -33,33 +33,33 @@ public class QuartzJobDetailService extends BaseService {
     private Scheduler scheduler;
 
     // 任务列表
-    public List<JobWithTriggersDo> queryJobList(){
-        List<JobWithTriggersDo> jobWithTriggersDoList = Lists.newArrayList();
+    public List<JobDetailDO> queryJobList(){
+        List<JobDetailDO> jobDetailDOs = Lists.newArrayList();
 
         // 数据处理
-        Function<Set<JobKey>,List<JobWithTriggersDo>> copyPropFun = jbst -> {
-            List<JobWithTriggersDo> jddList = Lists.newArrayList();
+        Function<Set<JobKey>,List<JobDetailDO>> copyPropFun = jbst -> {
+            List<JobDetailDO> jddList = Lists.newArrayList();
             jddList = jbst.stream().map(jk ->{
                 JobDetail jd = null;
                 List<Trigger> trList = this.getTriggerByKey(jk);
                 jd = this.getJobDetailByKey(jk);
 
                 // jobDetail
-                JobWithTriggersDo jobWithTriggersDo = new JobWithTriggersDo();
-                jobWithTriggersDo.fillWithQuartzJobDetail.accept(jd);
-                jobWithTriggersDo.fillWithQuartzTriggers.accept(trList);
-                return jobWithTriggersDo;
+                JobDetailDO jobDetailDO = new JobDetailDO();
+                jobDetailDO.fillWithQuartzJobDetail.accept(jd);
+                jobDetailDO.fillWithQuartzTriggers.accept(trList);
+                return jobDetailDO;
             }).collect(Collectors.toList());
             return jddList;
         };
 
         try {
             Set<JobKey> jobSet = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-            jobWithTriggersDoList = copyPropFun.apply(jobSet);
+            jobDetailDOs = copyPropFun.apply(jobSet);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
-        return jobWithTriggersDoList;
+        return jobDetailDOs;
     }
 
     /**
@@ -67,24 +67,24 @@ public class QuartzJobDetailService extends BaseService {
      * @param jobKey
      * @return
      */
-    public JobWithTriggersDo queryByKey(JobKey jobKey){
-        JobWithTriggersDo jobWithTriggersDo = new JobWithTriggersDo();
+    public JobDetailDO queryByKey(JobKey jobKey){
+        JobDetailDO jobDetailDO = new JobDetailDO();
         JobDetail jobDetail = this.getJobDetailByKey(jobKey);
         if (Objects.nonNull(jobDetail)) {
             List<Trigger> triggerList = this.getTriggerByKey(jobKey);
-            jobWithTriggersDo.fillWithQuartzJobDetail.accept(jobDetail);
-            jobWithTriggersDo.fillWithQuartzTriggers.accept(triggerList);
+            jobDetailDO.fillWithQuartzJobDetail.accept(jobDetail);
+            jobDetailDO.fillWithQuartzTriggers.accept(triggerList);
         }
-        return jobWithTriggersDo;
+        return jobDetailDO;
     }
 
     /**
      * 添加任务
-     * @param jobWithTriggersDo
+     * @param jobDetailDO
      */
-    public boolean add(JobWithTriggersDo jobWithTriggersDo) {
-        JobDetail jobDetail = jobWithTriggersDo.getJobDo().convert2QuartzJobDetail();
-        Set<CronTrigger> triggerSet = jobWithTriggersDo.getTriggerDos().stream().map(jtd ->
+    public boolean add(JobDetailDO jobDetailDO) {
+        JobDetail jobDetail = jobDetailDO.getJobDO().convert2QuartzJobDetail();
+        Set<CronTrigger> triggerSet = jobDetailDO.getTriggerDOs().stream().map(jtd ->
             jtd.convert2QuartzTrigger(jobDetail)
         ).collect(Collectors.toSet());
 

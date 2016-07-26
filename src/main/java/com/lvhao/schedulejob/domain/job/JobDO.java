@@ -17,8 +17,8 @@ import java.util.Set;
  * @author: lvhao
  * @since: 2016-6-23 20:59
  */
-public class JobDo {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(JobDo.class);
+public class JobDO {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(JobDO.class);
     private static final Set<String> supportExtFields = new HashSet<String>(){
         {
             add("type");    // AppConst.JobType
@@ -97,7 +97,7 @@ public class JobDo {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("JobDo{");
+        final StringBuffer sb = new StringBuffer("JobDO{");
         sb.append("name='").append(name).append('\'');
         sb.append(", group='").append(group).append('\'');
         sb.append(", targetClass='").append(targetClass).append('\'');

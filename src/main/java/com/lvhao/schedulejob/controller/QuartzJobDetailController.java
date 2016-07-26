@@ -2,7 +2,7 @@ package com.lvhao.schedulejob.controller;
 
 import com.lvhao.schedulejob.common.Response;
 import com.lvhao.schedulejob.common.RetCodeConst;
-import com.lvhao.schedulejob.domain.job.JobWithTriggersDo;
+import com.lvhao.schedulejob.domain.job.JobDetailDO;
 import com.lvhao.schedulejob.service.QuartzJobDetailService;
 import com.lvhao.schedulejob.util.ResponseBuilder;
 import com.google.common.collect.Lists;
@@ -32,11 +32,11 @@ public class QuartzJobDetailController {
      * @return
      */
     @GetMapping
-    public Response<List<JobWithTriggersDo>> list(){
-        List<JobWithTriggersDo> jobWithTriggersDoList = quartzJobDetailService.queryJobList();
+    public Response<List<JobDetailDO>> list(){
+        List<JobDetailDO> jobDetailDOs = quartzJobDetailService.queryJobList();
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
-                .withData(jobWithTriggersDoList)
+                .withData(jobDetailDOs)
                 .build();
     }
 
@@ -47,25 +47,25 @@ public class QuartzJobDetailController {
      * @return
      */
     @GetMapping("/{group}/{name}")
-    public Response<JobWithTriggersDo> queryByJobKey(
+    public Response<JobDetailDO> queryByJobKey(
             @PathVariable String name,
             @PathVariable String group){
         JobKey jobKey = new JobKey(name,group);
-        JobWithTriggersDo jobWithTriggersDo = quartzJobDetailService.queryByKey(jobKey);
+        JobDetailDO jobDetailDO = quartzJobDetailService.queryByKey(jobKey);
         return ResponseBuilder.newResponse()
                 .withRetCode(RetCodeConst.OK)
-                .withData(jobWithTriggersDo)
+                .withData(jobDetailDO)
                 .build();
     }
 
     /**
      * 添加任务
-     * @param jobWithTriggersDo
+     * @param jobDetailDO
      * @return
      */
     @PostMapping
-    public Response add(@RequestBody JobWithTriggersDo jobWithTriggersDo){
-        boolean result = quartzJobDetailService.add(jobWithTriggersDo);
+    public Response add(@RequestBody JobDetailDO jobDetailDO){
+        boolean result = quartzJobDetailService.add(jobDetailDO);
         return ResponseBuilder.newResponse()
                 .determineRetCodeByRetValue(result)
                 .build();

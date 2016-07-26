@@ -6,7 +6,7 @@ package com.lvhao.schedulejob.domain;
  * @author: lvhao
  * @since: 2016-4-12 12:06
  */
-public class TicketDo {
+public class TicketDO {
     private int id;
     private String name;
     private int quantityOfStocks;
@@ -37,7 +37,7 @@ public class TicketDo {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("TicketDo{");
+        final StringBuffer sb = new StringBuffer("TicketDO{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append(", quantityOfStocks=").append(quantityOfStocks);

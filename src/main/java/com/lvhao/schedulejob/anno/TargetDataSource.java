@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * @since: 2016-4-15 11:22
  */
 @Documented
-@Inherited  // 指定注解可继承
+@Inherited  // 声明注解可继承
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE,ElementType.METHOD})
 public @interface TargetDataSource {

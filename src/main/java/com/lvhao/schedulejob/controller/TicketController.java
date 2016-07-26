@@ -1,7 +1,7 @@
 package com.lvhao.schedulejob.controller;
 
 import com.lvhao.schedulejob.common.Response;
-import com.lvhao.schedulejob.domain.TicketDo;
+import com.lvhao.schedulejob.domain.TicketDO;
 import com.lvhao.schedulejob.service.TicketService;
 import com.lvhao.schedulejob.util.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class TicketController {
     }
 
     @GetMapping("/list")
-    public List<TicketDo> queryList(){
+    public List<TicketDO> queryList(){
         return ticketService.queryList();
     }
 
@@ -38,8 +38,8 @@ public class TicketController {
     }
 
     @PostMapping("/update")
-    public Response updateTicket(@RequestBody TicketDo ticketDo){
-        ticketService.updateStock(ticketDo.getId());
+    public Response updateTicket(@RequestBody TicketDO ticketDO){
+        ticketService.updateStock(ticketDO.getId());
         return ResponseBuilder.newResponse().build();
     }
 }

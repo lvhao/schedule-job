@@ -17,7 +17,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * @author: lvhao
  * @since: 2016-6-23 20:59
  */
-public class TriggerDo {
+public class TriggerDO {
 
     // trigger info
     private String name;
@@ -75,7 +75,7 @@ public class TriggerDo {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("TriggerDo{");
+        final StringBuffer sb = new StringBuffer("TriggerDO{");
         sb.append("name='").append(name).append('\'');
         sb.append(", group='").append(group).append('\'');
         sb.append(", cronExpression='").append(cronExpression).append('\'');
