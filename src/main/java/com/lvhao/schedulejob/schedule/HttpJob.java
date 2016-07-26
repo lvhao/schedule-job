@@ -7,7 +7,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -18,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Objects;
 
@@ -47,7 +45,7 @@ public class HttpJob implements Job {
     public static Request buildRequest(String method,String url,String jsonParams){
         Request.Builder builder = new Request.Builder();
         Request request = null;
-        if (Objects.equals(method.toUpperCase(), AppConst.HttpMethod.GET)) {
+        if (Objects.equals(method, AppConst.HttpMethod.GET)) {
             request = builder.url(url)
                     .get()
                     .build();
@@ -71,20 +69,20 @@ public class HttpJob implements Job {
         Request request = buildRequest(method,url,jsonStr);
         Response response = null;
         ElapsedTimeUtils.time(uniqueKey);
-        ResponseBody responseBody = null;
+        String result = null;
         try {
             response = okHttpClient.newCall(request).execute();
             if (Objects.nonNull(response)) {
-                responseBody = response.body();
+                result = response.body().string();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("http调用出错",e);
         } finally {
             log.info("method:{} | url:{} | params:{} | resp: {}",new Object[]{
                 method,
                 url,
                 jsonStr,
-                Objects.nonNull(responseBody) ? responseBody.toString() : ""
+                result
             });
             response.close();
             ElapsedTimeUtils.timeEnd(uniqueKey);

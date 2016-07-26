@@ -24,5 +24,4 @@ mybatis:
 
 # 日志配置
 logging:
-  path: /data0/log/
-  file: schedule.log
+  path: F:\
