@@ -10,12 +10,21 @@ buildscript {
 
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.6.RELEASE")
+        classpath ('org.springframework:springloaded:1.2.6.RELEASE')
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+
+// hot swapping
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("${buildDir}/classes/main/")
+    }
+}
 
 repositories {
     maven {
@@ -47,6 +56,7 @@ jar {
 // clean bootRepackage 打jar包
 springBoot {
     mainClass = "com.lvhao.schedulejob.AppMain"
+    layout = "JAR"
 }
 
 configurations {

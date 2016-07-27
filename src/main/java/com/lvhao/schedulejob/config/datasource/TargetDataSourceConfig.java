@@ -23,13 +23,13 @@ public class TargetDataSourceConfig {
     /**
      * 从默认配置文件出读取db配置
      * 此处需要写上classpath 否则无法找到资源 导致绑定失败
-     * 具体查看 查看如下方法
+     * 具体查看如下方法
      * {@link org.springframework.core.io.DefaultResourceLoader#getResource}
      * @return
      */
     @Bean
     @ConfigurationProperties(
-            locations= "classpath:/config/datasource.yaml",
+            locations= "classpath:/config/datasource.yml",
             prefix="datasource.default")
     public DataSource defaultDataSource() {
         return DataSourceBuilder.create().build();
@@ -37,7 +37,7 @@ public class TargetDataSourceConfig {
 
     @Bean
     @ConfigurationProperties(
-            locations= "classpath:/config/datasource.yaml",
+            locations= "classpath:/config/datasource.yml",
             prefix="datasource.read")
     public DataSource readDataSource() {
         return DataSourceBuilder.create().build();
@@ -45,7 +45,7 @@ public class TargetDataSourceConfig {
 
     @Bean
     @ConfigurationProperties(
-            locations= "classpath:/config/datasource.yaml",
+            locations= "classpath:/config/datasource.yml",
             prefix="datasource.write")
     public DataSource writeDataSource() {
         return DataSourceBuilder.create().build();

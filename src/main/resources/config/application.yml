@@ -22,6 +22,6 @@ mybatis:
   mapperLocations: classpath:/mapper/**/*Mapper.xml
   configLocation: classpath:mybatis-config.xml
 
-# 日志配置
-logging:
-  path: F:\
+# logback config
+# You cannot use extensions in the standard logback.xml configuration file since it’s loaded too early.
+# You need to either use logback-spring.xml or define a logging.config property.

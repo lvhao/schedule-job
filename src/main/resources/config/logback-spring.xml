@@ -14,7 +14,7 @@
         <encoding>UTF-8</encoding>
         <file>${LOG_PATH}/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LogPath}/error.log_%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/error.log_%d{yyyy-MM-dd}.%i</fileNamePattern>
             <maxHistory>10</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -71,13 +71,10 @@
 
     <logger name="com.lvhao.schedulejob.schedule.HttpJob" level="INFO" additivity="false">
         <appender-ref ref="HTTP_JOB_APPENDER"/>
-        <appender-ref ref="INFO_APPENDER"/>
-        <appender-ref ref="ERROR_LOG_APPENDER"/>
     </logger>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE_APPENDER"/>
-        <appender-ref ref="HTTP_JOB_APPENDER"/>
         <appender-ref ref="INFO_APPENDER"/>
         <appender-ref ref="ERROR_LOG_APPENDER"/>
     </root>

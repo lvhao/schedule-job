@@ -53,9 +53,9 @@ datasource:
 spring:
   profiles: test
 dbServer:
-  default: localhost:3307
-  read: localhost:3307
-  write: localhost:3307
+  default: localhost:3306
+  read: localhost:3306
+  write: localhost:3306
 
 datasource:
   default:
@@ -99,14 +99,14 @@ datasource:
 
 ---
 ###################################
-# 线上数据库地址 product
+# 线上数据库地址 production
 ###################################
 spring:
-  profiles: product
+  profiles: production
 dbServer:
-  default: localhost:3308
-  read: localhost:3308
-  write: localhost:3308
+  default: localhost:3306
+  read: localhost:3306
+  write: localhost:3306
 
 datasource:
   default:
