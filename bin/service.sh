@@ -6,16 +6,16 @@
 # support simple start, sotp, restart actions
 # author: lvhao
 
-# required jdk1.8+
+# require jdk1.8+
 EXPORT JAVA_HOME=xxxx
 EXPORT CLASSPATH=yyyy
 
 # production database config
-SPRING_CONFIG_LOCATION=datasource.yml
-SPRING_PROFILES_ACTIVE=production
+EXPORT SPRING_CONFIG_LOCATION=datasource.yml
+EXPORT SPRING_PROFILES_ACTIVE=production
 
 #log path
-LOG_PATH=/zzz
+EXPORT LOG_PATH=/zzz
 
 log()
 {

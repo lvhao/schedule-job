@@ -1,3 +1,12 @@
+#####################################
+# 具体配置 可以参考
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+#####################################
+# banner
+banner:
+  charset: UTF-8
+  location: classpath:banner.txt
+
 # 应用属性配置
 application:
   name: schedule-job
@@ -13,9 +22,21 @@ server:
 # spring配置
 spring:
   http:
-    encoding.charset: UTF-8
-    encoding.enable: true
-    encoding.force: true
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+  mvc:
+    favicon:
+      enabled: false
+
+# multipart 配置
+multipart:
+  enabled: true
+  file-size-threshold: 0
+  location: /
+  max-file-size: 1Mb
+  max-request-size: 10Mb
 
 # MyBatis
 mybatis:
