@@ -11,7 +11,6 @@
 
     <!-- 错误日志输出 -->
     <appender name="ERROR_LOG_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <encoding>UTF-8</encoding>
         <file>${LOG_PATH}/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH}/error.log_%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -31,7 +30,6 @@
 
     <!-- 普通日志输出 -->
     <appender name="INFO_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <encoding>UTF-8</encoding>
         <file>${LOG_PATH}/all.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH}/all.log_%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -51,7 +49,6 @@
 
     <!-- http job 调用-->
     <appender name="HTTP_JOB_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <encoding>UTF-8</encoding>
         <file>${LOG_PATH}/http_job.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH}/http_job.log_%d{yyyy-MM-dd}.%i</fileNamePattern>

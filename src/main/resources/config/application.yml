@@ -29,6 +29,8 @@ spring:
   mvc:
     favicon:
       enabled: false
+  profiles:
+    include: db_common
 
 # multipart 配置
 multipart:
@@ -46,3 +48,10 @@ mybatis:
 # logback config
 # You cannot use extensions in the standard logback.xml configuration file since it’s loaded too early.
 # You need to either use logback-spring.xml or define a logging.config property.
+logging:
+  config: classpath:config/logback.xml
+
+  # Used in default log configuration if defined.
+#  file: schelude.log
+#  path: /
+
