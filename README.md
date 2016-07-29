@@ -5,7 +5,7 @@
 > * HTTP接口调用使用 __OKhttp3__ 替代了 HttpClient。
 > * __Thrift__ 调用实现了client池化管理。
 > * 数据持久层集成 __Mybatis__ 
-> * 使用自定义注解 __@TargetDataSource__ 实现了数据库读写分离。
+> * 使用自定义注解 __@TargetDataSource__ 实现了多数据源动态切换，支持数据库读写分离。
 
 ##### 项目目标
 * 该项目计划实现通过HTTP接口，动态管理基于Http和Thrift调用的Quartz任务(任务的 添加、查询、禁用、启用、触发)。
