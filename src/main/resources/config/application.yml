@@ -48,6 +48,9 @@ mybatis:
 # logback config
 # You cannot use extensions in the standard logback.xml configuration file since it’s loaded too early.
 # You need to either use logback-spring.xml or define a logging.config property.
+# path不以'/'开头时，默认是从此类所在的包下取资源；
+# path以'/'开头时，则是从项目的ClassPath根下获取资源。在这里'/'表示ClassPath
+# Class.getResource和ClassLoader.getResource的区别
 logging:
   config: classpath:config/logback.xml
 

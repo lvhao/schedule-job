@@ -19,10 +19,10 @@ dbServer:
 
 ---
 ###################################
-# 线上数据库地址 production
+# 线上数据库地址 prod
 ###################################
 spring:
-  profiles: production
+  profiles: prod
 dbServer:
   default: localhost:3306
   read: localhost:3306
@@ -45,6 +45,8 @@ datasource:
     maximum-pool-size: 5
     minimum-idle: 2
     idle-timeout: 600000
+    destroy-method: shutdown
+    auto-commit: false
 
   read:
     type: com.zaxxer.hikari.HikariDataSource
@@ -58,6 +60,8 @@ datasource:
     maximum-pool-size: 5
     minimum-idle: 2
     idle-timeout: 600000
+    destroy-method: shutdown
+    auto-commit: false
 
   write:
     type: com.zaxxer.hikari.HikariDataSource
@@ -71,3 +75,5 @@ datasource:
     maximum-pool-size: 5
     minimum-idle: 2
     idle-timeout: 600000
+    destroy-method: shutdown
+    auto-commit: false

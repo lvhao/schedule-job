@@ -1,15 +1,22 @@
 package com.lvhao.schedulejob.controller;
 
+import com.google.common.collect.Lists;
 import com.lvhao.schedulejob.common.Response;
 import com.lvhao.schedulejob.common.RetCodeConst;
 import com.lvhao.schedulejob.domain.job.JobDetailDO;
 import com.lvhao.schedulejob.service.QuartzJobDetailService;
+import com.lvhao.schedulejob.util.PageBuilder;
 import com.lvhao.schedulejob.util.ResponseBuilder;
-import com.google.common.collect.Lists;
 import org.quartz.JobKey;
 import org.quartz.core.jmx.JobDataMapSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +42,7 @@ public class QuartzJobDetailController {
     public Response<List<JobDetailDO>> list(){
         List<JobDetailDO> jobDetailDOs = quartzJobDetailService.queryJobList();
         return ResponseBuilder.newResponse()
+                .wittPage(PageBuilder.DEFAULT_PAGE_INFO)
                 .withRetCode(RetCodeConst.OK)
                 .withData(jobDetailDOs)
                 .build();
@@ -67,7 +75,7 @@ public class QuartzJobDetailController {
     public Response add(@RequestBody JobDetailDO jobDetailDO){
         boolean result = quartzJobDetailService.add(jobDetailDO);
         return ResponseBuilder.newResponse()
-                .determineRetCodeByRetValue(result)
+                .withRetCodeBy(result)
                 .build();
     }
 
@@ -87,7 +95,7 @@ public class QuartzJobDetailController {
         );
         boolean result = quartzJobDetailService.remove(jobKeys);
         return ResponseBuilder.newResponse()
-                .determineRetCodeByRetValue(result)
+                .withRetCodeBy(result)
                 .build();
     }
 
@@ -101,7 +109,7 @@ public class QuartzJobDetailController {
             JobDataMapSupport.newJobDataMap(jobData)
         );
         return ResponseBuilder.newResponse()
-                .determineRetCodeByRetValue(result)
+                .withRetCodeBy(result)
                 .build();
     }
 }

@@ -66,8 +66,30 @@
         </filter>
     </appender>
 
+    <!--方法调用耗时统计-->
+    <appender name="CONSUME_TIME_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/consume_time.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/consume_time.log_%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%-3p] - [%c{1}:%L] - %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
     <logger name="com.lvhao.schedulejob.schedule.HttpJob" level="INFO" additivity="false">
         <appender-ref ref="HTTP_JOB_APPENDER"/>
+    </logger>
+    <logger name="com.lvhao.schedulejob.util.ElapsedTimeUtils" level="INFO" additivity="false">
+        <appender-ref ref="CONSUME_TIME_APPENDER"/>
     </logger>
 
     <root level="INFO">

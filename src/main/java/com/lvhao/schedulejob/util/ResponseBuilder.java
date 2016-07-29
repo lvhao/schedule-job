@@ -1,5 +1,6 @@
 package com.lvhao.schedulejob.util;
 
+import com.lvhao.schedulejob.common.Page;
 import com.lvhao.schedulejob.common.Response;
 import com.lvhao.schedulejob.common.RetCode;
 import com.lvhao.schedulejob.common.RetCodeConst;
@@ -21,11 +22,10 @@ public final class ResponseBuilder<T> {
         instance.resp = new Response();
         instance.resp.setRetCode(RetCodeConst.UN_KNOWN);
         instance.resp.setData(new Object());
-        instance.resp.setPage(PageBuilder.DEFAULT_PAGE_INFO);
         return instance;
     }
 
-    public ResponseBuilder<T> determineRetCodeByRetValue(boolean isInvokedSuccessfully){
+    public ResponseBuilder<T> withRetCodeBy(boolean isInvokedSuccessfully){
         return isInvokedSuccessfully
                 ? withRetCode(RetCodeConst.OK)
                 : withRetCode(RetCodeConst.RPC_ERROR);
@@ -33,6 +33,11 @@ public final class ResponseBuilder<T> {
 
     public ResponseBuilder<T> withRetCode(RetCode retCode){
         this.resp.setRetCode(retCode);
+        return this;
+    }
+
+    public ResponseBuilder<T> wittPage(Page page){
+        this.resp.setPage(page);
         return this;
     }
 
