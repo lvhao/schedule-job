@@ -29,7 +29,7 @@ public class TargetDataSourceConfig {
      */
     @Bean
     @ConfigurationProperties(
-            locations= "classpath:/config/datasource.yml",
+            locations= "classpath:config/datasource.yml",
             prefix="datasource.default")
     public DataSource defaultDataSource() {
         return DataSourceBuilder.create().build();
@@ -37,7 +37,7 @@ public class TargetDataSourceConfig {
 
     @Bean
     @ConfigurationProperties(
-            locations= "classpath:/config/datasource.yml",
+            locations= "classpath:config/datasource.yml",
             prefix="datasource.read")
     public DataSource readDataSource() {
         return DataSourceBuilder.create().build();
@@ -45,7 +45,7 @@ public class TargetDataSourceConfig {
 
     @Bean
     @ConfigurationProperties(
-            locations= "classpath:/config/datasource.yml",
+            locations= "classpath:config/datasource.yml",
             prefix="datasource.write")
     public DataSource writeDataSource() {
         return DataSourceBuilder.create().build();
