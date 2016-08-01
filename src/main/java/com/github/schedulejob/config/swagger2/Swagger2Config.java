@@ -33,7 +33,7 @@ public class Swagger2Config {
         Contact contact = new Contact("lvhao","http://localhost:54321/","lvhao127@gmail.com");
         return new ApiInfoBuilder()
                 .title("Quartz API 文档")
-                .description("Quartz API 先关文档")
+                .description("Quartz API 相关文档")
                 .termsOfServiceUrl("http://localhost:54321/")
                 .contact(contact)
                 .version("v1.0.0")
