@@ -54,7 +54,7 @@ mybatis:
 logging:
   config: classpath:config/logback.xml
 
-  # Used in default log configuration if defined.
+# Used in default log configuration if defined.
 #  file: schelude.log
 #  path: /
 

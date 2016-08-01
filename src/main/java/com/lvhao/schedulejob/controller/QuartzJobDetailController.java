@@ -7,6 +7,12 @@ import com.lvhao.schedulejob.domain.job.JobDetailDO;
 import com.lvhao.schedulejob.service.QuartzJobDetailService;
 import com.lvhao.schedulejob.util.PageBuilder;
 import com.lvhao.schedulejob.util.ResponseBuilder;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.quartz.JobKey;
 import org.quartz.core.jmx.JobDataMapSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +33,7 @@ import java.util.Map;
  * @author: lvhao
  * @since: 2016-6-23 20:18
  */
+@Api("quartz 任务API")
 @RestController
 @RequestMapping("/jobs")
 public class QuartzJobDetailController {
@@ -34,10 +41,15 @@ public class QuartzJobDetailController {
     @Autowired
     private QuartzJobDetailService quartzJobDetailService;
 
-    /**
-     * 任务列表
-     * @return
-     */
+    @ApiOperation("获取任务列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "query",name = "index",dataType = "int"),
+        @ApiImplicitParam(paramType = "query",name = "size",dataType = "int")
+    })
+    @ApiResponses({
+        @ApiResponse(code=400,message="请求参数没填好"),
+        @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
+    })
     @GetMapping
     public Response<List<JobDetailDO>> list(){
         List<JobDetailDO> jobDetailDOs = quartzJobDetailService.queryJobList();
@@ -48,12 +60,14 @@ public class QuartzJobDetailController {
                 .build();
     }
 
-    /**
-     * 查询指定jobKey jobDetail
-     * @param name
-     * @param group
-     * @return
-     */
+    @ApiOperation("查询指定jobKey jobDetail")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType="path",name="group",value="组名",dataType = "string"),
+        @ApiImplicitParam(paramType="path",name="name",value="名称",dataType = "string")
+    })
+    @ApiResponses({
+        @ApiResponse(code=200, message = "",response = Response.class)
+    })
     @GetMapping("/{group}/{name}")
     public Response<JobDetailDO> queryByJobKey(
             @PathVariable String name,

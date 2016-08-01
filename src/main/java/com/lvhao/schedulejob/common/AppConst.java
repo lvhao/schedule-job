@@ -13,6 +13,12 @@ public class AppConst {
         public static final String READ = "read";
     }
 
+    public static final class DbProfile {
+        public static final String DEFAULT = "default";
+        public static final String TEST = "test";
+        public static final String PROD = "prod";
+    }
+
     public static final class HttpMethod {
         public static final String GET = "get";
         public static final String POST = "post";

@@ -2,6 +2,7 @@
 ##### 项目基于 __jdk1.8__ 采用 __Spring Boot__ 框架
 > * 集成了分布式任务调度框架 __Quartz__
 > * 使用SpringMVC作为路由控制，JSON 数据解析使用 __fastjson__ 替换了 jackson。
+> * 集成 __Swagger2__ 提供实时式文档 
 > * HTTP接口调用使用 __OKhttp3__ 替代了 HttpClient。
 > * __Thrift__ 调用实现了client池化管理。
 > * 数据持久层集成 __Mybatis__ 

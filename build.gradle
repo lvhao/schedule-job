@@ -2,7 +2,7 @@ group 'com.lvhao'
 
 buildscript {
     repositories {
-//        mavenCentral()
+        mavenCentral()
         maven {
             url 'http://uk.maven.org/maven2/'
         }
@@ -81,6 +81,10 @@ dependencies {
     compile("org.springframework:spring-webmvc:${springVersion}")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-aop:${springBootVersion}")
+
+    // swagger2
+    compile ('io.springfox:springfox-swagger2:2.5.0')
+    compile ('io.springfox:springfox-swagger-ui:2.5.0')
 
     // fastjson
     compile("com.alibaba:fastjson:1.2.13")
