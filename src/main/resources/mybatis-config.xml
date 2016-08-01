@@ -3,6 +3,6 @@
 
 <configuration>
     <typeAliases>
-        <typeAlias alias="ticketPO" type="com.lvhao.schedulejob.po.TicketPO" />
+        <typeAlias alias="ticketPO" type="com.github.schedulejob.po.TicketPO" />
     </typeAliases>
 </configuration>

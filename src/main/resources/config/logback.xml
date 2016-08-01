@@ -85,10 +85,10 @@
         </filter>
     </appender>
 
-    <logger name="com.lvhao.schedulejob.schedule.HttpJob" level="INFO" additivity="false">
+    <logger name="com.github.schedulejob.schedule.HttpJob" level="INFO" additivity="false">
         <appender-ref ref="HTTP_JOB_APPENDER"/>
     </logger>
-    <logger name="com.lvhao.schedulejob.util.ElapsedTimeUtils" level="INFO" additivity="false">
+    <logger name="com.github.schedulejob.util.ElapsedTimeUtils" level="INFO" additivity="false">
         <appender-ref ref="CONSUME_TIME_APPENDER"/>
     </logger>
 

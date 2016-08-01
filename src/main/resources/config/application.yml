@@ -26,6 +26,8 @@ spring:
       enabled: true
       charset: UTF-8
       force: true
+    converters:
+      preferred-json-mapper: true
   mvc:
     favicon:
       enabled: false

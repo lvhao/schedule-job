@@ -17,7 +17,7 @@
     "description": "测试心跳检测",
     "group": "TEST_HTTP_JOB",
     "name": "test_heart_beat",
-    "targetClass": "com.lvhao.schedulejob.schedule.HttpJob",
+    "targetClass": "com.github.schedulejob.schedule.HttpJob",
     "extInfo": {
       "type": "http_job",
       "method": "get",

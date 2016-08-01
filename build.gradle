@@ -1,4 +1,4 @@
-group 'com.lvhao'
+group 'com.github'
 
 buildscript {
     repositories {
@@ -27,10 +27,10 @@ idea {
 }
 
 repositories {
+    mavenCentral()
     maven {
         url 'http://uk.maven.org/maven2/'
     }
-    mavenCentral()
 }
 
 compileJava {
@@ -55,12 +55,11 @@ jar {
 
 // clean bootRepackage 打jar包
 springBoot {
-    mainClass = "com.lvhao.schedulejob.AppMain"
+    mainClass = "com.github.schedulejob.AppMain"
     layout = "JAR"
 }
 
 configurations {
-    compile.exclude group:'com.fasterxml.jackson.core'
     compile.exclude group:'log4j.log4j'
     compile.exclude group:'com.mchange'
     compile.exclude group:'c3p0'

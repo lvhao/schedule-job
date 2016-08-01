@@ -1,4 +1,4 @@
-namespace java com.lvhao.schedulejob.thrift.protocol
+namespace java com.github.schedulejob.thrift.protocol
 
 struct TReq{
     1:required i32 seq;
