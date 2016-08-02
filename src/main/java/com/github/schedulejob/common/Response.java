@@ -1,5 +1,7 @@
 package com.github.schedulejob.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * 返回码
  *
@@ -10,6 +12,8 @@ public class Response<T> {
 
     private T data;
     private RetCode retCode;
+
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private Page page;
 
     public T getData() {

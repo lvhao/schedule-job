@@ -1,6 +1,6 @@
 package com.github.schedulejob.util;
 
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.schedulejob.common.RetCode;
 import com.github.schedulejob.common.Response;
 import com.github.schedulejob.common.RetCodeConst;
@@ -77,11 +77,11 @@ public class ResponseUtils {
      * @return
      */
     private static <L,R> L handleJsonResp(R resp,Predicate<R> retCodeJudge){
-        JSONObject jsonObject = (JSONObject) resp;
+        JsonNode jsonNode = (JsonNode) resp;
         RetCode customCode = RetCodeConst.ERROR;
 
-        Optional<String> codeOptional = getJsonFieldValue(jsonObject, FieldType.RET_CODE);
-        Optional<String> msgOptional = getJsonFieldValue(jsonObject, FieldType.RET_MSG);
+        Optional<String> codeOptional = getJsonFieldValue(jsonNode, FieldType.RET_CODE);
+        Optional<String> msgOptional = getJsonFieldValue(jsonNode, FieldType.RET_MSG);
         Integer code = codeOptional.map(Integer::new).orElse(Integer.MIN_VALUE);
         String msg = msgOptional.orElse("未找到msg相关字段或者msg为空");
 
@@ -141,7 +141,7 @@ public class ResponseUtils {
         if(Objects.isNull(resp)){
             return (L) buildSpecialBizStatusByClazz(LOCAL_RESPONSE_CLASS,RetCodeConst.ERROR);
         }
-        return  (resp instanceof JSONObject)
+        return  (resp instanceof JsonNode)
                 ? handleJsonResp(resp, retCodeJudge)
                 : handleThriftResp(resp, retCodeJudge);
     }
@@ -161,25 +161,25 @@ public class ResponseUtils {
         if(Objects.isNull(resp)){
             return (L) buildSpecialBizStatusByClazz(LOCAL_RESPONSE_CLASS,RetCodeConst.ERROR);
         }
-        return  (resp instanceof JSONObject)
+        return  (resp instanceof JsonNode)
                 ? handleJsonResp(resp, null)
                 : handleThriftResp(resp,null);
     }
 
     /**
      * 获取指定json字段值
-     * @param jo
+     * @param jn
      * @param fieldType
      * @return
      */
-    private static Optional<String> getJsonFieldValue(JSONObject jo, FieldType fieldType){
+    private static Optional<String> getJsonFieldValue(JsonNode jn, FieldType fieldType){
         Set<String> supportedNameSet = fieldType.supportedSet;
         List<String> results = supportedNameSet.stream()
-                .filter(name -> jo.containsKey(name))
+                .filter(name -> jn.has(name))
                 .collect(Collectors.toList());
         return results.isEmpty()
                 ? Optional.empty()
-                : Optional.ofNullable(jo.getString(results.get(0)));
+                : Optional.ofNullable(jn.get(results.get(0)).asText());
     }
 
     /**

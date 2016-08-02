@@ -64,7 +64,6 @@ public class TargetDataSourceConfig {
      * {@link org.springframework.core.io.DefaultResourceLoader#getResource}
      * @return
      */
-    @Profile(AppConst.DbProfile.DEFAULT)
     @Bean
     @ConfigurationProperties(
             locations= {DEV_CONF},
@@ -73,7 +72,6 @@ public class TargetDataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Profile(AppConst.DbProfile.DEFAULT)
     @Bean
     @ConfigurationProperties(
             locations= {DEV_CONF},
@@ -82,7 +80,6 @@ public class TargetDataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Profile(AppConst.DbProfile.DEFAULT)
     @Bean
     @ConfigurationProperties(
             locations= {DEV_CONF},
@@ -94,7 +91,6 @@ public class TargetDataSourceConfig {
     ////////////////////////////////////////////////////
     //  test 环境配置文件
     ////////////////////////////////////////////////////
-    @Profile(AppConst.DbProfile.TEST)
     @Bean
     @ConfigurationProperties(
             locations= {TEST_CONF},
@@ -103,7 +99,6 @@ public class TargetDataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Profile(AppConst.DbProfile.TEST)
     @Bean
     @ConfigurationProperties(
             locations= {TEST_CONF},
@@ -112,7 +107,6 @@ public class TargetDataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Profile(AppConst.DbProfile.TEST)
     @Bean
     @ConfigurationProperties(
             locations= {TEST_CONF},
@@ -124,7 +118,6 @@ public class TargetDataSourceConfig {
     ////////////////////////////////////////////////////
     //  prod 环境配置文件
     ////////////////////////////////////////////////////
-    @Profile(AppConst.DbProfile.PROD)
     @Bean
     @ConfigurationProperties(
             locations= {PROD_CONF},
@@ -133,7 +126,6 @@ public class TargetDataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Profile(AppConst.DbProfile.PROD)
     @Bean
     @ConfigurationProperties(
             locations= {PROD_CONF},
@@ -142,7 +134,6 @@ public class TargetDataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Profile(AppConst.DbProfile.PROD)
     @Bean
     @ConfigurationProperties(
             locations=  {PROD_CONF},
@@ -190,7 +181,8 @@ public class TargetDataSourceConfig {
         Map<Object,Object> dataMap = Maps.newHashMap();
         String profile = Arrays.stream(profiles)
                 .filter(DB_PROFILE_KEYS::contains)
-                .findFirst().orElse(AppConst.DbProfile.DEFAULT);
+                .findFirst()
+                .orElse(AppConst.DbProfile.DEFAULT);
         dataMap.putAll(getDbMapByEnv(profile));
         DataSourceContextHolder.appendDbKey2Set(
                 AppConst.DbKey.DEFAULT,
