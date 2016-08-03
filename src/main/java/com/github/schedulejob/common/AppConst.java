@@ -13,8 +13,8 @@ public class AppConst {
         public static final String READ = "read";
     }
 
-    public static final class DbProfile {
-        public static final String DEFAULT = "default";
+    public static final class Env {
+        public static final String DEV = "dev";
         public static final String TEST = "test";
         public static final String PROD = "prod";
     }

@@ -9,6 +9,12 @@ public class Page {
     private int size;
     private int totalCount;
 
+    public Page(){}
+    public Page(int index,int size,int totalCount){
+        this.index = index;
+        this.size = size;
+        this.totalCount = totalCount;
+    }
     public int getIndex() {
         return index;
     }

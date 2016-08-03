@@ -37,19 +37,11 @@ public class QuartzJobDetailController {
     private QuartzJobDetailService quartzJobDetailService;
 
     @ApiOperation("获取任务列表")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "index",value = "页码",required = true,dataType = "int",paramType = "query"),
-        @ApiImplicitParam(name = "size",value = "页大小",required = true, dataType = "int", paramType = "query")
-    })
-    @ApiResponses({
-        @ApiResponse(code=400,message="请求参数没填好"),
-        @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
-    })
     @GetMapping
     public Response<List<JobDetailDO>> list(){
         List<JobDetailDO> jobDetailDOs = quartzJobDetailService.queryJobList();
         return ResponseBuilder.newResponse()
-                .wittPage(PageBuilder.DEFAULT_PAGE_INFO)
+                .withPage(PageBuilder.DEFAULT_PAGE_INFO)
                 .withRetCode(RetCodeConst.OK)
                 .withData(jobDetailDOs)
                 .build();
@@ -57,11 +49,20 @@ public class QuartzJobDetailController {
 
     @ApiOperation("查询指定jobKey jobDetail")
     @ApiImplicitParams({
-        @ApiImplicitParam(paramType="path",name="group",value="组名",dataType = "String"),
-        @ApiImplicitParam(paramType="path",name="name",value="名称",dataType = "String")
-    })
-    @ApiResponses({
-        @ApiResponse(code=200, message = "",response = Response.class)
+        @ApiImplicitParam(
+                name="group",
+                value="组名",
+                required = true,
+                dataType = "String",
+                paramType="path"
+        ),
+        @ApiImplicitParam(
+                name="name",
+                value="名称",
+                required = true,
+                dataType = "String",
+                paramType="path"
+        )
     })
     @GetMapping("/{group}/{name}")
     public Response<JobDetailDO> queryByJobKey(
@@ -76,10 +77,13 @@ public class QuartzJobDetailController {
     }
 
     @ApiOperation("添加任务Job")
-    @ApiImplicitParam(name = "jobDetailDO", value = "任务jobDetail", required = true, dataType = "JobDetailDO", paramType = "body")
-    @ApiResponses({
-        @ApiResponse(code = 200,message = "xxxx")
-    })
+    @ApiImplicitParam(
+            name = "jobDetailDO",
+            value = "任务jobDetail",
+            required = true,
+            dataType = "JobDetailDO",
+            paramType = "body"
+    )
     @PostMapping
     public Response add(@RequestBody JobDetailDO jobDetailDO){
         boolean result = quartzJobDetailService.add(jobDetailDO);
@@ -90,7 +94,10 @@ public class QuartzJobDetailController {
 
     @ApiOperation("批量删除Job")
     @ApiImplicitParams({
-        @ApiImplicitParam()
+        @ApiImplicitParam(
+                name = "jobKeyGroups",
+                value = "批量删除的任务"
+        )
     })
     @DeleteMapping
     public Response delete(@RequestBody Map<String,List<String>> jobKeyGroups){
@@ -109,12 +116,27 @@ public class QuartzJobDetailController {
 
     @ApiOperation("立即触发任务")
     @ApiImplicitParams({
-        @ApiImplicitParam(paramType = "path", name = "group", value = "组名", dataType = "String"),
-        @ApiImplicitParam(paramType = "path", name = "name", value = "任务名", dataType = "String")
-    })
-    @ApiResponses({
-        @ApiResponse(code=200,message="",response = Response.class),
-        @ApiResponse(code=200,message="",response = Response.class)
+        @ApiImplicitParam(
+                name = "group",
+                value = "组名",
+                required = true,
+                dataType = "String",
+                paramType = "path"
+        ),
+        @ApiImplicitParam(
+                name = "name",
+                value = "任务名",
+                required = true,
+                dataType = "String",
+                paramType = "path"
+        ),
+        @ApiImplicitParam(
+                name = "jobData",
+                value = "额外数据",
+                required = true,
+                dataType = "Map<String,Object>",
+                paramType = "body"
+        )
     })
     @PostMapping("/{group}/{name}")
     public Response triggerNow(@PathVariable String group,

@@ -10,7 +10,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 public class Response<T> {
 
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private T data;
+
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
     private RetCode retCode;
 
     @JsonInclude(value = JsonInclude.Include.NON_NULL)

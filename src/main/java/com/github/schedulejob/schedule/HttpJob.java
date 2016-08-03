@@ -84,7 +84,9 @@ public class HttpJob implements Job {
                 jsonStr,
                 result
             });
-            response.close();
+            if (Objects.nonNull(response)) {
+                response.close();
+            }
             ElapsedTimeUtils.timeEnd(uniqueKey);
         }
     }

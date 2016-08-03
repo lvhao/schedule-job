@@ -8,7 +8,7 @@ import com.github.schedulejob.common.Page;
  * Created by root on 2016/6/25 0025.
  */
 public class PageBuilder {
-    public static final Page DEFAULT_PAGE_INFO = new Page();
+    public static final Page DEFAULT_PAGE_INFO = new Page(1, 10, 0);
     private Page page;
 
     public static PageBuilder newPage(){

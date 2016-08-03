@@ -25,5 +25,4 @@ public class RetCodeConst {
     // RPC端错误码 6000
     public static final RetCode RPC_ERROR = RetCode.of("6000","RPC调用错误");
     public static final RetCode RPC_TIMEOUT_ERROR = RetCode.of("6001","RPC调用超时");
-
 }

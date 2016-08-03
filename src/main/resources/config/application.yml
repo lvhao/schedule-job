@@ -32,6 +32,7 @@ spring:
     favicon:
       enabled: false
   profiles:
+    active: ${env:dev}
     include: db_common
 
 # multipart 配置

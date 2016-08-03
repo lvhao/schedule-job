@@ -9,6 +9,7 @@ import com.github.schedulejob.domain.TicketDO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,12 +21,14 @@ import java.util.stream.Collectors;
  * @since: 2016-4-12 12:12
  */
 @Service
+@Transactional
 @TargetDataSource(AppConst.DbKey.READ)
 public class TicketService extends BaseService{
 
     @Autowired
     private TicketMapper ticketMapper;
 
+    @Transactional(readOnly = true)
     @TargetDataSource(AppConst.DbKey.READ)
     public int queryCount(int id){
         return ticketMapper.queryCount(id);

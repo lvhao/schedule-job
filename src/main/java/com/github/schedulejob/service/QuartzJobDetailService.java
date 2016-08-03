@@ -12,6 +12,7 @@ import org.quartz.Trigger;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
  * @since: 2016-6-23 19:58
  */
 @Service
+@Transactional
 public class QuartzJobDetailService extends BaseService {
 
     // SchedulerFactoryBean 创建
@@ -33,6 +35,7 @@ public class QuartzJobDetailService extends BaseService {
     private Scheduler scheduler;
 
     // 任务列表
+    @Transactional(readOnly = true)
     public List<JobDetailDO> queryJobList(){
         List<JobDetailDO> jobDetailDOs = Lists.newArrayList();
 
@@ -67,6 +70,7 @@ public class QuartzJobDetailService extends BaseService {
      * @param jobKey
      * @return
      */
+    @Transactional(readOnly = true)
     public JobDetailDO queryByKey(JobKey jobKey){
         JobDetailDO jobDetailDO = new JobDetailDO();
         JobDetail jobDetail = this.getJobDetailByKey(jobKey);
@@ -105,8 +109,7 @@ public class QuartzJobDetailService extends BaseService {
      */
     public boolean remove(List<JobKey> jobKeyList){
         try {
-            scheduler.deleteJobs(jobKeyList);
-            return true;
+            return scheduler.deleteJobs(jobKeyList);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
@@ -173,6 +176,7 @@ public class QuartzJobDetailService extends BaseService {
      * @param jobKey
      * @return
      */
+    @Transactional(readOnly = true)
     public JobDetail getJobDetailByKey(JobKey jobKey){
         JobDetail jd = null;
         try {

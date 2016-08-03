@@ -95,6 +95,8 @@
     <root level="INFO">
         <appender-ref ref="CONSOLE_APPENDER"/>
         <appender-ref ref="INFO_APPENDER"/>
+        <appender-ref ref="HTTP_JOB_APPENDER"/>
+        <appender-ref ref="CONSUME_TIME_APPENDER"/>
         <appender-ref ref="ERROR_LOG_APPENDER"/>
     </root>
 </configuration>

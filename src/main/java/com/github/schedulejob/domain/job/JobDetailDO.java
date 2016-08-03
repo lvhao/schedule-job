@@ -39,6 +39,7 @@ public class JobDetailDO {
 
         // name group desc
         BeanUtils.copyProperties(jk, jobDO);
+        jobDO.setDescription(jd.getDescription());
         jobDO.setTargetClass(jd.getJobClass().getCanonicalName());
 
         // ext
