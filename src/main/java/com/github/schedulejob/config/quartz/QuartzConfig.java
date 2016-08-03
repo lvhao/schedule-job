@@ -26,6 +26,8 @@ import java.util.Properties;
 public class QuartzConfig {
     private static final Logger log = LoggerFactory.getLogger(QuartzConfig.class);
 
+    private static final String QUARTZ_CONFIG= "config/quartz.properties";
+
     @Autowired
     private DataSource dataSource;
 
@@ -46,7 +48,7 @@ public class QuartzConfig {
     @Bean
     public Properties quartzProperties() {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
-        propertiesFactoryBean.setLocation(new ClassPathResource("config/quartz.properties"));
+        propertiesFactoryBean.setLocation(new ClassPathResource(QUARTZ_CONFIG));
         Properties properties = null;
         try {
             propertiesFactoryBean.afterPropertiesSet();
@@ -84,9 +86,6 @@ public class QuartzConfig {
         schedulerFactoryBean.setQuartzProperties(quartzProperties());
 
         schedulerFactoryBean.setAutoStartup(true);
-
-        // schedule启动后30S 开始任务
-        schedulerFactoryBean.setStartupDelay(30);
 
         // 覆盖已存在定时任务
         schedulerFactoryBean.setOverwriteExistingJobs(true);

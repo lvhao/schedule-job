@@ -13,7 +13,7 @@ import com.github.schedulejob.common.RetCodeConst;
  */
 public final class ResponseBuilder<T> {
     private transient Response<T> resp;
-
+    public static final Response PARAM_ERR = new Response(RetCodeConst.CLIENT_PARAM_ERROR);
     public static ResponseBuilder newResponse(){
         ResponseBuilder instance = new ResponseBuilder();
         instance.resp = new Response();

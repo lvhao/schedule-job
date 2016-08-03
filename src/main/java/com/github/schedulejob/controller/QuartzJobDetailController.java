@@ -1,13 +1,16 @@
 package com.github.schedulejob.controller;
 
-import com.google.common.collect.Lists;
 import com.github.schedulejob.common.Response;
 import com.github.schedulejob.common.RetCodeConst;
 import com.github.schedulejob.domain.job.JobDetailDO;
 import com.github.schedulejob.service.QuartzJobDetailService;
 import com.github.schedulejob.util.PageBuilder;
 import com.github.schedulejob.util.ResponseBuilder;
-import io.swagger.annotations.*;
+import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.quartz.JobKey;
 import org.quartz.core.jmx.JobDataMapSupport;
 import org.springframework.beans.factory.annotation.Autowired;

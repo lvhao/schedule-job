@@ -10,10 +10,6 @@
 EXPORT JAVA_HOME=xxxx
 EXPORT CLASSPATH=yyyy
 
-# production database config
-EXPORT SPRING_CONFIG_LOCATION=datasource.yml
-EXPORT SPRING_PROFILES_ACTIVE=production
-
 #log path
 EXPORT LOG_PATH=/zzz
 
@@ -57,7 +53,7 @@ start_service()
     if [ -1 -ne SERVICE_PID ]; then
         stop_service ${service_name}
     fi
-    nohup java -jar schedule-job-1.0.0.jar > /dev/null > 2>&1 &
+    nohup java -jar schedule-job-1.0.0.jar --env=prod --port=8888  > /dev/null > 2>&1 &
     log "${service_name} start done..."
 }
 

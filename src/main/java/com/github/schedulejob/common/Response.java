@@ -19,6 +19,11 @@ public class Response<T> {
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private Page page;
 
+    public Response(){}
+    public Response(RetCode retCode){
+        this.retCode =retCode;
+    }
+
     public T getData() {
         return data;
     }
