@@ -18,6 +18,8 @@ public class RetCodeConst {
     // 客户端错误码 4000
     public static final RetCode CLIENT_ERROR = RetCode.of("4000","客户端错误");
     public static final RetCode CLIENT_PARAM_ERROR = RetCode.of("4001","参数错误");
+    public static final RetCode CLIENT_AUTH_ERROR = RetCode.of("4002","用户鉴权错误");
+    public static final RetCode CLIENT_FORBIDDEN_ERROR = RetCode.of("4003","用户无权限");
 
     // 服务端错误码 5000
     public static final RetCode SERVER_ERROR = RetCode.of("5000","服务端错误");

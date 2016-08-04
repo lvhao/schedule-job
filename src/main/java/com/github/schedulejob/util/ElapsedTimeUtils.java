@@ -60,6 +60,6 @@ public class ElapsedTimeUtils {
             threadTimeHolder.remove();
         }
         long threadId = Thread.currentThread().getId();
-        log.info("thread:{} | key:{} -> {}ms",threadId, key, TimeUnit.NANOSECONDS.toMillis(time));
+        log.info("thread: {} | key: {} | {}ms",threadId, key, TimeUnit.NANOSECONDS.toMillis(time));
     }
 }
