@@ -21,7 +21,6 @@ public class CustomErrorAttributesConfig extends DefaultErrorAttributes {
         Map<String,Object> errorAttributes = super.getErrorAttributes(requestAttributes, includeStackTrace);
         errorAttributes.put("retCode", RetCodeConst.ERROR);
         errorAttributes.remove("timestamp");
-        errorAttributes.remove("status");
         errorAttributes.remove("error");
         return errorAttributes;
     }
