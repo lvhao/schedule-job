@@ -63,9 +63,9 @@ public class HttpJob implements Job {
         JobKey jobKey = context.getJobDetail().getKey();
         String uniqueKey = MessageFormat.format("{0}[{1}]",jobKey.getGroup(),jobKey.getName());
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
-        String url = String.valueOf(jobDataMap.getOrDefault("url",""));
-        String method = String.valueOf(jobDataMap.getOrDefault("method",""));
-        String jsonStr = String.valueOf(jobDataMap.getOrDefault("jsonParams",""));
+        String url = String.valueOf(jobDataMap.get("url"));
+        String method = String.valueOf(jobDataMap.get("method"));
+        String jsonStr = String.valueOf(jobDataMap.get("jsonParams"));
         Request request = buildRequest(method,url,jsonStr);
         Response response = null;
         ElapsedTimeUtils.time(uniqueKey);

@@ -4,6 +4,7 @@ import com.github.schedulejob.service.TicketService;
 import com.github.schedulejob.util.ResponseBuilder;
 import com.github.schedulejob.common.Response;
 import com.github.schedulejob.domain.TicketDO;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @author: lvhao
  * @since: 2016-4-12 12:12
  */
+@Api(tags = {"ticket"}, value = "ticket 相关操作")
 @RestController
 @RequestMapping("/tickets")
 public class TicketController {

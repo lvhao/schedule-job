@@ -1,6 +1,7 @@
 package com.github.schedulejob.domain.job;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.quartz.CronTrigger;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @ApiModel(value="JobDetailDO", description="Quartz JodDetail 等价类")
 public class JobDetailDO {
 
+    @ApiModelProperty
     // job info
     private JobDO jobDO;
 

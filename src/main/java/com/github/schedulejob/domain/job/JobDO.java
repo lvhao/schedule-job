@@ -3,6 +3,7 @@ package com.github.schedulejob.domain.job;
 import com.github.schedulejob.common.AppConst;
 import com.github.schedulejob.schedule.HttpJob;
 import com.github.schedulejob.schedule.ThriftJob;
+import io.swagger.annotations.ApiModelProperty;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -46,6 +47,7 @@ public class JobDO {
 
     // ext info
     // supportExtFields
+    @ApiModelProperty(value = "拓展字段",dataType = "Map[String,Object]")
     private Map<String,Object> extInfo;
 
     public JobDetail convert2QuartzJobDetail(){

@@ -7,10 +7,7 @@ import com.github.schedulejob.service.QuartzJobDetailService;
 import com.github.schedulejob.util.PageBuilder;
 import com.github.schedulejob.util.ResponseBuilder;
 import com.google.common.collect.Lists;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.quartz.JobKey;
 import org.quartz.core.jmx.JobDataMapSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +28,7 @@ import java.util.Map;
  * @author: lvhao
  * @since: 2016-6-23 20:18
  */
-@Api("quartz 任务API")
+@Api(tags = "job")
 @RestController
 @RequestMapping("/jobs")
 public class QuartzJobDetailController {
@@ -39,7 +36,7 @@ public class QuartzJobDetailController {
     @Autowired
     private QuartzJobDetailService quartzJobDetailService;
 
-    @ApiOperation("获取任务列表")
+    @ApiOperation(value="获取任务列表")
     @GetMapping
     public Response<List<JobDetailDO>> list(){
         List<JobDetailDO> jobDetailDOs = quartzJobDetailService.queryJobList();
@@ -80,13 +77,6 @@ public class QuartzJobDetailController {
     }
 
     @ApiOperation("添加任务Job")
-    @ApiImplicitParam(
-            name = "jobDetailDO",
-            value = "任务jobDetail",
-            required = true,
-            dataType = "JobDetailDO",
-            paramType = "body"
-    )
     @PostMapping
     public Response add(@RequestBody JobDetailDO jobDetailDO){
         boolean result = quartzJobDetailService.add(jobDetailDO);
