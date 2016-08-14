@@ -4,7 +4,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            url 'http://uk.maven.org/maven2/'
+            url 'http://maven.springframework.org/release/'
         }
     }
 
@@ -29,7 +29,7 @@ idea {
 repositories {
 //    mavenCentral()
     maven {
-        url 'http://uk.maven.org/maven2/'
+        url 'http://maven.springframework.org/release/'
     }
 }
 
@@ -75,6 +75,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-aop:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-actuator:${springBootVersion}")
+
+    // redis
+    compile("org.springframework.boot:spring-boot-starter-redis:${springBootVersion}")
 
     // swagger2
     compile ("io.springfox:springfox-swagger2:${springfoxVersion}")
