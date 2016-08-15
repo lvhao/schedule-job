@@ -77,7 +77,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-actuator:${springBootVersion}")
 
     // redis
-    compile("org.springframework.boot:spring-boot-starter-redis:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}")
 
     // swagger2
     compile ("io.springfox:springfox-swagger2:${springfoxVersion}")

@@ -1,0 +1,66 @@
+###################################
+# 缺省redis地址 dev
+###################################
+spring:
+  profiles: dev
+cache:
+  redis:
+    host: redis.addr.dev
+    port: 6378
+    password:
+    pool:
+      min-idle: 2
+      max-idle: 5
+      max-total: 10
+      max-wait: 1000
+      minEvictableIdleTimeMillis: 60 * 1000
+      numTestsPerEvictionRun: 5
+      blockWhenExhausted: true
+      fairness: true
+      testWhileIdle: true
+      testOnBorrow: true
+---
+###################################
+# 测试redis地址 test
+###################################
+spring:
+  profiles: test
+cache:
+  redis:
+    host: redis.addr.test
+    port: 12345
+    password:
+    pool:
+      min-idle: 2
+      max-idle: 5
+      max-total: 10
+      max-wait: 1000
+      minEvictableIdleTimeMillis: 60 * 1000
+      numTestsPerEvictionRun: 5
+      blockWhenExhausted: true
+      fairness: true
+      testWhileIdle: true
+      testOnBorrow: true
+---
+###################################
+# 生产redis地址 prod
+###################################
+spring:
+  profiles: prod
+cache:
+  redis:
+    host: redis.addr.prod
+    port: 12345
+    password:
+    pool:
+      min-idle: 2
+      max-idle: 5
+      max-total: 10
+      max-wait: 1000
+      minEvictableIdleTimeMillis: 60 * 1000
+      numTestsPerEvictionRun: 5
+      blockWhenExhausted: true
+      fairness: true
+      testWhileIdle: true
+      testOnBorrow: true
+
