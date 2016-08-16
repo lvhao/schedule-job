@@ -1,51 +1,50 @@
 package com.github.schedulejob.config.datasource;
 
-import com.github.schedulejob.common.AppConst;
-import com.google.common.collect.Maps;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
-import java.util.Map;
 
 /**
- * 数据源配置
+ * 从配置文件中读取db dev配置
  *
  * @author: lvhao
- * @since: 2016-8-3 10:20
+ * @since: 2016-4-15 17:10
  */
-public abstract class DataSourceConfig {
+@Configuration
+public class DataSourceConfig extends AbstractDataSourceConfig {
 
+
+    ////////////////////////////////////////////////////
+    //  dev 环境配置文件
+    ////////////////////////////////////////////////////
     /**
-     * 配置路径
+     * 从默认配置文件出读取db配置
+     * 此处需要写上classpath 否则无法找到资源 导致绑定失败
+     * 具体查看如下方法
+     * {@link org.springframework.core.io.DefaultResourceLoader#getResource}
+     * @return
      */
-    protected static final String DEV_CONF = "classpath:config/datasource.yml";
-    protected static final String TEST_CONF = "file:datasource.yml";
-    protected static final String PROD_CONF = "file:datasource.yml";
+    @Bean
+    @ConfigurationProperties(prefix= DB_DEFAULT_PREFIX)
+    @Override
+    public DataSource defaultDataSource() {
+        return DataSourceBuilder.create().build();
+    }
 
-    /**
-     * 属性前缀
-     */
-    protected static final String DB_DEFAULT_PREFIX = "datasource.default";
-    protected static final String DB_READ_PREFIX = "datasource.read";
-    protected static final String DB_WRITE_PREFIX = "datasource.write";
+    @Bean
+    @ConfigurationProperties(prefix= DB_READ_PREFIX)
+    @Override
+    public DataSource readDataSource() {
+        return DataSourceBuilder.create().build();
+    }
 
-
-    // 数据源
-    protected abstract DataSource defaultDataSource();
-    protected abstract DataSource readDataSource();
-    protected abstract DataSource writeDataSource();
-
-    public Map<Object,Object> getDataSourceMap(){
-        Map<Object,Object> dataMap = Maps.newHashMap();
-
-        dataMap.put(AppConst.DbKey.DEFAULT, this.defaultDataSource());
-        dataMap.put(AppConst.DbKey.READ, this.readDataSource());
-        dataMap.put(AppConst.DbKey.WRITE, this.writeDataSource());
-
-        DataSourceContextHolder.appendDbKey2Set(
-                AppConst.DbKey.DEFAULT,
-                AppConst.DbKey.READ,
-                AppConst.DbKey.WRITE
-        );
-        return dataMap;
+    @Bean
+    @ConfigurationProperties(prefix= DB_WRITE_PREFIX)
+    @Override
+    public DataSource writeDataSource() {
+        return DataSourceBuilder.create().build();
     }
 }

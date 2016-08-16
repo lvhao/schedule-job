@@ -1,39 +1,10 @@
 ###################################
 # 缺省数据库地址 dev
 ###################################
-spring:
-  profiles: dev
 dbServer:
   default: localhost:3306
   read: localhost:3306
   write: localhost:3306
-
----
-###################################
-# 测试数据库地址 test
-###################################
-spring:
-  profiles: test
-dbServer:
-  default: 127.0.0.1:3306
-  read: 127.0.0.1:3306
-  write: 127.0.0.1:3306
-
----
-###################################
-# 线上数据库地址 prod
-###################################
-spring:
-  profiles: prod
-dbServer:
-  default: localhost:3306
-  read: localhost:3306
-  write: localhost:3306
-
----
-spring:
-  profiles: db_common
-
 datasource:
   default:
     type: com.zaxxer.hikari.HikariDataSource
@@ -49,7 +20,6 @@ datasource:
     idle-timeout: 600000
     destroy-method: shutdown
     auto-commit: false
-
   read:
     type: com.zaxxer.hikari.HikariDataSource
     pool-name: read
@@ -64,7 +34,6 @@ datasource:
     idle-timeout: 600000
     destroy-method: shutdown
     auto-commit: false
-
   write:
     type: com.zaxxer.hikari.HikariDataSource
     pool-name: write

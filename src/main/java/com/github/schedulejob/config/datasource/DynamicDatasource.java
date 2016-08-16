@@ -25,7 +25,7 @@ import java.util.Map;
 public class DynamicDatasource extends AbstractRoutingDataSource {
 
     @Autowired
-    private DataSourceConfig dataSourceConfig;
+    private AbstractDataSourceConfig dataSourceConfig;
 
     @PostConstruct
     private void initDataSourceMap() {
