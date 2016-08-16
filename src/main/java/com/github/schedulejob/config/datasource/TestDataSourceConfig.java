@@ -24,7 +24,7 @@ public class TestDataSourceConfig extends DataSourceConfig{
     ////////////////////////////////////////////////////
     @Bean
     @ConfigurationProperties(
-            locations= {TEST_CONF},
+            value = TEST_CONF,
             prefix= DB_DEFAULT_PREFIX)
     @Override
     public DataSource defaultDataSource() {
@@ -33,7 +33,7 @@ public class TestDataSourceConfig extends DataSourceConfig{
 
     @Bean
     @ConfigurationProperties(
-            locations= {TEST_CONF},
+            value = TEST_CONF,
             prefix= DB_READ_PREFIX)
     @Override
     public DataSource readDataSource() {
@@ -42,7 +42,7 @@ public class TestDataSourceConfig extends DataSourceConfig{
 
     @Bean
     @ConfigurationProperties(
-            locations= {TEST_CONF},
+            value = TEST_CONF,
             prefix= DB_WRITE_PREFIX)
     @Override
     public DataSource writeDataSource() {

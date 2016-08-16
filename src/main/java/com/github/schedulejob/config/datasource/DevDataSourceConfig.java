@@ -32,7 +32,7 @@ public class DevDataSourceConfig extends DataSourceConfig{
      */
     @Bean
     @ConfigurationProperties(
-            locations= {DEV_CONF},
+            value = DEV_CONF,
             prefix= DB_DEFAULT_PREFIX)
     @Override
     public DataSource defaultDataSource() {
@@ -41,7 +41,7 @@ public class DevDataSourceConfig extends DataSourceConfig{
 
     @Bean
     @ConfigurationProperties(
-            locations= {DEV_CONF},
+            value = DEV_CONF,
             prefix= DB_READ_PREFIX)
     @Override
     public DataSource readDataSource() {
@@ -50,7 +50,7 @@ public class DevDataSourceConfig extends DataSourceConfig{
 
     @Bean
     @ConfigurationProperties(
-            locations= {DEV_CONF},
+            value = DEV_CONF,
             prefix= DB_WRITE_PREFIX)
     @Override
     public DataSource writeDataSource() {

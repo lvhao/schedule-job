@@ -24,7 +24,7 @@ public class ProdDataSourceConfig extends DataSourceConfig{
     ////////////////////////////////////////////////////
     @Bean
     @ConfigurationProperties(
-            locations= {PROD_CONF},
+            value = PROD_CONF,
             prefix= DB_DEFAULT_PREFIX)
     @Override
     public DataSource defaultDataSource() {
@@ -33,7 +33,7 @@ public class ProdDataSourceConfig extends DataSourceConfig{
 
     @Bean
     @ConfigurationProperties(
-            locations= {PROD_CONF},
+            value = PROD_CONF,
             prefix= DB_READ_PREFIX)
     @Override
     public DataSource readDataSource() {
