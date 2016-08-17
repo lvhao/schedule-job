@@ -1,8 +1,6 @@
 ###################################
 # 缺省redis地址 dev
 ###################################
-spring:
-  profiles: dev
 cache:
   redis:
     host: redis.addr.dev

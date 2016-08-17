@@ -24,7 +24,8 @@ import java.io.IOException;
 @Configuration
 public class RedisConfig {
     private static final Logger log = LoggerFactory.getLogger(RedisConfig.class);
-    private static final String REDIS_CONFIG = "config/redis.yml";
+    private static final String REDIS_CONFIG = "/config/redis.yml";
+    private static final String REDIS_CONFIG_PREFIX = "cache.redis";
 
     @Bean
     public MutablePropertyValues redisPropertyValues() {
@@ -32,7 +33,7 @@ public class RedisConfig {
         YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();
         MapPropertySource propertySource = null;
         try {
-            propertySource = (MapPropertySource)yamlPropertySourceLoader.load("redis_config",resource,"dev");
+            propertySource = (MapPropertySource)yamlPropertySourceLoader.load("redis_config",resource,null);
         } catch (IOException e) {
             log.error("读取redis配置文件出错!",e);
         }
@@ -50,7 +51,7 @@ public class RedisConfig {
 
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         MutablePropertyValues redisProps = redisPropertyValues();
-        RelaxedDataBinder rdb = new RelaxedDataBinder(jedisPoolConfig,"cache.redis");
+        RelaxedDataBinder rdb = new RelaxedDataBinder(jedisPoolConfig,REDIS_CONFIG_PREFIX);
         rdb.setIgnoreInvalidFields(true);
         rdb.bind(redisProps);
         return jedisPoolConfig;

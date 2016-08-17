@@ -21,6 +21,8 @@ server:
 
 # spring配置
 spring:
+  config:
+    location: ${conf:classpath:config/datasource.yml,classpath:config/redis.yml}
   http:
     encoding:
       enabled: true
