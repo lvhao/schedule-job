@@ -22,7 +22,7 @@ server:
 # spring配置
 spring:
   config:
-    location: ${conf:classpath:config/datasource.yml,classpath:config/redis.yml}
+    name: datasource,quartz,redis
   http:
     encoding:
       enabled: true
@@ -59,4 +59,3 @@ logging:
 # Used in default log configuration if defined.
 #  file: schelude.log
 #  path: /
-

@@ -10,3 +10,4 @@ gen
 /schedule-job.iml
 /.gradle/
 /build/
+/LOG_PATH_IS_UNDEFINED/

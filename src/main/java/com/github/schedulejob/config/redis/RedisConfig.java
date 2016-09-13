@@ -2,19 +2,7 @@ package com.github.schedulejob.config.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.boot.bind.RelaxedDataBinder;
-import org.springframework.boot.env.YamlPropertySourceLoader;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import redis.clients.jedis.JedisPoolConfig;
-
-import java.io.IOException;
 
 /**
  * Redis 配置
@@ -27,7 +15,7 @@ public class RedisConfig {
     private static final String REDIS_CONFIG = "/config/redis.yml";
     private static final String REDIS_CONFIG_PREFIX = "cache.redis";
 
-    @Bean
+    /*@Bean
     public MutablePropertyValues redisPropertyValues() {
         Resource resource = new ClassPathResource(REDIS_CONFIG);
         YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();
@@ -73,5 +61,5 @@ public class RedisConfig {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(jedisConnectionFactory());
         return template;
-    }
+    }*/
 }

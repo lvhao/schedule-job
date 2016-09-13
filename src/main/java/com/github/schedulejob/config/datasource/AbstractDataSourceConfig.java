@@ -15,13 +15,6 @@ import java.util.Map;
 public abstract class AbstractDataSourceConfig {
 
     /**
-     * 配置路径
-     */
-    protected static final String DEV_CONF = "classpath:config/datasource.yml";
-    protected static final String TEST_CONF = "file:datasource.yml";
-    protected static final String PROD_CONF = "file:datasource.yml";
-
-    /**
      * 属性前缀
      */
     protected static final String DB_DEFAULT_PREFIX = "datasource.default";
