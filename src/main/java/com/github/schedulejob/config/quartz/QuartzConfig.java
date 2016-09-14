@@ -1,23 +1,16 @@
 package com.github.schedulejob.config.quartz;
 
-import com.github.schedulejob.config.PathCfg;
+import com.github.schedulejob.config.ExternalPathConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Quartz配置类
@@ -30,7 +23,7 @@ public class QuartzConfig {
     private static final Logger log = LoggerFactory.getLogger(QuartzConfig.class);
 
     @Autowired
-    private PathCfg pathCfg;
+    private ExternalPathConfig externalPathConfig;
 
     @Autowired
     private DataSource dataSource;
@@ -47,29 +40,11 @@ public class QuartzConfig {
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "org.quartz")
-    public Properties quartzProperties() {
-        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
-        PathMatchingResourcePatternResolver prpr = new PathMatchingResourcePatternResolver();
-        Resource resource = prpr.getResource(pathCfg.getQuartzCfg());
-        propertiesFactoryBean.setLocation(resource);
-        Properties properties = null;
-        try {
-            propertiesFactoryBean.afterPropertiesSet();
-            properties = propertiesFactoryBean.getObject();
-
-        } catch (IOException e) {
-            log.error("读取quartz配置文件出错!",e);
-        }
-        return properties;
-    }
-
-    @Bean
     public SchedulerFactoryBean init(){
         SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
         schedulerFactoryBean.setDataSource(dataSource);
         schedulerFactoryBean.setTransactionManager(platformTransactionManager);
-        schedulerFactoryBean.setQuartzProperties(quartzProperties());
+        schedulerFactoryBean.setQuartzProperties(externalPathConfig.quartzProperties());
 
         schedulerFactoryBean.setAutoStartup(true);
 

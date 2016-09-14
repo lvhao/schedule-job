@@ -18,7 +18,7 @@ public class DataSourceConfig extends AbstractDataSourceConfig {
 
 
     ////////////////////////////////////////////////////
-    //  dev 环境配置文件
+    //  dev 环境配置文件 Environment properties
     ////////////////////////////////////////////////////
     /**
      * 从默认配置文件出读取db配置

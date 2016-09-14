@@ -19,10 +19,10 @@ server:
   compression:
     enabled: true
 
-# spring配置
+# WARNING: `spring.config.name` and `spring.config.location` are used very early to
+# determine which files have to be loaded so they have to be defined as an environment
+# property (typically OS env, system property or command line argument).
 spring:
-  config:
-    name: datasource,quartz,redis
   http:
     encoding:
       enabled: true
@@ -56,6 +56,7 @@ mybatis:
 logging:
   config: classpath:config/logback.xml
 
-# Used in default log configuration if defined.
-#  file: schelude.log
-#  path: /
+config:
+  path: ${config_path:classpath:config/}
+  quartz-file-name: quartz
+  redis-file-name: redis
