@@ -56,7 +56,8 @@ mybatis:
 logging:
   config: classpath:config/logback.xml
 
+# 配置文件名称，内部加载使用
 config:
-  path: ${config_path:classpath:config/}
-  quartz-file-name: quartz
-  redis-file-name: redis
+  quartz-file-name: quartz.properties
+  redis-file-name: redis.yml
+  db-file-name: datasource.yml

@@ -44,7 +44,7 @@ public class QuartzConfig {
         SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
         schedulerFactoryBean.setDataSource(dataSource);
         schedulerFactoryBean.setTransactionManager(platformTransactionManager);
-        schedulerFactoryBean.setQuartzProperties(externalPathConfig.quartzProperties());
+        schedulerFactoryBean.setQuartzProperties(externalPathConfig.quartzCfg());
 
         schedulerFactoryBean.setAutoStartup(true);
 
