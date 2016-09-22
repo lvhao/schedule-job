@@ -1,16 +1,15 @@
 package com.github.schedulejob.controller;
 
-import com.github.schedulejob.common.Response;
-import com.github.schedulejob.common.RetCodeConst;
+import com.google.common.collect.Lists;
+
 import com.github.schedulejob.domain.job.JobDetailDO;
 import com.github.schedulejob.service.QuartzJobDetailService;
-import com.github.schedulejob.util.PageBuilder;
-import com.github.schedulejob.util.ResponseBuilder;
-import com.google.common.collect.Lists;
-import io.swagger.annotations.*;
+
 import org.quartz.JobKey;
 import org.quartz.core.jmx.JobDataMapSupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * quartz api
@@ -38,13 +42,9 @@ public class QuartzJobDetailController {
 
     @ApiOperation(value="获取任务列表")
     @GetMapping
-    public Response<List<JobDetailDO>> list(){
+    public ResponseEntity<List<JobDetailDO>> list(){
         List<JobDetailDO> jobDetailDOs = quartzJobDetailService.queryJobList();
-        return ResponseBuilder.newResponse()
-                .withPage(PageBuilder.DEFAULT_PAGE_INFO)
-                .withRetCode(RetCodeConst.OK)
-                .withData(jobDetailDOs)
-                .build();
+        return ResponseEntity.ok().body(jobDetailDOs);
     }
 
     @ApiOperation("查询指定jobKey jobDetail")
@@ -65,24 +65,19 @@ public class QuartzJobDetailController {
         )
     })
     @GetMapping("/{group}/{name}")
-    public Response<JobDetailDO> queryByJobKey(
+    public ResponseEntity<JobDetailDO> queryByJobKey(
             @PathVariable String name,
             @PathVariable String group){
         JobKey jobKey = new JobKey(name,group);
         JobDetailDO jobDetailDO = quartzJobDetailService.queryByKey(jobKey);
-        return ResponseBuilder.newResponse()
-                .withRetCode(RetCodeConst.OK)
-                .withData(jobDetailDO)
-                .build();
+        return ResponseEntity.ok().body(jobDetailDO);
     }
 
     @ApiOperation("添加任务Job")
     @PostMapping
-    public Response add(@RequestBody JobDetailDO jobDetailDO){
+    public ResponseEntity<Boolean> add(@RequestBody JobDetailDO jobDetailDO){
         boolean result = quartzJobDetailService.add(jobDetailDO);
-        return ResponseBuilder.newResponse()
-                .withRetCodeBy(result)
-                .build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @ApiOperation("批量删除Job")
@@ -93,7 +88,7 @@ public class QuartzJobDetailController {
         )
     })
     @DeleteMapping
-    public Response delete(@RequestBody Map<String,List<String>> jobKeyGroups){
+    public ResponseEntity<Boolean> delete(@RequestBody Map<String,List<String>> jobKeyGroups){
         List<JobKey> jobKeys = Lists.newArrayList();
         jobKeyGroups.forEach((k,v) ->
             v.forEach(name -> {
@@ -102,9 +97,7 @@ public class QuartzJobDetailController {
             })
         );
         boolean result = quartzJobDetailService.remove(jobKeys);
-        return ResponseBuilder.newResponse()
-                .withRetCodeBy(result)
-                .build();
+        return ResponseEntity.ok().body(result);
     }
 
     @ApiOperation("立即触发任务")
@@ -132,7 +125,7 @@ public class QuartzJobDetailController {
         )
     })
     @PostMapping("/{group}/{name}")
-    public Response triggerNow(@PathVariable String group,
+    public ResponseEntity<Boolean> triggerNow(@PathVariable String group,
                               @PathVariable String name,
                               @RequestBody Map<String,Object> jobData){
         JobKey jobKey = new JobKey(name,group);
@@ -140,8 +133,6 @@ public class QuartzJobDetailController {
             jobKey,
             JobDataMapSupport.newJobDataMap(jobData)
         );
-        return ResponseBuilder.newResponse()
-                .withRetCodeBy(result)
-                .build();
+        return ResponseEntity.ok().body(result);
     }
 }

@@ -1,7 +1,9 @@
 package com.github.schedulejob.service;
 
-import com.github.schedulejob.domain.job.JobDetailDO;
 import com.google.common.collect.Lists;
+
+import com.github.schedulejob.domain.job.JobDetailDO;
+
 import org.quartz.CronTrigger;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -86,7 +88,7 @@ public class QuartzJobDetailService extends BaseService {
      * 添加任务
      * @param jobDetailDO
      */
-    public boolean add(JobDetailDO jobDetailDO) {
+    public boolean   add(JobDetailDO jobDetailDO) {
         JobDetail jobDetail = jobDetailDO.getJobDO().convert2QuartzJobDetail();
         Set<CronTrigger> triggerSet = jobDetailDO.getTriggerDOs().stream().map(jtd ->
             jtd.convert2QuartzTrigger(jobDetail)
