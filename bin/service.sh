@@ -13,6 +13,9 @@ EXPORT CLASSPATH=yyyy
 #log path
 EXPORT LOG_PATH=/zzz
 
+# spring boot variable
+SPRING_CONFIG_NAME=app,datasource,quartz,redis
+
 log()
 {
 	log -e "\n$1\n"
@@ -53,7 +56,7 @@ start_service()
     if [ -1 -ne SERVICE_PID ]; then
         stop_service ${service_name}
     fi
-    nohup java -jar schedule-job-1.0.0.jar --env=prod --port=8888  > /dev/null > 2>&1 &
+    nohup java -jar schedule-job-1.0.0.jar --port=8888  > /dev/null > 2>&1 &
     log "${service_name} start done..."
 }
 
