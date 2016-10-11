@@ -50,7 +50,7 @@ public class QuartzConfig {
 
         // 覆盖已存在定时任务
         schedulerFactoryBean.setOverwriteExistingJobs(true);
-        schedulerFactoryBean.setWaitForJobsToCompleteOnShutdown(true);
+        schedulerFactoryBean.setWaitForJobsToCompleteOnShutdown(false);
 
         schedulerFactoryBean.setJobFactory(autowiringQuartzJobFactory);
         return schedulerFactoryBean;

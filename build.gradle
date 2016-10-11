@@ -70,6 +70,7 @@ configurations {
 }
 
 dependencies {
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 
     // spring web
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")

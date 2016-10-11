@@ -3,15 +3,16 @@
 ###################################
 cache:
   redis:
-    host: redis.addr.dev
+    hostName: redis.addr.dev
     port: 6378
     password:
+    database: 0
     pool:
       min-idle: 2
       max-idle: 5
       max-total: 10
       max-wait: 1000
-      minEvictableIdleTimeMillis: 60 * 1000
+      minEvictableIdleTimeMillis: 60000
       numTestsPerEvictionRun: 5
       blockWhenExhausted: true
       fairness: true
