@@ -6,12 +6,20 @@
 > * 使用自定义注解 __@TargetDataSource__ 实现了多数据源动态切换，支持数据库读写分离。
 > * __HTTP JOB__ 接口调用使用 __OkHttp3__ 替代了 __HttpClient__ 。
 > * __Thrift JOB__ 接口调用实现了 __Thrift client__ 池化管理。
+> * 集成了 __Spring data redis__，提供缓存服务。
 
 ##### 项目目标
-* 该项目计划实现通过Restful接口，动态管理基于Http和Thrift调用的Quartz任务(任务的 添加、查询、禁用、启用、触发)。
-比如添加一个基于HTTP接口调用的定时任务，只需要向接口传递数据
-```json
-{
+* 该项目计划实现通过Restful接口，动态管理基于Http(已完成)和Thrift调用的Quartz任务(任务的 添加、查询、禁用、启用、触发)。
+比如添加一个基于HTTP接口调用的定时任务，只需要向接口传递JSON数据。
+
+---
+
+```shell
+1. 查询任务列表接口
+curl -X GET -H "Cache-Control: no-cache" "http://localhost:54321/jobs"
+
+2. 添加任务接口
+curl -X POST -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{
   "jobDO": {
     "description": "测试心跳检测",
     "group": "TEST_HTTP_JOB",
@@ -31,6 +39,17 @@
       "name": "test_heart_beat_trigger"
     }
   ]
-}
+}' "http://localhost:54321/jobs"
+
+3. 查询任务接口
+curl -X GET -H "Cache-Control: no-cache" "http://localhost:54321/jobs/{jobKey}/"
+
+4. 移除任务接口
+curl -X DELETE -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{
+    "TEST_HTTP_JOB" : ["sync_test_job"]
+}' "http://localhost:54321/jobs"
+
+5. 触发任务接口
+curl -X POST -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '' "http://localhost:54321/jobs/{groupName}/{taskName}"
 ```
 
