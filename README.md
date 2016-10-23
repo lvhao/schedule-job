@@ -9,18 +9,29 @@
 > * 集成了 __Spring data redis__，提供缓存服务。
 
 ##### 项目目标
-* 该项目计划实现通过Restful接口，动态管理基于Http(已完成)和Thrift调用的Quartz任务(任务的 添加、查询、禁用、启用、触发)。
+* 该项目计划实现通过RESTful接口，动态管理基于Http(已完成)和Thrift调用的Quartz任务(任务的 添加、查询、禁用、启用、触发)。
 比如添加一个基于HTTP接口调用的定时任务，只需要向接口传递JSON数据。
 
 #### 常见问题
+1. 如何启动项目或启动失败?
+>  需要在脚本里添加SPRING_CONFIG_NAME=app,datasource,quartz,redis。可参照项目里bin/service.sh
 
-#### 
-1. 查询任务列表接口
+2. Spring Boot如何集成Mybatis?
+>  Mybatis官方已经提供了spring-boot-starter-mybatis
+  
+3. Spring Boot如何集成Redis?
+>  参照confing/redis 相关类
+  
+4. Spring Boot如何集成Quartz?
+>  参照config/quartz下相关类
+  
+#### 提供接口
+1 查询任务列表接口
 ```shell
 curl -X GET -H "Cache-Control: no-cache" "http://localhost:54321/jobs"
 ```
 
-2. 添加任务接口
+2 添加任务接口
 ```shell
 curl -X POST -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{
   "jobDO": {
@@ -45,19 +56,19 @@ curl -X POST -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d
 }' "http://localhost:54321/jobs"
 ```
 
-3. 查询任务接口
+3 查询任务接口
 ```shell
 curl -X GET -H "Cache-Control: no-cache" "http://localhost:54321/jobs/{jobKey}/"
 ```
 
-4. 移除任务接口
+4 移除任务接口
 ```shell
 curl -X DELETE -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{
     "TEST_HTTP_JOB" : ["sync_test_job"]
 }' "http://localhost:54321/jobs"
 ```
 
-5. 触发任务接口
+5 触发任务接口
 ```shell
 curl -X POST -H "Content-Type: application/json" 
              -H "Cache-Control: no-cache" -d '' "http://localhost:54321/jobs/{groupName}/{taskName}"
