@@ -1,4 +1,4 @@
-# schedule-job [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](http://www.opensource.org/licenses/mit-license.php) [![Build Status](https://travis-ci.org/mybatis/spring.svg?branch=master)](https://travis-ci.org/mybatis/spring) [![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
+# schedule-job [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](http://www.opensource.org/licenses/mit-license.php) [![Build Status](https://travis-ci.org/mybatis/spring.svg?branch=master)](https://travis-ci.org/lvhao/schedule-job) [![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 #### 项目基于 __jdk1.8__ 采用 __Spring Boot__ 框架
 > * 集成了分布式任务调度框架 __Quartz__ ，任务存储于数据库。
 > * 使用SpringMVC作为路由控制, 集成 __Swagger2__ 提供实时 __Restful__ API文档。
