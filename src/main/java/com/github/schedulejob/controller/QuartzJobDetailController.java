@@ -49,20 +49,10 @@ public class QuartzJobDetailController {
 
     @ApiOperation("查询指定jobKey jobDetail")
     @ApiImplicitParams({
-        @ApiImplicitParam(
-                name="group",
-                value="组名",
-                required = true,
-                dataType = "String",
-                paramType="path"
-        ),
-        @ApiImplicitParam(
-                name="name",
-                value="名称",
-                required = true,
-                dataType = "String",
-                paramType="path"
-        )
+        @ApiImplicitParam(name="group",value="组名",required = true,dataType = "String",
+                paramType="path"),
+        @ApiImplicitParam(name="name",value="名称",required = true,dataType = "String",
+                paramType="path")
     })
     @GetMapping("/{group}/{name}")
     public ResponseEntity<JobDetailDO> queryByJobKey(
@@ -82,10 +72,7 @@ public class QuartzJobDetailController {
 
     @ApiOperation("批量删除Job")
     @ApiImplicitParams({
-        @ApiImplicitParam(
-                name = "jobKeyGroups",
-                value = "批量删除的任务"
-        )
+        @ApiImplicitParam(name = "jobKeyGroups",value = "批量删除的任务")
     })
     @DeleteMapping
     public ResponseEntity<Boolean> delete(@RequestBody Map<String,List<String>> jobKeyGroups){
@@ -102,27 +89,13 @@ public class QuartzJobDetailController {
 
     @ApiOperation("立即触发任务")
     @ApiImplicitParams({
-        @ApiImplicitParam(
-                name = "group",
-                value = "组名",
-                required = true,
-                dataType = "String",
-                paramType = "path"
-        ),
-        @ApiImplicitParam(
-                name = "name",
-                value = "任务名",
-                required = true,
-                dataType = "String",
-                paramType = "path"
-        ),
-        @ApiImplicitParam(
-                name = "jobData",
-                value = "额外数据",
-                required = true,
+        @ApiImplicitParam(name = "group",value = "组名",required = true,dataType = "String",
+                paramType = "path"),
+        @ApiImplicitParam(name = "name",value = "任务名",required = true,dataType = "String",
+                paramType = "path"),
+        @ApiImplicitParam(name = "jobData",value = "额外数据",required = true,
                 dataType = "Map<String,Object>",
-                paramType = "body"
-        )
+                paramType = "body")
     })
     @PostMapping("/{group}/{name}")
     public ResponseEntity<Boolean> triggerNow(@PathVariable String group,
