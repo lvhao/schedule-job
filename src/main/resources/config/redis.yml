@@ -3,8 +3,9 @@
 ###################################
 cache:
   redis:
-    hostName: redis.addr.dev
-    port: 6378
+    #hostName: redis.addr.dev
+    hostName: 127.0.0.1
+    port: 6379
     password:
     database: 0
     pool:

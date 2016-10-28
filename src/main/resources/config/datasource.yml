@@ -12,7 +12,7 @@ datasource:
     continue-on-error: false
     jdbc-url: jdbc:mysql://${dbServer.default}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
     username: root
-    password: lh1234
+    password:
     connection-timeout: 30000
     connection-test-query: SELECT 1
     maximum-pool-size: 5
@@ -26,7 +26,7 @@ datasource:
     continue-on-error: false
     jdbc-url: jdbc:mysql://${dbServer.read}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
     username: root
-    password: lh1234
+    password:
     connection-timeout: 30000
     connection-test-query: SELECT 1
     maximum-pool-size: 5
@@ -40,7 +40,7 @@ datasource:
     continue-on-error: false
     jdbc-url: jdbc:mysql://${dbServer.write}/schedule_job?useSSL=true&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf8
     username: root
-    password: lh1234
+    password:
     connection-timeout: 30000
     connection-test-query: SELECT 1
     maximum-pool-size: 5
