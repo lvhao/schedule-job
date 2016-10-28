@@ -1,4 +1,5 @@
 group 'com.github'
+version '1.0-SNAPSHOT'
 
 buildscript {
     repositories {
@@ -27,10 +28,7 @@ idea {
 }
 
 repositories {
-//    mavenCentral()
-    maven {
-        url 'http://maven.springframework.org/release/'
-    }
+    mavenCentral()
 }
 
 compileJava {
@@ -107,4 +105,3 @@ dependencies {
     compile ("com.squareup.okhttp3:okhttp:3.4.1")
     compile("com.squareup.okio:okio:1.9.0")
 }
-
