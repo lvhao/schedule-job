@@ -4,7 +4,8 @@ jdk:
 
 services:
   - mysql
-  - redis
+  - redis-server
 
 before_script:
   - mysql -e 'create database schedule_job;'
+script: gradle check -x test
