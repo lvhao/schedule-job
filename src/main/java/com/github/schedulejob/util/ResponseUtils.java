@@ -78,7 +78,6 @@ public class ResponseUtils {
      */
     private static <L,R> L handleJsonResp(R resp,Predicate<R> retCodeJudge){
         JsonNode jsonNode = (JsonNode) resp;
-        RetCode customCode = RetCodeConst.ERROR;
 
         Optional<String> codeOptional = getJsonFieldValue(jsonNode, FieldType.RET_CODE);
         Optional<String> msgOptional = getJsonFieldValue(jsonNode, FieldType.RET_MSG);
@@ -95,8 +94,10 @@ public class ResponseUtils {
             return (L) buildSpecialBizStatusByClazz(LOCAL_RESPONSE_CLASS,RetCodeConst.OK);
         }
 
+        RetCode customCode = null;
         if (Objects.nonNull(msg)) {
-            customCode.setMsg(MessageFormat.format("({0}){1}",String.valueOf(code),String.valueOf(msg)));
+            String msgDetail = MessageFormat.format("({0}){1}",String.valueOf(code),String.valueOf(msg));
+            customCode = RetCode.of(RetCodeConst.ERROR.getCode(),msgDetail);
         }
         return (L) buildSpecialBizStatusByClazz(LOCAL_RESPONSE_CLASS,customCode);
     }
@@ -355,10 +356,10 @@ public class ResponseUtils {
         }
 
         // 返回失败的业务码
-        RetCode customCode = RetCodeConst.ERROR;
+        RetCode customCode = null;
         Object msg = invokeReadMethod(thriftRespStatusInstance,msgField);
         String msgStr = "("+retCode+")"+String.valueOf(msg);
-        customCode.setMsg(msgStr);
+        customCode = RetCode.of(RetCodeConst.ERROR.getCode(),msgStr);
         return buildSpecialBizStatusByClazz(localResponseClazz,customCode);
     }
 }
