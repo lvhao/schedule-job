@@ -25,6 +25,9 @@
 * Spring Boot如何集成Quartz?
 >  参照config/quartz下相关类
   
+* Spring Boot如何实现动态选择数据源（读写分离）?
+>  参照anno/TargetDataSource，aspect/TargetDataSourceAspect注解类实现
+
 ##### 提供接口
 * 查询任务列表接口
 ```shell
