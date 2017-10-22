@@ -48,13 +48,20 @@ public class TargetDataSourceAspect {
             ProceedingJoinPoint proceedingJoinPoint,
             TargetDataSource targetDataSource) throws Throwable {
         checkNotNull(targetDataSource,"@TargetDataSource为空");
-        String dbKey = null;
+        Class<?> clazz = proceedingJoinPoint.getTarget().getClass();
+
+        // 类上是否标注了注解
+        if(clazz.isAnnotationPresent(TargetDataSource.class)){
+            targetDataSource = clazz.getAnnotationsByType(TargetDataSource.class)[0];
+        }
+
+        String dbKey;
         MethodSignature ms = (MethodSignature) proceedingJoinPoint.getSignature();
         Method method = ms.getMethod();
 
         // 方法是否标注了注解 TargetDataSource
         if(method.isAnnotationPresent(TargetDataSource.class)){
-            targetDataSource = method.getDeclaredAnnotationsByType(TargetDataSource.class)[0];
+            targetDataSource = method.getAnnotationsByType(TargetDataSource.class)[0];
         }
 
         dbKey = targetDataSource.value();
