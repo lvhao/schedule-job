@@ -41,7 +41,7 @@ public class TargetDataSourceAspect {
     public void annotationOnClass(TargetDataSource targetDataSource){}
 
     @Around(
-        value = "anyPublicMethod() || annotationOnClass(targetDataSource)",
+        value = "anyPublicMethod() && annotationOnClass(targetDataSource)",
         argNames = "proceedingJoinPoint,targetDataSource"
     )
     public Object methodInvoke(
