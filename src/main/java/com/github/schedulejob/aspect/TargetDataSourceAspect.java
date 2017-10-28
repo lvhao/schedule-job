@@ -40,8 +40,15 @@ public class TargetDataSourceAspect {
     @Pointcut(value = "@within(targetDataSource)", argNames = "targetDataSource")
     public void annotationOnClass(TargetDataSource targetDataSource){}
 
+    /**
+     * 任何标记了注解的方法
+     * @param targetDataSource
+     */
+    @Pointcut(value = "@annotation(targetDataSource)", argNames = "targetDataSource")
+    public void annotationOnMethod(TargetDataSource targetDataSource){}
+
     @Around(
-        value = "anyPublicMethod() && annotationOnClass(targetDataSource)",
+        value = "anyPublicMethod() && (annotationOnMethod(targetDataSource) || annotationOnClass(targetDataSource))",
         argNames = "proceedingJoinPoint,targetDataSource"
     )
     public Object methodInvoke(
