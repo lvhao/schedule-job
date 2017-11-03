@@ -1,11 +1,12 @@
 package com.github.schedulejob.service;
 
 
+import com.github.schedulejob.anno.TargetDataSource;
 import com.github.schedulejob.common.AppConst;
+import com.github.schedulejob.domain.TicketDO;
 import com.github.schedulejob.mapper.TicketMapper;
 import com.github.schedulejob.po.TicketPO;
-import com.github.schedulejob.anno.TargetDataSource;
-import com.github.schedulejob.domain.TicketDO;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @TargetDataSource(AppConst.DbKey.READ)
-public class TicketService extends BaseService{
+public class TicketService implements DefaultDataSourceService {
 
     @Autowired
     private TicketMapper ticketMapper;

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-public class QuartzJobDetailService extends BaseService {
+public class QuartzJobDetailService implements DefaultDataSourceService {
 
     // SchedulerFactoryBean 创建
     @Autowired

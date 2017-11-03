@@ -1,7 +1,8 @@
 package com.github.schedulejob.service;
 
-import com.github.schedulejob.common.AppConst;
 import com.github.schedulejob.anno.TargetDataSource;
+import com.github.schedulejob.common.AppConst;
+
 
 /**
  * 基础服务类
@@ -12,5 +13,5 @@ import com.github.schedulejob.anno.TargetDataSource;
 
 // 子类默认 default db
 @TargetDataSource(AppConst.DbKey.DEFAULT)
-public class BaseService {
+public interface DefaultDataSourceService {
 }
